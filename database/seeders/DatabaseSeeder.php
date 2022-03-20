@@ -23,6 +23,5 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'admin'
             ]);
         $this->call(PermissionsSeeder::class);
-        $this->call(UserSeeder::class);
     }
 }
