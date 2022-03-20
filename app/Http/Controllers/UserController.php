@@ -64,7 +64,7 @@ class UserController extends Controller
         $user->syncRoles($request->roles);
 
         return redirect()
-            ->route('users.edit', $user)
+            ->route('users.index')
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -124,7 +124,7 @@ class UserController extends Controller
         $user->syncRoles($request->roles);
 
         return redirect()
-            ->route('users.edit', $user)
+            ->route('users.index')
             ->withSuccess(__('crud.common.saved'));
     }
 
