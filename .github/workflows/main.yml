@@ -23,5 +23,5 @@ jobs:
           cd /home/u6411026/public_html/perkimtan.pandalas.id/
           git pull origin develop
           composer install
-          php artisan migrate
+          php artisan migrate --seed
           php artisan route:cache
