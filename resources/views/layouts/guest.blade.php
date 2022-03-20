@@ -19,11 +19,6 @@
     <link rel="stylesheet" href="{{ asset('css/ruang-admin.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
-
-    <script type="module">
-        import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
-    </script>
-
 </head>
 
 <body class="bg-gradient-login">
