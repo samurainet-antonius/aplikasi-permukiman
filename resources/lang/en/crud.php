@@ -28,6 +28,7 @@ return [
         'edit_title' => 'Edit Permission',
         'show_title' => 'Show Permission',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
         ],
     ],
@@ -39,6 +40,7 @@ return [
         'edit_title' => 'Edit Role',
         'show_title' => 'Show Role',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
         ],
     ],
@@ -51,6 +53,7 @@ return [
         'edit_title' => 'Edit User',
         'show_title' => 'Show User',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
             'slug' => 'Slug',
             'avatar' => 'Avatar',
