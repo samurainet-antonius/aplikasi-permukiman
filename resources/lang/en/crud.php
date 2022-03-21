@@ -62,6 +62,19 @@ return [
         ],
     ],
 
+    'kriteria' => [
+        'name' => 'Kriteria',
+        'index_title' => 'Kriteria List',
+        'new_title' => 'New Kriteria',
+        'create_title' => 'Create Kriteria',
+        'edit_title' => 'Edit Kriteria',
+        'show_title' => 'Show Kriteria',
+        'inputs' => [
+            'no' => 'No',
+            'nama' => 'Nama',
+        ],
+    ],
+
     'settings' => [
         'name' => 'Settings',
         'index_title' => 'Site Setting',

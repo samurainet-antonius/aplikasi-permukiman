@@ -71,6 +71,10 @@
                 <a class="collapse-item" href="{{ route('permissions.index') }}">Permissions</a>
             @endcan
 
+            @can('view-any', Spatie\Permission\Models\Kriteria::class)
+                <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
+            @endcan
+
           </div>
         </div>
       </li>
