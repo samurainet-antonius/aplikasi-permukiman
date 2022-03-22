@@ -75,6 +75,20 @@ return [
         ],
     ],
 
+    'subkriteria' => [
+        'name' => 'Sub Kriteria',
+        'index_title' => 'Sub Kriteria List',
+        'new_title' => 'New Sub Kriteria',
+        'create_title' => 'Create Sub Kriteria',
+        'edit_title' => 'Edit Sub Kriteria',
+        'show_title' => 'Show Sub Kriteria',
+        'inputs' => [
+            'no' => 'No',
+            'kriteria' => 'Kriteria',
+            'nama' => 'Subkriteria',
+        ],
+    ],
+
     'settings' => [
         'name' => 'Settings',
         'index_title' => 'Site Setting',

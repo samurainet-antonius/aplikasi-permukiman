@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\SubKriteriaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,6 @@ Route::prefix('/l-app/')
         Route::resource('permissions', PermissionController::class);
         Route::resource('users', UserController::class);
         Route::resource('kriteria', KriteriaController::class);
+        Route::resource('subkriteria', SubKriteriaController::class);
 
     });

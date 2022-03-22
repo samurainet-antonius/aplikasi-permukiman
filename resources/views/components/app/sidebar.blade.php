@@ -75,6 +75,10 @@
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
             @endcan
 
+            @can('view-any', Spatie\Permission\Models\SubKriteria::class)
+                <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
+            @endcan
+
           </div>
         </div>
       </li>
