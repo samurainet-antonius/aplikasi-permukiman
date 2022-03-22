@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@lang('crud.users.index_title')</h1>
+        <h1 class="h3 mb-0 text-gray-800">@lang('crud.roles.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Users</li>
+            <li class="breadcrumb-item active" aria-current="page">Roles</li>
         </ol>
     </div>
-
+    
     <div class="row">
         <div class="col-lg-12 mb-4">
             <div class="card">
@@ -23,8 +23,8 @@
                         </div>
                     </form>
 
-                    @can('create', App\Models\User::class)
-                    <a href="{{ route('users.create') }}" class="btn btn-primary">
+                    @can('create', App\Models\Role::class)
+                    <a href="{{ route('roles.create') }}" class="btn btn-primary">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
                         @lang('crud.common.create')
                     </a>
@@ -35,40 +35,32 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th>@lang('crud.users.inputs.no')</th>
-                                <th>@lang('crud.users.inputs.name')</th>
-                                <th>@lang('crud.users.inputs.slug')</th>
-                                <th>@lang('crud.users.inputs.email')</th>
+                                <th>@lang('crud.roles.inputs.no')</th>
+                                <th>@lang('crud.roles.inputs.name')</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($users as $key => $user)
+                            @forelse($roles as $key => $role)
                             <tr>
                                 <td>
                                     {{ $key+1 }}
                                 </td>
                                 <td>
-                                    {{ $user->name ?? '-' }}
-                                </td>
-                                <td>
-                                    {{ $user->slug ?? '-' }}
-                                </td>
-                                <td>
-                                    {{ $user->email ?? '-' }}
+                                    {{ $role->name ?? '-' }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        @can('update', $user)
-                                        <a href="{{ route('users.edit', $user) }}" class="mr-1 btn btn-warning btn-sm">
+                                        @can('update', $role)
+                                        <a href="{{ route('roles.edit', $role) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        @endcan @can('view', $user)
-                                        <a href="{{ route('users.show', $user) }}" class="mr-1 btn btn-secondary btn-sm">
+                                        @endcan @can('view', $role)
+                                        <a href="{{ route('roles.show', $role) }}" class="mr-1 btn btn-secondary btn-sm">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>
-                                        @endcan @can('delete', $user)
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                        @endcan @can('delete', $role)
+                                        <form action="{{ route('roles.destroy', $role) }}" method="POST"
                                             onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -92,7 +84,7 @@
 
                 <div class="card-body">
                     <div class="d-flex justify-content-end">
-                        {!! $users->links() !!}
+                        {!! $roles->links() !!}
                     </div>
                 </div>
             </div>

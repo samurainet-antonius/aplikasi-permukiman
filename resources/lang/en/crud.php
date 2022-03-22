@@ -28,6 +28,7 @@ return [
         'edit_title' => 'Edit Permission',
         'show_title' => 'Show Permission',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
         ],
     ],
@@ -39,6 +40,7 @@ return [
         'edit_title' => 'Edit Role',
         'show_title' => 'Show Role',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
         ],
     ],
@@ -51,11 +53,39 @@ return [
         'edit_title' => 'Edit User',
         'show_title' => 'Show User',
         'inputs' => [
+            'no' => 'No',
             'name' => 'Name',
             'slug' => 'Slug',
             'avatar' => 'Avatar',
             'email' => 'Email',
             'password' => 'Password',
+        ],
+    ],
+
+    'kriteria' => [
+        'name' => 'Kriteria',
+        'index_title' => 'Kriteria List',
+        'new_title' => 'New Kriteria',
+        'create_title' => 'Create Kriteria',
+        'edit_title' => 'Edit Kriteria',
+        'show_title' => 'Show Kriteria',
+        'inputs' => [
+            'no' => 'No',
+            'nama' => 'Nama',
+        ],
+    ],
+
+    'subkriteria' => [
+        'name' => 'Sub Kriteria',
+        'index_title' => 'Sub Kriteria List',
+        'new_title' => 'New Sub Kriteria',
+        'create_title' => 'Create Sub Kriteria',
+        'edit_title' => 'Edit Sub Kriteria',
+        'show_title' => 'Show Sub Kriteria',
+        'inputs' => [
+            'no' => 'No',
+            'kriteria' => 'Kriteria',
+            'nama' => 'Subkriteria',
         ],
     ],
 

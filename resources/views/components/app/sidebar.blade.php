@@ -64,11 +64,19 @@
             @endcan
 
             @can('view-any', Spatie\Permission\Models\Role::class)
-                <a class="collapse-item" href="simple-tables.html">Roles</a>
+                <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
             @endcan
 
             @can('view-any', Spatie\Permission\Models\Permission::class)
-                <a class="collapse-item" href="simple-tables.html">Permissions</a>
+                <a class="collapse-item" href="{{ route('permissions.index') }}">Permissions</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\Kriteria::class)
+                <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\SubKriteria::class)
+                <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
             @endcan
 
           </div>
