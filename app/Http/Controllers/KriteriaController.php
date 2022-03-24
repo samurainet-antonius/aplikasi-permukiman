@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\KriteriaStoreRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\KriteriaUpdateRequest;
 use App\Models\Kriteria;
-use Spatie\Permission\Models\Permission;
 
 class KriteriaController extends Controller
 {

@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\SubKriteriaStoreRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\SubKriteriaUpdateRequest;
 use App\Models\Kriteria;
 use App\Models\SubKriteria;
-use Spatie\Permission\Models\Permission;
 
 class SubKriteriaController extends Controller
 {
