@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $this->authorize('view-any', City::class);
