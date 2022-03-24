@@ -10,7 +10,7 @@ use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\VillageController;
-
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +35,10 @@ Route::prefix('/l-app/')
         Route::get('dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
+
+        Route::get('seeder', function () {
+            Artisan::call('db:seed');
+        })->name('seeder');
 
         // Users
         Route::resource('roles', RoleController::class);
