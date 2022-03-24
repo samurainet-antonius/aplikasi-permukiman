@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6bb5e9e952342331116d1e8a410caa1",
+    "content-hash": "382d591dd851800c31fac51f60bd1fa9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1320,6 +1320,88 @@
                 "source": "https://github.com/laravel/tinker/tree/v2.7.1"
             },
             "time": "2022-03-15T15:25:01+00:00"
+        },
+        {
+            "name": "laravolt/indonesia",
+            "version": "v0.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravolt/indonesia.git",
+                "reference": "b8a1cbe3e94b96b279cb1f03a3e872bb78d454d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravolt/indonesia/zipball/b8a1cbe3e94b96b279cb1f03a3e872bb78d454d2",
+                "reference": "b8a1cbe3e94b96b279cb1f03a3e872bb78d454d2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "laravolt/suitable": "Required if you want to access editor panel",
+                "spatie/geocoder": "Synchronize latitude longitude data directly using Google's Geocoding Service"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravolt\\Indonesia\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Indonesia": "Laravolt\\Indonesia\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravolt\\Indonesia\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bayu Hendra Winata",
+                    "email": "bayu.hendra@javan.co.id"
+                },
+                {
+                    "name": "Akbar Adhatama",
+                    "email": "am.adhatama@gmail.com"
+                },
+                {
+                    "name": "Deri Ramdani",
+                    "email": "deri.ramdani1@gmail.com"
+                }
+            ],
+            "description": "Package Laravel yang berisi data Provinsi, Kabupaten/Kota, Kecamatan, dan Keluarahan/Desa di seluruh Indonesia.",
+            "keywords": [
+                "desa",
+                "indonesia",
+                "kabupaten",
+                "kecamatan",
+                "kelurahan",
+                "kota",
+                "laravel",
+                "laravolt",
+                "provinsi"
+            ],
+            "support": {
+                "issues": "https://github.com/laravolt/indonesia/issues",
+                "source": "https://github.com/laravolt/indonesia/tree/v0.31"
+            },
+            "time": "2022-02-09T23:32:13+00:00"
         },
         {
             "name": "league/commonmark",
@@ -5930,63 +6012,6 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
-            "name": "laravel/breeze",
-            "version": "v1.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/breeze.git",
-                "reference": "5b034ac325ee8cb34bef3a03daad1d900fcc1a8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/5b034ac325ee8cb34bef3a03daad1d900fcc1a8c",
-                "reference": "5b034ac325ee8cb34bef3a03daad1d900fcc1a8c",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/filesystem": "^8.42|^9.0",
-                "illuminate/support": "^8.42|^9.0",
-                "illuminate/validation": "^8.42|^9.0",
-                "php": "^7.3|^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Laravel\\Breeze\\BreezeServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Breeze\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Minimal Laravel authentication scaffolding with Blade and Tailwind.",
-            "keywords": [
-                "auth",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/breeze/issues",
-                "source": "https://github.com/laravel/breeze"
-            },
-            "time": "2022-02-21T18:18:37+00:00"
-        },
-        {
             "name": "laravel/sail",
             "version": "v1.13.7",
             "source": {
@@ -8047,5 +8072,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

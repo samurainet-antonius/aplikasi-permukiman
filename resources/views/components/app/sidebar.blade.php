@@ -71,6 +71,35 @@
                 <a class="collapse-item" href="{{ route('permissions.index') }}">Permissions</a>
             @endcan
 
+            @can('view-any', Spatie\Permission\Models\Province::class)
+                <a class="collapse-item" href="{{ route('province.index') }}">Province</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\City::class)
+                <a class="collapse-item" href="{{ route('city.index') }}">City</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\District::class)
+                <a class="collapse-item" href="{{ route('district.index') }}">District</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\Village::class)
+                <a class="collapse-item" href="{{ route('village.index') }}">Village</a>
+            @endcan
+
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTableMaster" aria-expanded="true"
+          aria-controls="collapseTableMaster">
+          <i class="fas fa-fw fa-database"></i>
+          <span>Master</span>
+        </a>
+        <div id="collapseTableMaster" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+
             @can('view-any', Spatie\Permission\Models\Kriteria::class)
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
             @endcan

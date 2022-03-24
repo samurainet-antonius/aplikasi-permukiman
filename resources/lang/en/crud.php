@@ -103,4 +103,71 @@ return [
             'instagram' => 'Site Instagram',
         ],
     ],
+
+    'province' => [
+        'name' => 'Province',
+        'index_title' => 'Province List',
+        'new_title' => 'New Province',
+        'create_title' => 'Create Province',
+        'edit_title' => 'Edit Province',
+        'show_title' => 'Show Province',
+        'inputs' => [
+            'no' => 'No',
+            'code' => 'Code',
+            'name' => 'Name',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+        ],
+    ],
+
+    'city' => [
+        'name' => 'City',
+        'index_title' => 'City List',
+        'new_title' => 'New City',
+        'create_title' => 'Create City',
+        'edit_title' => 'Edit City',
+        'show_title' => 'Show City',
+        'inputs' => [
+            'no' => 'No',
+            'province' => 'Province',
+            'name' => 'City',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+        ],
+    ],
+
+    'districts' => [
+        'name' => 'Districts',
+        'index_title' => 'Districts List',
+        'new_title' => 'New Districts',
+        'create_title' => 'Create Districts',
+        'edit_title' => 'Edit Districts',
+        'show_title' => 'Show Districts',
+        'inputs' => [
+            'no' => 'No',
+            'province' => 'Province',
+            'city' => 'City',
+            'name' => 'Districts',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+        ],
+    ],
+
+    'village' => [
+        'name' => 'Village',
+        'index_title' => 'Village List',
+        'new_title' => 'New Village',
+        'create_title' => 'Create Village',
+        'edit_title' => 'Edit Village',
+        'show_title' => 'Show Village',
+        'inputs' => [
+            'no' => 'No',
+            'province' => 'Province',
+            'city' => 'City',
+            'districts' => 'Districts',
+            'name' => 'Village',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+        ],
+    ],
 ];

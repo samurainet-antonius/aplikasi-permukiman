@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\DistrictsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubKriteriaController;
+use App\Http\Controllers\VillageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,5 +42,9 @@ Route::prefix('/l-app/')
         Route::resource('users', UserController::class);
         Route::resource('kriteria', KriteriaController::class);
         Route::resource('subkriteria', SubKriteriaController::class);
+        Route::resource('province', ProvinceController::class);
+        Route::resource('city', CityController::class);
+        Route::resource('district', DistrictsController::class);
+        Route::resource('village', VillageController::class);
 
     });
