@@ -12,6 +12,48 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
+                    <div class="col-12">
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Province</label>
+                                        <select class="select2-single form-control" name="province" id="province" id="select2Single" onchange="submit()">
+                                            <option value="12">SUMATERA UTARA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <select class="select2-single form-control" name="city" id="city" onchange="submit()">
+                                            @if ($city)
+                                                @foreach ($city as $val)
+                                                    <option value="{{$val->code}}" {{ (Request::get('city') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                @endforeach
+                                            @else
+                                                <option>-------</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>District</label>
+                                        <select class="select2-single form-control" name="district" id="district" onchange="submit()">
+                                            @if ($district)
+                                                @foreach ($district as $val)
+                                                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                @endforeach
+                                            @else
+                                                <option>-------</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <form class="float-right">
                         <div class="input-group mb-3">
                         <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">

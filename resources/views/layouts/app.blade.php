@@ -37,7 +37,7 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          
+
             {{ $slot }}
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
@@ -58,7 +58,7 @@
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="btn btn-primary">Logout</button>
-                  </form>  
+                  </form>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@
 
     @stack('scripts')
 
-    
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>

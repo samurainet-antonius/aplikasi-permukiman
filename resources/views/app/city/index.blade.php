@@ -12,6 +12,16 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
+                    <div class="col-12">
+                        <div class="form-group col-6">
+                            <form action="" method="get">
+                                <label>Province</label>
+                                <select class="select2-single form-control" name="province" id="province" id="select2Single" onchange="submit()">
+                                    <option value="12">SUMATERA UTARA</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
                     <form class="float-right">
                         <div class="input-group mb-3">
                         <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">

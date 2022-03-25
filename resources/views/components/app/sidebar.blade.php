@@ -51,6 +51,27 @@
       @if (Auth::user()->can('view-any', Spatie\Permission\Models\Role::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Permission::class))
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTableMaster" aria-expanded="true"
+          aria-controls="collapseTableMaster">
+          <i class="fas fa-fw fa-database"></i>
+          <span>Master</span>
+        </a>
+        <div id="collapseTableMaster" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+
+            @can('view-any', Spatie\Permission\Models\Kriteria::class)
+                <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
+            @endcan
+
+            @can('view-any', Spatie\Permission\Models\SubKriteria::class)
+                <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
+            @endcan
+
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
           aria-controls="collapseTable">
           <i class="fas fa-fw fa-cog"></i>
@@ -85,27 +106,6 @@
 
             @can('view-any', Spatie\Permission\Models\Village::class)
                 <a class="collapse-item" href="{{ route('village.index') }}">Village</a>
-            @endcan
-
-          </div>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTableMaster" aria-expanded="true"
-          aria-controls="collapseTableMaster">
-          <i class="fas fa-fw fa-database"></i>
-          <span>Master</span>
-        </a>
-        <div id="collapseTableMaster" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-
-            @can('view-any', Spatie\Permission\Models\Kriteria::class)
-                <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
-            @endcan
-
-            @can('view-any', Spatie\Permission\Models\SubKriteria::class)
-                <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
             @endcan
 
           </div>
