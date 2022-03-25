@@ -15,6 +15,10 @@ class CityController extends Controller
         $search = $request->get('search', '');
 
         $city = City::select('code', 'province_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+            ->where(function($query)use($request) {
+                $code = $request->code ? $request->code : '12';
+                return $query->from('indonesia_cities')->where('province_code',$code);
+            })
             ->orderBy('province_code', 'ASC')
             ->orderBy('code', 'ASC')
             ->search($search)
@@ -22,6 +26,6 @@ class CityController extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.city.index', compact('city', 'search'));
+        return view('app.city.index', compact('city'));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Districts;
 use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +20,13 @@ class VillageController extends Controller
 
         $search = $request->get('search', '');
 
+        $city = City::where('province_code', 12)->orderBy('name', 'ASC')->get();
+        $district = Districts::where('city_code', $request->city)->orderBy('name', 'ASC')->get();
+
         $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+            ->where(function ($query) use ($request) {
+                return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '';
+            })
             ->orderBy('district_code', 'ASC')
             ->orderBy('code', 'ASC')
             ->search($search)
@@ -26,6 +34,6 @@ class VillageController extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.village.index', compact('village', 'search'));
+        return view('app.village.index', compact('village', 'search', 'city', 'district'));
     }
 }
