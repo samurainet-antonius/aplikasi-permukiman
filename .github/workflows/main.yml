@@ -22,7 +22,6 @@ jobs:
         script: |
           cd /home/perk1m/public_html/
           git pull origin develop
-          composer install
           php artisan migrate:refresh
           php artisan db:seed
           php artisan route:cache
