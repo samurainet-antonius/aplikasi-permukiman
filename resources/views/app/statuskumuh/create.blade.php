@@ -1,11 +1,11 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@lang('crud.subkriteria.create_title')</h1>
+        <h1 class="h3 mb-0 text-gray-800">@lang('crud.statuskumuh.create_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('subkriteria.index') }}">SubKriteria</a>
+                <a href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Create</li>
         </ol>
@@ -15,11 +15,11 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('subkriteria.store') }}" has-files class="mt-4">
-                        @include('app.subkriteria.form-inputs')
+                    <form method="POST" action="{{ route('statuskumuh.store') }}" has-files class="mt-4">
+                        @include('app.statuskumuh.form-inputs')
 
                         <div class="mt-10">
-                            <a href="{{ route('subkriteria.index') }}" class="button">
+                            <a href="{{ route('statuskumuh.index') }}" class="button">
                                 <i class="
                                                 mr-1
                                                 fa fa-solid fa-arrow-left

@@ -9,6 +9,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubKriteriaController;
+use App\Http\Controllers\StatusKumuhController;
 use App\Http\Controllers\VillageController;
 use Illuminate\Support\Facades\Artisan;
 /*
@@ -45,6 +46,7 @@ Route::prefix('/l-app/')
         Route::resource('permissions', PermissionController::class);
         Route::resource('users', UserController::class);
         Route::resource('kriteria', KriteriaController::class);
+        Route::resource('statuskumuh', StatusKumuhController::class);
         Route::resource('subkriteria', SubKriteriaController::class);
         Route::resource('province', ProvinceController::class);
         Route::resource('city', CityController::class);

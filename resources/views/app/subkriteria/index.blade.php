@@ -3,7 +3,7 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.subkriteria.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
+            <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item active" aria-current="page">SubKriteria</li>
         </ol>
     </div>
