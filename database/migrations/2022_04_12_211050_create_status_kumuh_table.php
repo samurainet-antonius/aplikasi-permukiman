@@ -17,6 +17,7 @@ class CreateStatusKumuhTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('warna');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

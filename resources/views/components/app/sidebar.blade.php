@@ -67,6 +67,10 @@
                 <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
             @endcan
 
+            @can('view-any', Spatie\Permission\Models\StatusKumuh::class)
+                <a class="collapse-item" href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
+            @endcan
+
           </div>
         </div>
       </li>

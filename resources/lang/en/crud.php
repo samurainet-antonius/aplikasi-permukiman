@@ -89,6 +89,20 @@ return [
         ],
     ],
 
+    'statuskumuh' => [
+        'name' => 'Status Kumuh',
+        'index_title' => 'Status Kumuh List',
+        'new_title' => 'New Status Kumuh',
+        'create_title' => 'Create Status Kumuh',
+        'edit_title' => 'Edit Status Kumuh',
+        'show_title' => 'Show Status Kumuh',
+        'inputs' => [
+            'no' => 'No',
+            'nama' => 'Nama',
+            'warna' => 'Warna',
+        ],
+    ],
+
     'settings' => [
         'name' => 'Settings',
         'index_title' => 'Site Setting',

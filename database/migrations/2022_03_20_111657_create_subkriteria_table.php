@@ -19,6 +19,7 @@ class CreateSubkriteriaTable extends Migration
             $table->string('nama');
             $table->foreign('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade');
             $table->boolean('flag_pakai')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
