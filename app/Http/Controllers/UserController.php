@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\City;
+use App\Models\Province;
+use App\Models\Village;
+use Illuminate\Support\Facades\DB;
+use Laravolt\Indonesia\Models\District;
+use Laravolt\Indonesia\Seeds\CitiesSeeder;
 
 class UserController extends Controller
 {
@@ -40,7 +46,31 @@ class UserController extends Controller
 
         $roles = Role::get();
 
-        return view('app.users.create', compact('roles'));
+        $region = Province::all();
+
+        return view('app.users.create', compact('roles', 'region'));
+    }
+
+    public function selectSearch(Request $request)
+    {
+        $region = [];
+        if ($request->has('q')) {
+            $search = $request->q;
+            $roles = DB::table('roles')->find($request->roles);
+
+            if (strpos($roles->name, 'provinsi') !== false) {
+                $region = Province::select("code", "name")->where('code', '12')->get();
+            } elseif(strpos($roles->name, 'kabupaten') !== false) {
+                $region = City::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
+            } elseif(strpos($roles->name, 'kecamatan') !== false) {
+                $region = District::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
+            } elseif (strpos($roles->name, 'kelurahan') !== false) {
+                $region = Village::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
+            } else {
+                $region = Province::select("code", "name")->where('code', '12')->get();
+            }
+        }
+        return response()->json($region);
     }
 
     /**
