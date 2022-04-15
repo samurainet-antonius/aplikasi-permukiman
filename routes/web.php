@@ -52,4 +52,6 @@ Route::prefix('/l-app/')
         Route::resource('city', CityController::class);
         Route::resource('district', DistrictsController::class);
         Route::resource('village', VillageController::class);
+
+        Route::post('/live-search', [UserController::class, 'selectSearch']);
     });

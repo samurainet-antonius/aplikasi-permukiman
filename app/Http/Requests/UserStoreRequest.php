@@ -30,7 +30,8 @@ class UserStoreRequest extends FormRequest
             'avatar' => ['nullable', 'file'],
             'email' => ['required', 'unique:users,email', 'email'],
             'password' => ['required'],
-            'roles' => 'array',
+            'roles' => ['required'],
+            'region_code' => ['required']
         ];
     }
 }
