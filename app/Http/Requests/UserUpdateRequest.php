@@ -38,7 +38,8 @@ class UserUpdateRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($this->user),
                 'email',
             ],
-            'roles' => 'array',
+            'roles' => ['required'],
+            'region_code' => ['required']
         ];
     }
 }

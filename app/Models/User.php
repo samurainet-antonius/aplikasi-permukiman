@@ -18,7 +18,7 @@ class User extends Authenticatable
     use Searchable;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug', 'avatar', 'email', 'password'];
+    protected $fillable = ['name', 'slug', 'avatar', 'email', 'password', 'region_code'];
 
     protected $searchableFields = ['*'];
 
