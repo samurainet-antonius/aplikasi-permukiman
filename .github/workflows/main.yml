@@ -1,0 +1,28 @@
+name: Deploy Development
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Deploy using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        port: 22
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd /home/perk1m/public_html/
+          git pull origin develop
+          php artisan migrate:refresh
+          php artisan db:seed
+          php artisan route:cache
+          php artisan cache:clear
