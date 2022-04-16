@@ -48,6 +48,7 @@
                                 <th>@lang('crud.city.inputs.no')</th>
                                 <th>@lang('crud.city.inputs.province')</th>
                                 <th>@lang('crud.city.inputs.name')</th>
+                                <th>@lang('crud.city.inputs.code')</th>
                                 <th>@lang('crud.city.inputs.latitude')</th>
                                 <th>@lang('crud.city.inputs.longitude')</th>
                             </tr>
@@ -63,6 +64,9 @@
                                 </td>
                                 <td>
                                     {{ $value->name ?? '-' }}
+                                </td>
+                                <td>
+                                    {{ $value->code ?? '-' }}
                                 </td>
                                 <td>
                                     {{ $value->latitude ?? '-' }}
