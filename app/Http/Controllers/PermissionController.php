@@ -51,11 +51,11 @@ class PermissionController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|max:64',
-            'roles' => 'array'
+            // 'roles' => 'array'
         ]);
 
         $permission = Permission::create($data);
-        
+
         $roles = Role::find($request->roles);
         $permission->syncRoles($roles);
 
@@ -111,7 +111,7 @@ class PermissionController extends Controller
         ]);
 
         $permission->update($data);
-        
+
         $roles = Role::find($request->roles);
         $permission->syncRoles($roles);
 
