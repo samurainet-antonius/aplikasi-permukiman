@@ -63,9 +63,9 @@ class UserController extends Controller
             } elseif(strpos($roles->name, 'kabupaten') !== false) {
                 $region = City::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
             } elseif(strpos($roles->name, 'kecamatan') !== false) {
-                $region = District::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
+                $region = District::select("code", DB::raw('CONCAT("KECAMATAN", " - ", name) as name'))->where('name', 'LIKE', "%$search%")->get();
             } elseif (strpos($roles->name, 'kelurahan') !== false) {
-                $region = Village::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
+                $region = Village::select("code", DB::raw('CONCAT("KELURAHAN", " - ", name) as name'))->where('name', 'LIKE', "%$search%")->get();
             } else {
                 $region = Province::select("code", "name")->where('code', '12')->get();
             }
