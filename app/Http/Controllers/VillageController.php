@@ -23,7 +23,7 @@ class VillageController extends Controller
         $city = City::where('province_code', 12)->orderBy('name', 'ASC')->get();
         $district = Districts::where('city_code', $request->city)->orderBy('name', 'ASC')->get();
 
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '';
             })
@@ -38,15 +38,15 @@ class VillageController extends Controller
     }
 
     public function village(Request $request){
-        
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+
+        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '';
             })
             ->orderBy('district_code', 'ASC')
             ->orderBy('code', 'ASC')
             ->get();
-        
+
         if(isset($village)){
 
             foreach ($village as $key => $value) {
