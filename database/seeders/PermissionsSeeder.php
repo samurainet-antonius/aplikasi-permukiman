@@ -62,6 +62,10 @@ class PermissionsSeeder extends Seeder
         $adminRole = Role::create(['name' => 'super-admin']);
         $adminRole->givePermissionTo($allPermissions);
 
+        Role::create(['name' => 'admin-kabupaten']);
+        Role::create(['name' => 'admin-kecamatan']);
+        Role::create(['name' => 'admin-kelurahan']);
+
         $user = \App\Models\User::whereEmail('admin@admin.com')->first();
 
         if ($user) {
