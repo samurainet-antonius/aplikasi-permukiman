@@ -22,7 +22,5 @@ jobs:
         script: |
           cd /home/perk1m/public_html/aplikasi-permukiman/
           git pull origin main
-          php artisan migrate:refresh
-          php artisan db:seed
           php artisan route:cache
           php artisan cache:clear
