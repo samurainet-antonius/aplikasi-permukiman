@@ -12,6 +12,7 @@ use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\StatusKumuhController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\EvaluasiController;
+use App\Http\Controllers\LeafletController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,13 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [LeafletController::class, 'index']);
+Route::get('/village', [LeafletController::class, 'village'])->name('village.home');
+Route::post('/select-village', [LeafletController::class, 'formVillage'])->name('village.select');
 
 require __DIR__.'/auth.php';
 
