@@ -18,10 +18,10 @@ class CreateEvaluasiDetailTable extends Migration
             $table->unsignedBigInteger('evaluasi_id');
             $table->foreign('evaluasi_id')->references('id')->on('evaluasi')->onDelete('cascade');
             $table->unsignedBigInteger('kriteria_id');
-            $table->string('nama_kriteria');
+            $table->string('nama_kriteria',200);
             $table->foreign('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade');
             $table->unsignedBigInteger('subkriteria_id');
-            $table->string('nama_subkriteria');
+            $table->string('nama_subkriteria',200);
             $table->foreign('subkriteria_id')->references('id')->on('subkriteria')->onDelete('cascade');
             $table->longText('jawaban')->nullable();
             $table->timestamps();

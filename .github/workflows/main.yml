@@ -20,9 +20,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          cd /home/perk1m/public_html/
-          git pull origin develop
-          php artisan migrate:refresh
-          php artisan db:seed
+          cd /home/perk1m/public_html/aplikasi-permukiman/
+          git pull origin main
           php artisan route:cache
           php artisan cache:clear
