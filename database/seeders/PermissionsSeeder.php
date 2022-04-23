@@ -38,6 +38,25 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update users']);
         Permission::create(['name' => 'delete users']);
 
+        Permission::create(['name' => 'list kriteria']);
+        Permission::create(['name' => 'view kriteria']);
+        Permission::create(['name' => 'create kriteria']);
+        Permission::create(['name' => 'update kriteria']);
+        Permission::create(['name' => 'delete kriteria']);
+
+        Permission::create(['name' => 'list subkriteria']);
+        Permission::create(['name' => 'view subkriteria']);
+        Permission::create(['name' => 'create subkriteria']);
+        Permission::create(['name' => 'update subkriteria']);
+        Permission::create(['name' => 'delete subkriteria']);
+
+        Permission::create(['name' => 'list evaluasi']);
+        Permission::create(['name' => 'view evaluasi']);
+        Permission::create(['name' => 'create evaluasi']);
+        Permission::create(['name' => 'update evaluasi']);
+        Permission::create(['name' => 'delete evaluasi']);
+        
+
         // Create admin role and assign all permissions
         $allPermissions = Permission::all();
         $adminRole = Role::create(['name' => 'super-admin']);
