@@ -11,6 +11,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\StatusKumuhController;
 use App\Http\Controllers\VillageController;
+use App\Http\Controllers\EvaluasiController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +38,7 @@ Route::prefix('/l-app/')
             return view('dashboard');
         })->name('dashboard');
 
-        Route::get('seeder', function () {
-            Artisan::call('db:seed');
-        })->name('seeder');
+        Route::get('village/district',[VillageController::class,'village'])->name('village-district');
 
         // Users
         Route::resource('roles', RoleController::class);
@@ -52,6 +51,7 @@ Route::prefix('/l-app/')
         Route::resource('city', CityController::class);
         Route::resource('district', DistrictsController::class);
         Route::resource('village', VillageController::class);
+        Route::resource('evaluasi', EvaluasiController::class);
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
     });

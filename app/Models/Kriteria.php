@@ -17,13 +17,13 @@ class Kriteria extends Model
 
     protected $table = 'kriteria';
 
-    protected $fillable = ['nama', 'flag_pakai'];
+    protected $fillable = ['id','nama', 'flag_pakai'];
 
     protected $searchableFields = ['*'];
 
     public function subkriteria()
     {
-        return $this->hasMany('App\Models\SubKriteria', 'id', 'kriteria_id');
+        return $this->hasMany('App\Models\SubKriteria');
     }
 
     public function isSuperAdmin()

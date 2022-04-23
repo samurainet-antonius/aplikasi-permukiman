@@ -36,4 +36,24 @@ class VillageController extends Controller
 
         return view('app.village.index', compact('village', 'search', 'city', 'district'));
     }
+
+    public function village(Request $request){
+        
+        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+            ->where(function ($query) use ($request) {
+                return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '';
+            })
+            ->orderBy('district_code', 'ASC')
+            ->orderBy('code', 'ASC')
+            ->get();
+        
+        if(isset($village)){
+
+            foreach ($village as $key => $value) {
+                echo "<option value='".$value->code."'>".$value->name."</option>";
+            }
+        }else{
+            echo "<option>Village not found</option>";
+        }
+    }
 }

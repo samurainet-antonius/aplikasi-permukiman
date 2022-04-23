@@ -50,8 +50,6 @@ class KriteriaController extends Controller
 
         $kriteria = Kriteria::create($validated);
 
-        $kriteria->syncRoles($request->roles);
-
         return redirect()
             ->route('kriteria.index')
             ->withSuccess(__('crud.common.created'));

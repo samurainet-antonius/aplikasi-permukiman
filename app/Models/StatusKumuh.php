@@ -25,4 +25,9 @@ class StatusKumuh extends Model
     {
         return $this->hasRole('super-admin');
     }
+
+    public function evaluasi()
+    {
+        return $this->hasOne('App\Models\Evaluasi','id', 'status_id');
+    }
 }

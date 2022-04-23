@@ -15,8 +15,8 @@ class CreateStatusKumuhTable extends Migration
     {
         Schema::create('status_kumuh', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('warna');
+            $table->string('nama',200);
+            $table->string('warna',200);
             $table->softDeletes();
             $table->timestamps();
         });

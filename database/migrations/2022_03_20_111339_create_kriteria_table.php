@@ -15,7 +15,7 @@ class CreateKriteriaTable extends Migration
     {
         Schema::create('kriteria', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama',200);
             $table->boolean('flag_pakai')->default(0);
             $table->softDeletes();
             $table->timestamps();

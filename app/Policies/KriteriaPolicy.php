@@ -14,7 +14,7 @@ class KriteriaPolicy
         return $kriteria->hasPermissionTo('list kriteria');
     }
 
-    public function view(Kriteria $kriteria, Kriteria $model)
+    public function view(Kriteria $kriteria)
     {
         return $kriteria->hasPermissionTo('view kriteria');
     }
@@ -24,12 +24,12 @@ class KriteriaPolicy
         return $kriteria->hasPermissionTo('create kriteria');
     }
 
-    public function update(Kriteria $kriteria, Kriteria $model)
+    public function update(Kriteria $kriteria)
     {
         return $kriteria->hasPermissionTo('update kriteria');
     }
 
-    public function delete(Kriteria $kriteria, Kriteria $model)
+    public function delete(Kriteria $kriteria)
     {
         return $kriteria->hasPermissionTo('delete kriteria');
     }
@@ -39,12 +39,12 @@ class KriteriaPolicy
         return $kriteria->hasPermissionTo('delete kriteria');
     }
 
-    public function restore(Kriteria $kriteria, Kriteria $model)
+    public function restore(Kriteria $kriteria)
     {
         return false;
     }
 
-    public function forceDelete(Kriteria $kriteria, Kriteria $model)
+    public function forceDelete(Kriteria $kriteria)
     {
         return false;
     }
