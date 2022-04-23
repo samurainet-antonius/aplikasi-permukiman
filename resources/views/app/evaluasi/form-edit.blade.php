@@ -1,4 +1,8 @@
+@php $editing = isset($evaluasi) ? $evaluasi : '' @endphp
 @csrf
+<?php
+$evaluasidetail = isset($editing->evaluasidetail) ? $editing->evaluasidetail->toArray() : '';
+?>
 <div class="flex flex-wrap mb-5">
     <h3>Lokasi</h3>
     <hr/>
@@ -14,7 +18,7 @@
         <select class="select2-single form-control" name="city_code" id="city">
             @if ($city)
                 @foreach ($city as $val)
-                    <option value="{{$val->code}}" {{ (Request::get('city') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                    <option value="{{$val->code}}" {{ (Request::get('city') == $val->code || $editing->city_code == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                 @endforeach
             @else
             <option value="">City not found</option>
@@ -27,7 +31,7 @@
         <select class="select2-single form-control" name="district_code" id="district">
             @if ($district)
                 @foreach ($district as $val)
-                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code || $editing->district_code == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                 @endforeach
             @else
                 <option value="">Districts no found</option>
@@ -38,6 +42,13 @@
     <div class="form-group">
         <label>Villages</label>
         <select class="select2-single form-control" name="village_code" id="village">
+            @if ($village)
+                @foreach ($village as $val)
+                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code || $editing->village_code == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                @endforeach
+            @else
+                <option value="">Districts no found</option>
+            @endif
         </select>
     </div>
 
@@ -45,7 +56,7 @@
         <label>Tahun</label>
         <select class="select2-single form-control" name="tahun" id="tahun">
             @for($i=date("Y");$i>="2015";$i--)
-                <option value="{{ $i; }}">{{ $i }}</option>
+                <option value="{{ $i; }}" {{ ($editing->tahun == $i) ? 'selected' : '' }}>{{ $i }}</option>
             @endfor
         </select>
     </div>
@@ -57,7 +68,7 @@
         @foreach($value->subkriteria as $x => $v)
             <div class="form-group">
                 <label>{{ $v->nama }}</label>
-                <textarea name="jawaban[<?php echo $value->id ?>][<?php echo $v->id ?>]" class="form-control" required></textarea>
+                <textarea name="jawaban[<?php echo $value->id ?>][<?php echo $v->id ?>]" class="form-control" required>{{ ($evaluasidetail[$x]['subkriteria_id'] == $v->id) ? $evaluasidetail[$x]['jawaban'] : '' }}</textarea>
             </div>
         @endforeach
     @empty
@@ -65,3 +76,19 @@
     @endforelse
 
 </div>
+
+@stack('scripts')
+<script>
+      $(document).ready(function(){
+        $("#district").on('change',function(){
+          var district = $(this).val();
+          $.ajax({
+            url:'<?= '/l-app/village/district'; ?>?district='+<?= $editing->district_id; ?>,
+            method:'GET',
+            success:function(data){
+              $("#village").html(data)
+            }
+          })
+        })
+      })
+    </script>
