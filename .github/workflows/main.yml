@@ -21,7 +21,7 @@ jobs:
         key: ${{ secrets.KEY }}
         script: |
           cd /home/perk1m/public_html/aplikasi-permukiman/
-          git pull origin develop
+          git pull origin main
           php artisan migrate:refresh
           php artisan db:seed
           php artisan route:cache
