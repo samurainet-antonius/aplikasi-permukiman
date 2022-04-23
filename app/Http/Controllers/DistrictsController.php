@@ -21,7 +21,7 @@ class DistrictsController extends Controller
 
         $city = City::where('province_code', 12)->orderBy('name', 'ASC')->get();
 
-        $districts = Districts::select('code', 'city_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+        $districts = Districts::select('code', 'city_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->city ? $query->from('indonesia_districts')->where('city_code', $request->city) : '';
             })
