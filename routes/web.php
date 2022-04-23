@@ -38,9 +38,7 @@ Route::prefix('/l-app/')
             return view('dashboard');
         })->name('dashboard');
 
-        Route::get('seeder', function () {
-            Artisan::call('db:seed');
-        })->name('seeder');
+        Route::get('village/district',[VillageController::class,'village'])->name('village-district');
 
         // Users
         Route::resource('roles', RoleController::class);

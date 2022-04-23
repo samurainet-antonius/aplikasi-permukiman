@@ -23,7 +23,7 @@ class Evaluasi extends Model
 
     public function evaluasidetail()
     {
-        return $this->hasMany('App\Models\EvaluasiDetail', 'id', 'evaluasi_id');
+        return $this->hasMany('App\Models\EvaluasiDetail', 'evaluasi_id', 'id');
     }
 
     public function province()

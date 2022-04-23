@@ -114,6 +114,21 @@
     </script>
     @endforeach
     @endif
+
+    <script>
+      $(document).ready(function(){
+        $("#district").on('change',function(){
+          var district = $(this).val();
+          $.ajax({
+            url:'<?= '/l-app/village/district'; ?>?district='+district,
+            method:'GET',
+            success:function(data){
+              $("#village").html(data)
+            }
+          })
+        })
+      })
+    </script>
 </body>
 
 </html>

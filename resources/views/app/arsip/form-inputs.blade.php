@@ -1,3 +1,4 @@
+@php $editing = isset($kriteria) @endphp
 @csrf
 <div class="flex flex-wrap mb-5">
     <h3>Lokasi</h3>
@@ -11,7 +12,7 @@
 
     <div class="form-group">
         <label>City</label>
-        <select class="select2-single form-control" name="city_code" id="city">
+        <select class="select2-single form-control" name="city_code" id="city" onchange="submit()">
             @if ($city)
                 @foreach ($city as $val)
                     <option value="{{$val->code}}" {{ (Request::get('city') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
@@ -24,7 +25,7 @@
 
     <div class="form-group">
         <label>Districts</label>
-        <select class="select2-single form-control" name="district_code" id="district">
+        <select class="select2-single form-control" name="district_code" id="district" onchange="submit()">
             @if ($district)
                 @foreach ($district as $val)
                     <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
@@ -37,7 +38,14 @@
 
     <div class="form-group">
         <label>Villages</label>
-        <select class="select2-single form-control" name="village_code" id="village">
+        <select class="select2-single form-control" name="village_code" id="village" onchange="submit()">
+            @if ($village)
+                @foreach ($village as $val)
+                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                @endforeach
+            @else
+                <option value="">Districts no found</option>
+            @endif
         </select>
     </div>
 
