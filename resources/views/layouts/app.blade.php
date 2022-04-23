@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>RuangAdmin - Blank Page</title>
+    <title>SIIPEH - Sistem Indikasi Informasi Permukiman K  umuh</title>
 
     <link href="{{ asset('/img/logo/logo.png') }}" rel="icon">
     <link href="{{ asset('/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">

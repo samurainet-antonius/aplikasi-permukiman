@@ -24,6 +24,11 @@ class Province extends Model
         return $this->hasMany('App\Models\City', 'code', 'province_code');
     }
 
+    public function evaluasi()
+    {
+        return $this->hasOne('App\Models\Evaluasi','code', 'province_code');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');

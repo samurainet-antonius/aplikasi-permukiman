@@ -24,6 +24,11 @@ class Districts extends Model
         return $this->belongsTo('App\Models\City', 'city_code', 'code');
     }
 
+    public function evaluasi()
+    {
+        return $this->hasOne('App\Models\Evaluasi','code', 'district_code');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');

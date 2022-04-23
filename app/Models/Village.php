@@ -24,6 +24,11 @@ class Village extends Model
         return $this->belongsTo('App\Models\Districts', 'district_code', 'code');
     }
 
+    public function evaluasi()
+    {
+        return $this->hasOne('App\Models\Evaluasi','code', 'village_code');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');

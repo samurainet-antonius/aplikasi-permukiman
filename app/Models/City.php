@@ -24,6 +24,11 @@ class City extends Model
         return $this->belongsTo('App\Models\Province', 'province_code', 'code');
     }
 
+    public function evaluasi()
+    {
+        return $this->hasOne('App\Models\Evaluasi','code', 'city_code');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');

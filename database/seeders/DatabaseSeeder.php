@@ -9,6 +9,7 @@ use Laravolt\Indonesia\Seeds\CitiesSeeder;
 use Laravolt\Indonesia\Seeds\VillagesSeeder;
 use Laravolt\Indonesia\Seeds\DistrictsSeeder;
 use Laravolt\Indonesia\Seeds\ProvincesSeeder;
+use Laravolt\Indonesia\Seeds\KriteriaSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -66,6 +67,7 @@ class DatabaseSeeder extends Seeder
             CitiesSeeder::class,
             DistrictsSeeder::class,
             VillagesSeeder::class,
+            KriteriaSeeder::class,
         ]);
     }
 }
