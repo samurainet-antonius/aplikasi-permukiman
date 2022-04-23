@@ -55,21 +55,48 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'create evaluasi']);
         Permission::create(['name' => 'update evaluasi']);
         Permission::create(['name' => 'delete evaluasi']);
-        
 
         // Create admin role and assign all permissions
         $allPermissions = Permission::all();
         $adminRole = Role::create(['name' => 'super-admin']);
         $adminRole->givePermissionTo($allPermissions);
 
-        Role::create(['name' => 'admin-kabupaten']);
-        Role::create(['name' => 'admin-kecamatan']);
-        Role::create(['name' => 'admin-kelurahan']);
+        $adminProvinsiRole = Role::create(['name' => 'admin-provinsi']);
+        $adminProvinsiRole->givePermissionTo('list kriteria', 'list subkriteria');
+
+        $adminKabupatenRole = Role::create(['name' => 'admin-kabupaten']);
+        $adminKabupatenRole->givePermissionTo('list kriteria', 'list subkriteria');
+
+        $adminKecamatanRole = Role::create(['name' => 'admin-kecamatan']);
+        $adminKecamatanRole->givePermissionTo('list kriteria', 'list subkriteria');
+
+        $adminKelurahanRole = Role::create(['name' => 'admin-kelurahan']);
+        $adminKelurahanRole->givePermissionTo('list kriteria', 'list subkriteria');
 
         $user = \App\Models\User::whereEmail('admin@admin.com')->first();
+        $adminProvinsi = \App\Models\User::whereEmail('admin@admin.com')->first();
+        $adminKabupaten = \App\Models\User::whereEmail('admin@admin.com')->first();
+        $adminKecamatan = \App\Models\User::whereEmail('admin@admin.com')->first();
+        $adminKelurahan = \App\Models\User::whereEmail('admin@admin.com')->first();
 
         if ($user) {
             $user->assignRole($adminRole);
+        }
+
+        if ($adminProvinsi) {
+            $adminProvinsi->assignRole($adminProvinsiRole);
+        }
+
+        if ($adminKabupaten) {
+            $adminKabupaten->assignRole($adminKabupatenRole);
+        }
+
+        if ($adminKecamatan) {
+            $adminKecamatan->assignRole($adminKecamatanRole);
+        }
+
+        if ($adminKelurahan) {
+            $adminKelurahan->assignRole($adminKelurahanRole);
         }
     }
 }
