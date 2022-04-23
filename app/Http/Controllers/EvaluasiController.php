@@ -54,7 +54,7 @@ class EvaluasiController extends Controller
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $districtSelected[0]['code'];
 
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
             })
@@ -148,7 +148,7 @@ class EvaluasiController extends Controller
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $districtSelected[0]['code'];
 
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
             })

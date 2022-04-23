@@ -28,9 +28,9 @@ class LeafletController extends Controller
             $district = Districts::where('city_code', 1207)->first()->code;
         }
 
-        $districts = Districts::select('code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))->where('code', $district)->first();
+        $districts = Districts::select('code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))->where('code', $district)->first();
 
-        $query = Village::select('code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+        $query = Village::select('code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
                 ->where('district_code', $district)
                 ->get();
 
@@ -44,7 +44,7 @@ class LeafletController extends Controller
 
     public function village(Request $request)
     {
-        $query = Village::select('code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"));
+        $query = Village::select('code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"));
 
         if($request->district_code) {
             $query = $query->where('district_code', $request->district_code)->get();
@@ -52,7 +52,7 @@ class LeafletController extends Controller
             $query = $query->where('district_code', 120701)->get();
         }
 
-        // $query = Village::select('code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))
+        // $query = Village::select('code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
         //     ->where('district_code', 120701)
         //     ->get();
 
