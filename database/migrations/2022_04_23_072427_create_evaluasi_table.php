@@ -21,7 +21,8 @@ class CreateEvaluasiTable extends Migration
             $table->unsignedBigInteger('village_code');
             $table->unsignedBigInteger('status_id')->nullable();
             $table->foreign('status_id')->references('id')->on('status_kumuh')->onDelete('cascade');
-            $table->string('tahun');
+            $table->string('tahun',200);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

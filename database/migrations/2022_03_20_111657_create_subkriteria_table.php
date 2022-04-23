@@ -16,7 +16,7 @@ class CreateSubkriteriaTable extends Migration
         Schema::create('subkriteria', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kriteria_id');
-            $table->string('nama');
+            $table->string('nama',200);
             $table->foreign('kriteria_id')->references('id')->on('kriteria')->onDelete('cascade');
             $table->boolean('flag_pakai')->default(0);
             $table->softDeletes();
