@@ -8,26 +8,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Kriteria extends Model
+class EvaluasiDetail extends Model
 {
     use HasRoles;
     use Notifiable;
     use Searchable;
     use SoftDeletes;
 
-    protected $table = 'kriteria';
+    protected $table = 'evaluasi_detail';
 
-    protected $fillable = ['id','nama', 'flag_pakai'];
+    protected $fillable = ['evaluasi_id','kriteria_id', 'nama_kriteria','subkriteria_id','nama_subkriteria','jawaban','created_at','updated_at'];
 
     protected $searchableFields = ['*'];
-
-    public function subkriteria()
-    {
-        return $this->hasMany('App\Models\SubKriteria');
-    }
-
-    public function isSuperAdmin()
-    {
-        return $this->hasRole('super-admin');
-    }
 }

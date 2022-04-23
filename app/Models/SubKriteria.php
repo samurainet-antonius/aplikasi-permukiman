@@ -23,7 +23,7 @@ class SubKriteria extends Model
 
     public function kriteria()
     {
-        return $this->belongsTo('App\Models\Kriteria', 'kriteria_id', 'id');
+        return $this->belongsTo('App\Models\Kriteria');
     }
 
     public function isSuperAdmin()

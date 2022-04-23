@@ -75,6 +75,25 @@ return [
         ],
     ],
 
+    'evaluasi' => [
+        'name' => 'Evaluasi',
+        'index_title' => 'Evaluasi List',
+        'new_title' => 'New Evaluasi',
+        'create_title' => 'Create Evaluasi',
+        'edit_title' => 'Edit Evaluasi',
+        'show_title' => 'Show Evaluasi',
+        'inputs' => [
+            'no' => 'No',
+            'provinsi' => 'Province',
+            'kota' => 'City',
+            'kecamatan' => 'District',
+            'desa' => 'Village',
+            'status' => 'Status',
+            'created_at' => 'Created Date',
+            'updated_at' => 'Updated Date',
+        ],
+    ],
+
     'subkriteria' => [
         'name' => 'Sub Kriteria',
         'index_title' => 'Sub Kriteria List',
