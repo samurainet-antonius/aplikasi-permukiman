@@ -73,7 +73,7 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item row">
-                        <img src="{{ asset('img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
+                        <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
                         <div class="fs-14 mt-2 ml-3 text-white">
                             Dinas Perkim Deli Serdang Sumatera Utara
                         </div>
