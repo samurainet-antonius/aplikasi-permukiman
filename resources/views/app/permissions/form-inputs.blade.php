@@ -11,7 +11,7 @@
         value="{{ old('name', ($editing ? $permission->name : '')) }}"
         maxlength="255"
         placeholder="Name"
-        /> 
+        />
     </div>
 
     <div class="">
@@ -27,8 +27,8 @@
                     id="role{{ $role->id }}"
                     name="roles[]"
                     value="{{ $role->id }}"
-                    @if(isset($user))
-                        @if($user->hasRole($role))
+                    @if(isset($permission))
+                        @if($permission->hasRole($role))
                             checked
                         @endif
                     @endif
