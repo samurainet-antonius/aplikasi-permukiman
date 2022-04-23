@@ -18,7 +18,7 @@ class ProvinceController extends Controller
 
         $search = $request->get('search', '');
 
-        $province = Province::select('code', 'name', DB::raw("JSON_VALUE(meta, '$[0].lat') as latitude, JSON_VALUE(meta, '$[0].long') as longitude"))->search($search)
+        $province = Province::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))->search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();
