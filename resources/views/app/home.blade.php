@@ -317,8 +317,8 @@
                 if(val.latitude != 'NULL' && val.longitude != 'NULL') {
                     const pos = new L.LatLng(val.latitude,val.longitude);
                     const title = val.name;
+                    const kec = val.kecamatan;
                     const color = colorMarker[Math.floor(Math.random() * colorMarker.length)];
-                    // const color = randomColor;
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color.color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({
@@ -338,8 +338,8 @@
                                     <h4 class="font-weight-bold">${color.status}</h4>
                                 </div>
                                 <div style="margin-bottom: -30px !important;">
-                                    <h5>Desa Bintang Meriah</h5>
-                                    <h6>Kec. Gunung Meriah</h6>
+                                    <h5>DESA ${title}</h5>
+                                    <h6>Kec. ${kec}</h6>
                                 </div>
                                 <button onclick="removePopups()" type="button" class="btn btn-success px-4">Tutup</button>
                             </div>

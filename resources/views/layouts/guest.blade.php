@@ -19,12 +19,51 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/ruang-admin.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    <style>
+        *{
+            font-family: 'Poppins';
+        }
+        .fs-14{
+            font-size: 14px !important;
+        }
+        .bg-green {
+            background-color: #03A64A !important;
+        }
+        .text-green {
+            color: #03A64A !important;
+        }
+        .myForm {
+            min-width: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .section {
+            padding: 2rem 20%;
+        }
+
+        .section:nth-child(2) {
+            width: 100% !important;
+            background: #03A64A;
+            color: white;
+            clip-path: polygon(0 40%, 100% 0, 100% 60%, 0 100%);
+            padding: 15rem 20%;
+        }
+
+        .img{
+            height: 50vh !important;
+        }
+
+    </style>
+
 </head>
 
 <body class="bg-gradient-login">
 
     {{ $slot }}
-    
+
     <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

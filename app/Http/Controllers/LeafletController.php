@@ -44,12 +44,16 @@ class LeafletController extends Controller
 
     public function village(Request $request)
     {
-        $query = Village::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"));
+        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"));
 
         if($request->district_code) {
-            $query = $query->where('district_code', $request->district_code)->get();
+            $query = $query->leftJoin('indonesia_districts', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
+                ->where('district_code', $request->district_code)
+                ->get();
         } else {
-            $query = $query->where('district_code', 120701)->get();
+            $query = $query->leftJoin('indonesia_districts', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
+                ->where('district_code', 120701)
+                ->get();
         }
 
         // $query = Village::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
