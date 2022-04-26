@@ -33,15 +33,19 @@
             color: #03A64A !important;
         }
         .myForm {
-            min-width: 50%;
+            /* min-width: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); */
         }
 
         .section {
             padding: 2rem 20%;
+        }
+
+        .top{
+            top: 25vh !important;
         }
 
         .section:nth-child(2) {
@@ -49,12 +53,33 @@
             background: #03A64A;
             color: white;
             clip-path: polygon(0 40%, 100% 0, 100% 60%, 0 100%);
-            padding: 15rem 20%;
+            padding: 10rem 10%;
         }
 
         .img{
             height: 50vh !important;
+            width: 100% !important;
         }
+
+        @media (min-width: 768px) {
+            .top{
+                top: 18vh !important;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .top{
+                top: 25vh !important;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .top{
+                top: 28vh !important;
+            }
+        }
+
+
 
     </style>
 

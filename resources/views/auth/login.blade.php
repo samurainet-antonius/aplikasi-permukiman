@@ -1,18 +1,19 @@
 <x-guest-layout>
-    <div class="row">
-        <div class="col-4" style="height: 100vh !important; padding: 0 !important;">
+    <div class="row bg-white" style="height: 100vh !important;">
+        <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
             <img src="{{ asset('assets/img/login1.png') }}" class="img" style="" alt="">
 
-            <div class="section position-absolute" style="top: 25vh !important;">
-                <div class="content">
+            <div class="section position-absolute top">
+                <div class="content text-center">
                     <img src="{{ asset('assets/img/logo/logo1.png') }}" class="mx-auto d-block" height="100" alt="">
+                    <h5>Dinas Perkim Deli Serdang <br> Sumatera Utara</h5>
                 </div>
             </div>
             <img src="{{ asset('assets/img/login2.png') }}" class="img" style="" alt="">
         </div>
-        <div class="col-8 bg-white">
-            <div class="">
-                <div class="container">
+        <div class="col-12 col-md-7 col-lg-7 col-xl-8">
+            <div class="row justify-content-center" style="margin-top: 25vh !important;">
+                <div class="container col-10 col-md-10 col-lg-8 col-xl-6">
                     <form class="myForm user" method="post" action="{{ route('login-proses') }}">
                         @csrf
                         <div>
