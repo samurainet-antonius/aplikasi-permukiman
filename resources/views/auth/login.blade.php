@@ -43,7 +43,7 @@
                             <input type="submit" name="submit" class="btn bg-green text-white col-12" value="Masuk" />
                         </div>
                         <div class="text-center">
-                            <a class="small text-dark" href="">Anda belum punya akun? klik untuk mendaftar</a>
+                            <a class="small text-dark" href="{{ route('register') }}">Anda belum punya akun? klik untuk mendaftar</a>
                         </div>
                     </form>
                 </div>

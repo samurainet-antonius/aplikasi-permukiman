@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', [LeafletController::class, 'index']);
 Route::get('/village', [LeafletController::class, 'village'])->name('village.home');
 Route::post('/select-village', [LeafletController::class, 'formVillage'])->name('village.select');
+Route::post('/search-village', [LeafletController::class, 'selectVillage'])->name('village.search');
 
 require __DIR__.'/auth.php';
 

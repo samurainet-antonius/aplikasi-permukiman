@@ -120,7 +120,7 @@
                                 <option>-- Pilih Desa --</option>
                             </select>
                         </div>
-                        <button class="btn bg-green text-white px-4">Cari</button>
+                        <button type="button" class="btn bg-green text-white px-4" id="cari">Cari</button>
                     </form>
                 </div>
             </div>
@@ -180,7 +180,7 @@
 
         var mapOptions = {
 			center: [latitude,longitude],
-			zoom: 10
+			zoom: 9
 		}
 
         var map = new L.map('map', mapOptions);
@@ -196,6 +196,7 @@
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 url: '{{ route("village.select") }}',
                 success: function(data) {
+                    $('#village').empty();
                     $.each(data.data,function(index,val){
                         $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
                     })
@@ -219,6 +220,7 @@
                     url: '{{ route("village.select") }}',
                     data: {district_code: $("#district :selected").val()},
                     success: function(data) {
+                        $('#village').empty();
                         $.each(data.data,function(index,val){
                             $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
                         })
@@ -232,15 +234,56 @@
                     url: '{{ route("village.home") }}',
                     data: {district_code: $("#district :selected").val()},
                     success: function(data) {
-                        detailMap(data)
+                        // detailMap(data)
                     }
                 });
 
-                map.flyTo([latitude,longitude], 10, {
-                    animate: true,
-                    duration: 1 // in seconds
-                });
+                // map.flyTo([latitude,longitude], 10, {
+                //     animate: true,
+                //     duration: 1 // in seconds
+                // });
             });
+
+            $('#cari').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: '{{ route("village.search") }}',
+                    data: {code: $("#village :selected").val()},
+                    success: function(data) {
+                        // $('#village').empty();
+                        // $.each(data.data,function(index,val){
+                        //     $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+                        // })
+                        // district_code(data.district)
+                        console.log(data);
+
+                        map.flyTo([data.latitude,data.longitude], 15, {
+                            animate: true,
+                            duration: 1 // in seconds
+                        });
+
+                        // L.circle([data.latitude,data.longitude], 500).addTo(map);
+                    }
+                });
+
+                // $.ajax({
+                //     type: 'GET',
+                //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                //     url: '{{ route("village.home") }}',
+                //     data: {district_code: $("#village :selected").val()},
+                //     success: function(data) {
+                //         detailMap(data)
+                //     }
+                // });
+
+                // map.flyTo([latitude,longitude], 10, {
+                //     animate: true,
+                //     duration: 1 // in seconds
+                // });
+            });
+
+
         });
 
         // const api_url = "{{ route('village.home') }}";
