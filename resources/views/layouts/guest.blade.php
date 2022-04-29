@@ -95,6 +95,8 @@
     <script src="{{ asset('/assets/js/ruang-admin.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
+    @stack('scripts')
+
     @if (session()->has('success'))
     <script>
         const notyf = new Notyf({dismissible: true})

@@ -12,9 +12,9 @@
             <img src="{{ asset('assets/img/login2.png') }}" class="img" style="" alt="">
         </div>
         <div class="col-12 col-md-7 col-lg-7 col-xl-8">
-            <div class="row justify-content-center" style="margin-top: 10vh !important;">
+            <div class="row justify-content-center" style="margin-top: 7vh !important;">
                 <div class="container col-10 col-md-10 col-lg-8 col-xl-6">
-                    <form class="myForm user" method="post" action="{{ route('login-proses') }}">
+                    <form class="myForm user" method="POST" action="{{ route('register') }}">
                         @csrf
                         <div>
                             <h5>Halo !</h5>
@@ -28,16 +28,19 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="kecamatan">Kecamatan</label>
-                                    <select class="select2-single form-control" name="jabatan" id="select2Single">
+                                    <label for="district">Kecamatan</label>
+                                    <select class="select2-single form-control" name="district" id="district">
                                         <option>pilih kecamatan</option>
+                                        @foreach ($district as $val)
+                                            <option value="{{ $val->code }}">{{ $val->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="desa">Desa</label>
-                                    <select class="select2-single form-control" name="desa" id="select2Single">
+                                    <select class="select2-single form-control" name="village" id="village">
                                         <option>pilih desa</option>
                                     </select>
                                 </div>
@@ -52,8 +55,12 @@
                             <input class="form-control input-lg" type="number" name="nomer_hp" placeholder="masukan nomer whatsapp" />
                         </div>
                         <div class="form-group">
-                            <label for="email">Username/Email</label>
-                            <input class="form-control input-lg" type="email" name="email" id="email" placeholder="masukan username/email" />
+                            <label for="name">Username</label>
+                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan username" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input class="form-control input-lg" type="email" name="email" id="email" :value="old('email')" placeholder="masukan email" />
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
@@ -67,4 +74,32 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#district').change(function() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: '{{ route("village.select") }}',
+                    data: {district_code: $("#district :selected").val()},
+                    success: function(data) {
+                        $('#village').empty();
+                        $('#village').append('<option>pilih desa</option>');
+                        $.each(data.data,function(index,val){
+                            $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+                        })
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    @endpush
+
+
 </x-guest-layout>
