@@ -13,7 +13,6 @@ class Petugas extends Model
     use HasRoles;
     use Notifiable;
     use Searchable;
-    use SoftDeletes;
 
     protected $table = 'petugas';
 

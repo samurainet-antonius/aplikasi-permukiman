@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
+use Exception;
 
 class RegisteredUserController extends Controller
 {
@@ -51,26 +52,35 @@ class RegisteredUserController extends Controller
             'nomer_hp' => ['required'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::beginTransaction();
 
-        $petugas = Petugas::create([
-            'users_id' => $user->id,
-            'province_code' => 12,
-            'city_code' => 1207,
-            'district_code' => $request->district,
-            'village_code' => $request->village,
-            'jabatan' => $request->jabatan,
-            'nomer_hp' => $request->nomer_hp,
-        ]);
+        try {
+            
+            $user = User::create([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+    
+            $petugas = Petugas::create([
+                'users_id' => $user->id,
+                'province_code' => 12,
+                'city_code' => 1207,
+                'district_code' => $request->district,
+                'village_code' => $request->village,
+                'jabatan' => $request->jabatan,
+                'nomer_hp' => $request->nomer_hp,
+            ]);
 
-        // event(new Registered($user));
+            DB::commit();
 
-        // Auth::login($user);
-        return redirect()->route('login')->withSuccess(__('crud.common.created'));;
+            // Auth::login($user);
+            return redirect()->route('login')->withSuccess(__('crud.common.created'));
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->route('login')->withSuccess(__('crud.common.errors'));
+        }
     }
 }

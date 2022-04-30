@@ -55,10 +55,6 @@
                                         <a href="{{ route('roles.edit', $role) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        @endcan @can('view', $role)
-                                        <a href="{{ route('roles.show', $role) }}" class="mr-1 btn btn-secondary btn-sm">
-                                            <i class="fa fa-fw fa-eye"></i>
-                                        </a>
                                         @endcan @can('delete', $role)
                                         <form action="{{ route('roles.destroy', $role) }}" method="POST"
                                             onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">

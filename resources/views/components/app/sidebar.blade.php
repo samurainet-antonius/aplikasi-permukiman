@@ -34,6 +34,10 @@
         <div id="collapseTableMaster" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
 
+            @can('view-any', Spatie\Permission\Models\Petugas::class)
+                <a class="collapse-item" href="{{ route('staff.index') }}">Staff</a>
+            @endcan
+
             @can('view-any', Spatie\Permission\Models\Kriteria::class)
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
             @endcan
@@ -60,7 +64,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
 
             @can('view-any', App\Models\User::class)
-                <a class="collapse-item" href="{{ route('users.index') }}">Users</a>
+                <a class="collapse-item" href="{{ route('users.index') }}">Account</a>
             @endcan
 
             @can('view-any', Spatie\Permission\Models\Role::class)

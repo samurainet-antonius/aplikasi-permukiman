@@ -18,7 +18,7 @@ return [
         'created' => 'Successfully created',
         'saved' => 'Saved successfully',
         'removed' => 'Successfully removed',
-        'errors' => 'Failed to create / update',
+        'errors' => 'Failed to create / update / delete',
     ],
 
     'permissions' => [
@@ -72,6 +72,23 @@ return [
         'inputs' => [
             'no' => 'No',
             'nama' => 'Nama',
+        ],
+    ],
+
+    'staff' => [
+        'name' => 'Staff',
+        'index_title' => 'Staff List',
+        'new_title' => 'New Staff',
+        'create_title' => 'Create Staff',
+        'edit_title' => 'Edit Staff',
+        'show_title' => 'Show Staff',
+        'inputs' => [
+            'no' => 'No',
+            'nama' => 'Nama',
+            'jabatan' => 'Jabatan',
+            'nomer_hp' => 'Nomer Whatsapp/HP',
+            'district' => 'District',
+            'village' => 'Village',
         ],
     ],
 

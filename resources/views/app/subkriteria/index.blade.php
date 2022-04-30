@@ -59,10 +59,6 @@
                                         <a href="{{ route('subkriteria.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        @endcan @can('view', $value)
-                                        <a href="{{ route('subkriteria.show', $value) }}" class="mr-1 btn btn-secondary btn-sm">
-                                            <i class="fa fa-fw fa-eye"></i>
-                                        </a>
                                         @endcan @can('delete', $value)
                                         <form action="{{ route('subkriteria.destroy', $value) }}" method="POST"
                                             onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">

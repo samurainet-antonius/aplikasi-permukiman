@@ -3,8 +3,8 @@ use Illuminate\Support\Facades\Auth;
 
 if(!function_exists('says')){
     function says(){
-
-        $h = date('G');
+        date_default_timezone_set("Asia/Jakarta");  
+        $h = date('H:i:s');
 
         if($h>=5 && $h<=11)
         {

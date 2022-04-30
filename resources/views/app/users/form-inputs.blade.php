@@ -63,31 +63,6 @@
         <label>Region Code</label>
         <select class="livesearch form-control" name="region_code"></select>
     </div>
-
-    {{-- <div class="">
-        <h4 class="font-bold text-lg text-gray-700">
-            Assign @lang('crud.roles.name')
-        </h4>
-
-        <div class="py-2">
-            @foreach ($roles as $role)
-            <div>
-                <input
-                    type="checkbox"
-                    id="role{{ $role->id }}"
-                    name="roles[]"
-                    value="{{ $role->id }}"
-                    @if(isset($user))
-                        @if($user->hasRole($role))
-                            checked
-                        @endif
-                    @endif
-                />
-                {{ ucfirst($role->name) }}
-            </div>
-            @endforeach
-        </div>
-    </div> --}}
 </div>
 
 

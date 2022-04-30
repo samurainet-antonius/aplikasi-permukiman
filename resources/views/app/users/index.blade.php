@@ -63,10 +63,6 @@
                                         <a href="{{ route('users.edit', $user) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        @endcan @can('view', $user)
-                                        <a href="{{ route('users.show', $user) }}" class="mr-1 btn btn-secondary btn-sm">
-                                            <i class="fa fa-fw fa-eye"></i>
-                                        </a>
                                         @endcan @can('delete', $user)
                                         <form action="{{ route('users.destroy', $user) }}" method="POST"
                                             onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
