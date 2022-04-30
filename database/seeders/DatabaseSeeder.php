@@ -38,10 +38,6 @@ class DatabaseSeeder extends Seeder
             'nomer_hp' => '08999239159',
         ]);
 
-        $user->syncRoles('super-admin');
-
-
-
         $this->call([
             PermissionsSeeder::class,
             ProvincesSeeder::class,
