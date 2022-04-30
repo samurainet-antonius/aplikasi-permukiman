@@ -12,6 +12,7 @@ use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\StatusKumuhController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\EvaluasiController;
+use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeafletController;
 use Illuminate\Support\Facades\Artisan;
@@ -38,7 +39,7 @@ Route::post('/search-village', [LeafletController::class, 'selectVillage'])->nam
 require __DIR__.'/auth.php';
 
 Route::prefix('/l-app/')
-    ->middleware(['auth', 'role:super-admin'])
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('dashboard', function () {
@@ -59,6 +60,7 @@ Route::prefix('/l-app/')
         Route::resource('district', DistrictsController::class);
         Route::resource('village', VillageController::class);
         Route::resource('evaluasi', EvaluasiController::class);
+        Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);

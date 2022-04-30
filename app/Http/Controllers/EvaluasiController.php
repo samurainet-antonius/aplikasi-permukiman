@@ -22,7 +22,7 @@ class EvaluasiController extends Controller
 
         $search = $request->get('search', '');
 
-        $tahun = $request->has('tahun') ? $request->tahun : date("Y");
+        $tahun =  date("Y");
 
         $evaluasi = Evaluasi::where('tahun',$tahun)
             ->search($search)

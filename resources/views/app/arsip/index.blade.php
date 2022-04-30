@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@lang('crud.evaluasi.index_title')</h1>
+        <h1 class="h3 mb-0 text-gray-800">@lang('crud.arsip.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Evaluasi</li>
+            <li class="breadcrumb-item active" aria-current="page">Arsip evaluasi</li>
         </ol>
     </div>
 
@@ -21,19 +21,10 @@
                             </div>
                         </div>
                     </form>
-
-                    @can('create', App\Models\Evaluasi::class)
-                    <a href="{{ route('evaluasi.create') }}" class="btn btn-primary">
-                        <i class="mr-1 fa fa-solid fa-plus"></i>
-                        @lang('crud.common.create')
-                    </a>
-                    @endcan
-                    <hr/>
-                    <form action="{{ route('evaluasi.index') }}">
+                    <form action="{{ route('evaluasi.index') }}" class="float-left">
                         <div class="form-group">
-                            <label>Tahun</label>
                             <select class="select2-single form-control" name="tahun" id="tahun" onchange="submit()">
-                                @for($i=date("Y");$i>="2015";$i--)
+                                @for($i=date("Y")-1;$i>="2015";$i--)
                                     <option value="{{ $i; }}" {{ (Request::get('tahun') == $i) ? 'selected' : ''}}>{{ $i }}</option>
                                 @endfor
                             </select>
@@ -45,14 +36,14 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th>@lang('crud.evaluasi.inputs.no')</th>
-                                <th>@lang('crud.evaluasi.inputs.provinsi')</th>
-                                <th>@lang('crud.evaluasi.inputs.kota')</th>
-                                <th>@lang('crud.evaluasi.inputs.kecamatan')</th>
-                                <th>@lang('crud.evaluasi.inputs.desa')</th>
-                                <th>@lang('crud.evaluasi.inputs.status')</th>
-                                <th>@lang('crud.evaluasi.inputs.created_at')</th>
-                                <th>@lang('crud.evaluasi.inputs.updated_at')</th>
+                                <th>@lang('crud.arsip.inputs.no')</th>
+                                <th>@lang('crud.arsip.inputs.provinsi')</th>
+                                <th>@lang('crud.arsip.inputs.kota')</th>
+                                <th>@lang('crud.arsip.inputs.kecamatan')</th>
+                                <th>@lang('crud.arsip.inputs.desa')</th>
+                                <th>@lang('crud.arsip.inputs.status')</th>
+                                <th>@lang('crud.arsip.inputs.created_at')</th>
+                                <th>@lang('crud.arsip.inputs.updated_at')</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -85,11 +76,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        @can('update', $value)
-                                        <a href="{{ route('evaluasi.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
-                                            <i class="fa fa-solid fa-pen"></i>
-                                        </a>
-                                        @endcan @can('view', $value)
+                                        @can('view', $value)
                                         <a href="{{ route('evaluasi.show', $value) }}" class="mr-1 btn btn-secondary btn-sm">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>

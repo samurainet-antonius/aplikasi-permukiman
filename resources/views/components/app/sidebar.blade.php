@@ -16,7 +16,7 @@
         Features
       </div>
 
-      @if (Auth::user()->can('view-any', Spatie\Permission\Models\Role::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Permission::class))
+      @if (Auth::user()->can('view-any', App\Models\Evaluasi::class))
 
       <li class="nav-item">
         <a class="nav-link" href="{{ route('evaluasi.index') }}">
@@ -24,6 +24,17 @@
           <span>Evaluasi</span>
         </a>
       </li>
+
+      @endif
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('arsip.index') }}">
+          <i class="fas fa-fw fa-file-archive"></i>
+          <span>Arsip</span>
+        </a>
+      </li>
+
+      @if (Auth::user()->can('view-any', App\Models\Petugas::class) || Auth::user()->can('view-any', App\Models\Kriteria::class) || Auth::user()->can('view-any', App\Models\SubKriteria::class) || Auth::user()->can('view-any', App\Models\StatusKumuh::class))
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTableMaster" aria-expanded="true"
@@ -34,7 +45,7 @@
         <div id="collapseTableMaster" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
 
-            @can('view-any', Spatie\Permission\Models\Petugas::class)
+            @can('view-any', App\Models\Petugas::class)
                 <a class="collapse-item" href="{{ route('staff.index') }}">Staff</a>
             @endcan
 
@@ -42,18 +53,20 @@
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
             @endcan
 
-            @can('view-any', Spatie\Permission\Models\SubKriteria::class)
+            @can('view-any', App\Models\SubKriteria::class)
                 <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
             @endcan
 
-            @can('view-any', Spatie\Permission\Models\StatusKumuh::class)
+            @can('view-any', App\Models\StatusKumuh::class)
                 <a class="collapse-item" href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
             @endcan
 
           </div>
         </div>
       </li>
+      @endif
 
+      @if (Auth::user()->can('view-any', App\Models\User::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Role::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Permission::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Province::class) || Auth::user()->can('view-any', Spatie\Permission\Models\City::class) || Auth::user()->can('view-any', Spatie\Permission\Models\District::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Village::class))
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
           aria-controls="collapseTable">
@@ -94,6 +107,5 @@
           </div>
         </div>
       </li>
-
       @endif
     </ul>

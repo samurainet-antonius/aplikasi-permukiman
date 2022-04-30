@@ -3,48 +3,49 @@
 namespace App\Policies;
 
 use App\Models\Evaluasi;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EvaluasiPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(Evaluasi $evaluasi)
+    public function viewAny(User $user)
     {
-        return $evaluasi->hasPermissionTo('list evaluasi');
+        return $user->hasPermissionTo('list evaluasi');
     }
 
-    public function view(Evaluasi $evaluasi)
+    public function view(User $user,Evaluasi $evaluasi)
     {
-        return $evaluasi->hasPermissionTo('view evaluasi');
+        return $user->hasPermissionTo('view evaluasi');
     }
 
-    public function create(Evaluasi $evaluasi)
+    public function create(User $user)
     {
-        return $evaluasi->hasPermissionTo('create evaluasi');
+        return $user->hasPermissionTo('create evaluasi');
     }
 
-    public function update(Evaluasi $evaluasi)
+    public function update(User $user,Evaluasi $evaluasi)
     {
-        return $evaluasi->hasPermissionTo('update evaluasi');
+        return $user->hasPermissionTo('update evaluasi');
     }
 
-    public function delete(Evaluasi $evaluasi)
+    public function delete(User $user,Evaluasi $evaluasi)
     {
-        return $evaluasi->hasPermissionTo('delete evaluasi');
+        return $user->hasPermissionTo('delete evaluasi');
     }
 
-    public function deleteAny(Evaluasi $evaluasi)
+    public function deleteAny(User $user)
     {
-        return $evaluasi->hasPermissionTo('delete evaluasi');
+        return $user->hasPermissionTo('delete evaluasi');
     }
 
-    public function restore(Evaluasi $evaluasi)
+    public function restore(User $user,Evaluasi $evaluasi)
     {
         return false;
     }
 
-    public function forceDelete(Evaluasi $evaluasi, evaluasi $model)
+    public function forceDelete(User $user,Evaluasi $evaluasi)
     {
         return false;
     }
