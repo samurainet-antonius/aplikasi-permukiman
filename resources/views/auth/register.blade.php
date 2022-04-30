@@ -18,7 +18,10 @@
                         @csrf
                         <div>
                             <h5>Halo !</h5>
-                            <h5 class="text-green font-weight-bold">Selamat Pagi</h5>
+                            @php
+                                $says = says();
+                            @endphp
+                            <h5 class="text-green font-weight-bold">{{ $says }}</h5>
                         </div>
 
                         <div class="text-center my-4">

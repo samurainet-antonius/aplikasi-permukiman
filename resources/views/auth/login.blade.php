@@ -17,8 +17,11 @@
                     <form class="myForm user" method="post" action="{{ route('login-proses') }}">
                         @csrf
                         <div>
+                            @php
+                                $says = says();
+                            @endphp
                             <h5>Halo !</h5>
-                            <h5 class="text-green font-weight-bold">Selamat Pagi</h5>
+                            <h5 class="text-green font-weight-bold">{{ $says }}</h5>
                         </div>
 
                         <div class="text-center my-5">
