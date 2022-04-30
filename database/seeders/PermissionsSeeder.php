@@ -50,6 +50,12 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update subkriteria']);
         Permission::create(['name' => 'delete subkriteria']);
 
+        Permission::create(['name' => 'list staff']);
+        Permission::create(['name' => 'view staff']);
+        Permission::create(['name' => 'create staff']);
+        Permission::create(['name' => 'update staff']);
+        Permission::create(['name' => 'delete staff']);
+
         Permission::create(['name' => 'list status kumuh']);
         Permission::create(['name' => 'view status kumuh']);
         Permission::create(['name' => 'create status kumuh']);
