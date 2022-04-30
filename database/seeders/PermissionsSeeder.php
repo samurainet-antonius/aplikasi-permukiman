@@ -56,6 +56,42 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update evaluasi']);
         Permission::create(['name' => 'delete evaluasi']);
 
+        Permission::create(['name' => 'list province']);
+        Permission::create(['name' => 'view province']);
+        Permission::create(['name' => 'create province']);
+        Permission::create(['name' => 'update province']);
+        Permission::create(['name' => 'delete province']);
+
+        Permission::create(['name' => 'list city']);
+        Permission::create(['name' => 'view city']);
+        Permission::create(['name' => 'create city']);
+        Permission::create(['name' => 'update city']);
+        Permission::create(['name' => 'delete city']);
+
+        Permission::create(['name' => 'list district']);
+        Permission::create(['name' => 'view district']);
+        Permission::create(['name' => 'create district']);
+        Permission::create(['name' => 'update district']);
+        Permission::create(['name' => 'delete district']);
+
+        Permission::create(['name' => 'list village']);
+        Permission::create(['name' => 'view village']);
+        Permission::create(['name' => 'create village']);
+        Permission::create(['name' => 'update village']);
+        Permission::create(['name' => 'delete village']);
+
+        Permission::create(['name' => 'list staff']);
+        Permission::create(['name' => 'view staff']);
+        Permission::create(['name' => 'create staff']);
+        Permission::create(['name' => 'update staff']);
+        Permission::create(['name' => 'delete staff']);
+
+        Permission::create(['name' => 'list arsip']);
+        Permission::create(['name' => 'view arsip']);
+        Permission::create(['name' => 'create arsip']);
+        Permission::create(['name' => 'update arsip']);
+        Permission::create(['name' => 'delete arsip']);
+
         // Create admin role and assign all permissions
         $allPermissions = Permission::all();
         $adminRole = Role::create(['name' => 'super-admin']);

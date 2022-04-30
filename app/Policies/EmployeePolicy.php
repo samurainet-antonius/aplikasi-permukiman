@@ -11,32 +11,32 @@ class EmployeePolicy
 
     public function viewAny(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('list petugas');
+        return $petugas->hasPermissionTo('list staff');
     }
 
     public function view(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('view petugas');
+        return $petugas->hasPermissionTo('view staff');
     }
 
     public function create(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('create petugas');
+        return $petugas->hasPermissionTo('create staff');
     }
 
     public function update(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('update petugas');
+        return $petugas->hasPermissionTo('update staff');
     }
 
     public function delete(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('delete petugas');
+        return $petugas->hasPermissionTo('delete staff');
     }
 
     public function deleteAny(Petugas $petugas)
     {
-        return $petugas->hasPermissionTo('delete petugas');
+        return $petugas->hasPermissionTo('delete staff');
     }
 
     public function restore(Petugas $petugas)

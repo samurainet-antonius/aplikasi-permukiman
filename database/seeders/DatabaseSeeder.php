@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Petugas;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Laravolt\Indonesia\Seeds\CitiesSeeder;
@@ -20,45 +21,25 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Adding an admin user
-        $user = User::factory()
-            ->count(1)
-            ->create([
+        $user = User::create([
                 'email' => 'admin@admin.com',
                 'password' => Hash::make('admin'),
                 'slug' => 'admin'
-            ]);
-
-        User::create([
-            'name' => 'Admin Provinsi',
-            'slug' => 'admin-provinsi',
-            'email' => 'adminProvinsi@mail.com',
-            'region_code' => '12',
-            'password' => Hash::make('admin'),
         ]);
 
-        User::create([
-            'name' => 'Admin Kabupaten',
-            'slug' => 'admin-kabupaten',
-            'email' => 'adminKabupaten@mail.com',
-            'region_code' => '1207',
-            'password' => Hash::make('admin'),
+        $petugas = Petugas::create([
+            'users_id' => $user->id,
+            'province_code' => 12,
+            'city_code' => 1207,
+            'district_code' => '120701',
+            'village_code' => '1207012002',
+            'jabatan' => 'Superadmin',
+            'nomer_hp' => '08999239159',
         ]);
 
-        User::create([
-            'name' => 'Admin Kecamatan',
-            'slug' => 'admin-kecamatan',
-            'email' => 'adminKecamatan@mail.com',
-            'region_code' => '120701',
-            'password' => Hash::make('admin'),
-        ]);
+        $user->syncRoles('super-admin');
 
-        User::create([
-            'name' => 'Admin Kelurahan',
-            'slug' => 'admin-kelurahan',
-            'email' => 'adminKelurahan@mail.com',
-            'region_code' => '1207012001',
-            'password' => Hash::make('admin'),
-        ]);
+
 
         $this->call([
             PermissionsSeeder::class,
