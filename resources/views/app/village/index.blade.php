@@ -65,12 +65,12 @@
                         </div>
                     </form>
 
-                    {{-- @can('create', App\Models\Kriteria::class)
-                    <a href="{{ route('kriteria.create') }}" class="btn btn-primary">
+                    @can('create', App\Models\Village::class)
+                    <a href="{{ route('village.create') }}" class="btn btn-primary ml-3">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
                         @lang('crud.common.create')
                     </a>
-                    @endcan --}}
+                    @endcan
                 </div>
 
                 <div class="table-responsive">
@@ -85,6 +85,7 @@
                                 <th>@lang('crud.village.inputs.code')</th>
                                 <th>@lang('crud.village.inputs.latitude')</th>
                                 <th>@lang('crud.village.inputs.longitude')</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,6 +114,23 @@
                                 </td>
                                 <td>
                                     {{ $value->longitude ?? '-' }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @can('update', $value)
+                                        <a href="{{ route('village.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
+                                            <i class="fa fa-solid fa-pen"></i>
+                                        </a>
+                                        @endcan @can('delete', $value)
+                                        <form action="{{ route('village.destroy', $value) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                    </div>
                                 </td>
                             </tr>
                             @empty

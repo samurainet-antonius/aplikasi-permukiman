@@ -79,6 +79,12 @@
             }
         }
 
+        /* @media (min-width: 1500px) {
+            .top{
+                top: 30vh !important;
+            }
+        } */
+
 
 
     </style>

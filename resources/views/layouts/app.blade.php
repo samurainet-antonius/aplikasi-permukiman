@@ -117,6 +117,29 @@
 
     <script>
       $(document).ready(function(){
+
+        $("#province").on('change',function(){
+          var province = $(this).val();
+          $.ajax({
+            url:'<?= '/l-app/city/province'; ?>?province='+province,
+            method:'GET',
+            success:function(data){
+              $("#city").html(data)
+            }
+          })
+        })
+
+        $("#city").on('change',function(){
+          var city = $(this).val();
+          $.ajax({
+            url:'<?= '/l-app/district/city'; ?>?city='+city,
+            method:'GET',
+            success:function(data){
+              $("#district").html(data)
+            }
+          })
+        })
+
         $("#district").on('change',function(){
           var district = $(this).val();
           $.ajax({
@@ -127,6 +150,7 @@
             }
           })
         })
+
       })
     </script>
 </body>

@@ -46,6 +46,8 @@ Route::prefix('/l-app/')
             return view('dashboard');
         })->name('dashboard');
 
+        Route::get('city/province',[CityController::class,'city'])->name('city-province');
+        Route::get('district/city',[DistrictsController::class,'district'])->name('district-city');
         Route::get('village/district',[VillageController::class,'village'])->name('village-district');
 
         // Users
