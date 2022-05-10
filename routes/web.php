@@ -13,6 +13,7 @@ use App\Http\Controllers\StatusKumuhController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\EvaluasiController;
 use App\Http\Controllers\ArsipController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeafletController;
 use Illuminate\Support\Facades\Artisan;
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Artisan;
 // });
 
 Route::get('/', [LeafletController::class, 'index']);
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/village', [LeafletController::class, 'village'])->name('village.home');
 Route::post('/select-village', [LeafletController::class, 'formVillage'])->name('village.select');
 Route::post('/search-village', [LeafletController::class, 'selectVillage'])->name('village.search');

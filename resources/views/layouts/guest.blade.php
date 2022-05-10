@@ -14,6 +14,7 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('/assets/css/ruang-admin.css') }}">
@@ -23,6 +24,9 @@
         *{
             font-family: 'Poppins';
         }
+
+        #map { height: 100%; width: 100%;}
+
         .fs-14{
             font-size: 14px !important;
         }
@@ -32,14 +36,6 @@
         .text-green {
             color: #03A64A !important;
         }
-        .myForm {
-            /* min-width: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); */
-        }
-
         .section {
             padding: 2rem 20%;
         }
@@ -78,16 +74,9 @@
                 top: 28vh !important;
             }
         }
-
-        /* @media (min-width: 1500px) {
-            .top{
-                top: 30vh !important;
-            }
-        } */
-
-
-
     </style>
+
+    @stack('styles')
 
 </head>
 
