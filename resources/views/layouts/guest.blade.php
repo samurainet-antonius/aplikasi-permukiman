@@ -41,7 +41,7 @@
         }
 
         .top{
-            top: 25vh !important;
+            top: 25% !important;
         }
 
         .section:nth-child(2) {
@@ -59,19 +59,19 @@
 
         @media (min-width: 768px) {
             .top{
-                top: 18vh !important;
+                top: 18% !important;
             }
         }
 
         @media (min-width: 992px) {
             .top{
-                top: 25vh !important;
+                top: 20% !important;
             }
         }
 
         @media (min-width: 1200px) {
             .top{
-                top: 28vh !important;
+                top: 28% !important;
             }
         }
     </style>
