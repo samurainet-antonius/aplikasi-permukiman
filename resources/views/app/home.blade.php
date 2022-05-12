@@ -83,7 +83,7 @@
                 <div class="form-inline my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mr-4">
-                            <a href="" class="nav-link text-white">Kontak</a>
+                            <a href="{{ route('contact') }}" class="nav-link text-white">Kontak</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('login') }}" class="nav-link btn btn-outline-light text-white px-4">Masuk</a>
@@ -343,7 +343,7 @@
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: ''
         }).addTo(map);
 
         var markers = L.markerClusterGroup();
