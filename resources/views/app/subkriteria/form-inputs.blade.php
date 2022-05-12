@@ -13,14 +13,11 @@
 
     <div class="form-group">
         <label>Nama Subkriteria</label>
-        <input
-        type="text"
+        <textarea
         class="form-control"
         name="nama"
         value="{{ old('nama', ($editing ? $subkriteria->nama : '')) }}"
-        maxlength="255"
-        placeholder="Nama"
-        />
+        ></textarea>
     </div>
 
 </div>
