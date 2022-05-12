@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Artisan;
 //     return view('welcome');
 // });
 
-Route::get('/', [LeafletController::class, 'index']);
+Route::get('/', [LeafletController::class, 'index'])->name('home');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/village', [LeafletController::class, 'village'])->name('village.home');
 Route::post('/select-village', [LeafletController::class, 'formVillage'])->name('village.select');

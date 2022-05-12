@@ -35,8 +35,17 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 
     <style>
+        body{
+            background-color:white;
+        }
         *{
             font-family: 'Poppins';
+        }
+        #map {
+            position: absolute;
+            width: 100%;
+            right: 0;
+            height:100%;
         }
         .fs-14{
             font-size: 14px !important;
@@ -72,12 +81,16 @@
             <div class="collapse navbar-collapse">
 
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item row">
-                        <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
-                        <div class="fs-14 mt-2 ml-3 text-white">
-                            Dinas Perkim Deli Serdang Sumatera Utara
-                        </div>
-                    </li>
+                        <li class="nav-item row">
+                            <a href="{{ route('home') }}">
+                                <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
+                            </a>
+                            <div class="fs-14 mt-2 ml-3 text-white">
+                                <a href="{{ route('home') }}" class="text-white">
+                                    Dinas Perkim Deli Serdang Sumatera Utara
+                                </a>
+                            </div>
+                        </li>
                 </ul>
 
                 <div class="form-inline my-2 my-lg-0">
@@ -96,9 +109,9 @@
 
     </nav>
 
-    <div class="content" >
+    <div class="content container-fluid">
         <div class="row" style="height: 91vh !important;">
-            <div class="col-3 h-100 d-inline-block border bg-white">
+            <div class="col-3 h-100 d-inline-block bg-white">
                 <div class="container my-4">
                     <h5 class="font-weight-bold">Peta Online Kawasan Kumuh</h5>
                     <p class="my-4 fs-14">Selamat datang di layanan peta online kawasan kumuh Kabupaten Deli Serdang Sumatera Utara</p>
