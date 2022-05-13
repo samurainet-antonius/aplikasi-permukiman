@@ -21,11 +21,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <style>
+        body{
+            background-color:white;
+        }
         *{
             font-family: 'Poppins';
         }
-
-        #map { height: 100%; width: 100%;}
+        #map {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            height:100%;
+        }
 
         .fs-14{
             font-size: 14px !important;
@@ -80,7 +87,7 @@
 
 </head>
 
-<body class="bg-gradient-login">
+<body>
 
     {{ $slot }}
 

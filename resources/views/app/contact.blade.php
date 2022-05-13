@@ -18,9 +18,13 @@
 
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item row">
-                            <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
+                            <a href="{{ route('home') }}">
+                                <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
+                            </a>
                             <div class="fs-14 mt-2 ml-3 text-white">
-                                Dinas Perkim Deli Serdang Sumatera Utara
+                                <a href="{{ route('home') }}" class="text-white">
+                                    Dinas Perkim Deli Serdang Sumatera Utara
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -41,9 +45,9 @@
 
         </nav>
 
-        <div class="row" style="height: 91vh !important;">
+        <div class="row container-fluid" style="height: 91vh !important;">
             <div class="col-12 col-md-6 col-lg-6">
-                <div id="map"></div>
+                <div id="map" class="map"></div>
             </div>
             <div class="col-12 col-md-6 col-lg-6 bg-white p-5">
                 <div class="my-4">
