@@ -27,11 +27,50 @@ class EvaluasiController extends Controller
 
         $tahun =  date("Y");
 
-        $evaluasi = Evaluasi::where('tahun',$tahun)
+        $auth = Auth::user();
+        $user_id = $auth->id;
+
+        $petugas = Petugas::where('users_id',$user_id)->first();
+
+        if($auth->region_code == 1){
+            $evaluasi = Evaluasi::where([
+                ['tahun',$tahun],
+                ['city_code', $petugas->city_code]
+            ])
             ->search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();
+        }
+        elseif($auth->region_code == 2){
+            $evaluasi = Evaluasi::where([
+                ['tahun',$tahun],
+                ['city_code', $petugas->city_code],
+                ['district_code', $petugas->district_code]
+            ])
+            ->search($search)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+        }
+        elseif($auth->region_code == 3){
+            $evaluasi = Evaluasi::where([
+                ['tahun',$tahun],
+                ['city_code', $petugas->city_code],
+                ['district_code', $petugas->district_code],
+                ['village_code', $petugas->village_code],
+            ])
+            ->search($search)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+        }else{
+            $evaluasi = Evaluasi::where('tahun',$tahun)
+            ->search($search)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+        }
 
         return view('app.evaluasi.index', compact('evaluasi', 'search'));
     }
