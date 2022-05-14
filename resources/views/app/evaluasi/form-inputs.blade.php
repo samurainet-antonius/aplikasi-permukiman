@@ -34,12 +34,26 @@
             @endif
         </select>
     </div>
-
-    <div class="form-group">
-        <label>Villages</label>
-        <select class="select2-single form-control" name="village_code" id="village">
-        </select>
-    </div>
+    @if(Auth::user()->region_code == 3)
+        <div class="form-group">
+            <label>Villages</label>
+            <select class="select2-single form-control" name="village_code" id="village">
+                @if ($village)
+                    @foreach ($village as $val)
+                        <option value="{{$val->code}}" {{ (Request::get('village') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                    @endforeach
+                @else
+                    <option value="">Village no found</option>
+                @endif
+            </select>
+        </div>
+    @else
+        <div class="form-group">
+            <label>Villages</label>
+            <select class="select2-single form-control" name="village_code" id="village">
+            </select>
+        </div>
+    @endif
 
     <div class="form-group">
         <label>Tahun</label>

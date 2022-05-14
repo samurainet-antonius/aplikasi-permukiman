@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Petugas;
 use App\Models\City;
 use App\Models\Province;
 use App\Models\Village;
@@ -135,7 +136,7 @@ class UserController extends Controller
 
         $validated = $request->validated();
 
-        if (empty($validated['password'])) {
+        if (empty($request['password'])) {
             unset($validated['password']);
         } else {
             $validated['password'] = Hash::make($validated['password']);
@@ -147,6 +148,24 @@ class UserController extends Controller
             }
 
             $validated['avatar'] = $request->file('avatar')->store('public');
+        }
+
+        $role = Role::find($validated['roles']);
+
+        if($role['name'] == 'admin-provinsi' || $role['name'] == "super-admin"){
+            $validated['region_code'] = 0;
+        }
+            
+        if($role['name'] == 'admin-kabupaten'){
+            $validated['region_code'] = 1;
+        }
+    
+        if($role['name'] == 'admin-kecamatan'){
+            $validated['region_code'] = 2;
+        }
+    
+        if($role['name'] == 'admin-kelurahan'){
+            $validated['region_code'] = 3;
         }
 
         $user->update($validated);
@@ -171,6 +190,7 @@ class UserController extends Controller
             Storage::delete($user->avatar);
         }
 
+        Petugas::where('users_id',$user->id)->delete();
         $user->delete();
 
         return redirect()

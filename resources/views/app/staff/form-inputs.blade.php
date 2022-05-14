@@ -1,4 +1,4 @@
-@php $editing = isset($kriteria) @endphp
+@php $editing = isset($staff) @endphp
 @csrf
 <div class="flex flex-wrap mb-5">
     <h4 class="mb-4">Data diri</h4>
@@ -9,7 +9,7 @@
         type="text"
         class="form-control"
         name="name"
-        value="{{ old('name', ($editing ? $user->name : '')) }}"
+        value="{{ old('name', ($editing ? $staff->user->name : '')) }}"
         maxlength="255"
         placeholder="masukan nama"
         />
@@ -21,7 +21,7 @@
         type="text"
         class="form-control"
         name="jabatan"
-        value="{{ old('jabatan', ($editing ? $user->jabatan : '')) }}"
+        value="{{ old('jabatan', ($editing ? $staff->jabatan : '')) }}"
         maxlength="255"
         placeholder="masukan jabatan"
         />
@@ -33,7 +33,7 @@
         type="text"
         class="form-control"
         name="nomer_hp"
-        value="{{ old('nomer_hp', ($editing ? $user->nomer_hp : '')) }}"
+        value="{{ old('nomer_hp', ($editing ? $staff->nomer_hp : '')) }}"
         maxlength="255"
         placeholder="masukan nomer whatsapp"
         />
@@ -46,7 +46,7 @@
                 <select class="select2-single form-control" name="district" id="district">
                     <option>pilih kecamatan</option>
                     @foreach ($district as $val)
-                        <option value="{{ $val->code }}">{{ $val->name }}</option>
+                        <option value="{{ $val->code }}" {{ ($editing ? (($staff->district_code == $val->code) ? 'selected' : '') : '') }}>{{ $val->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -56,46 +56,12 @@
                 <label for="desa">Desa</label>
                 <select class="select2-single form-control" name="village" id="village">
                     <option>pilih desa</option>
+                    @foreach ($village as $val)
+                        <option value="{{ $val->code }}" {{ ($editing ? (($staff->village_code == $val->code) ? 'selected' : '') : '') }}>{{ $val->name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
-    </div>
-
-    
-    <h4 class="mb-4 mt-4">Akun</h4>
-    <hr>
-
-    <div class="form-group">
-        <label>Email</label>
-        <input
-        type="text"
-        class="form-control"
-        name="email"
-        value="{{ old('email', ($editing ? $user->email : '')) }}"
-        maxlength="255"
-        placeholder="masukan email"
-        />
-    </div>
-
-    <div class="form-group">
-        <label>Password</label>
-        <input
-        type="password"
-        class="form-control"
-        name="password"
-        value=""
-        maxlength="255"
-        placeholder="masukan password"
-        />
-    </div>
-
-    <div class="form-group">
-        <label>Assign @lang('crud.roles.name')</label>
-        <select class="select2-single form-control" name="roles" id="select2Single">
-            @foreach ($roles as $role)
-            <option value="{{$role->id}}" {{ ($editing ? (($user->hasRole($role)) ? 'selected' : '') : '') }}>{{$role->name}}</option>
-            @endforeach
-        </select>
     </div>
 
 </div>

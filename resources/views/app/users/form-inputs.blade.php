@@ -58,45 +58,4 @@
             @endforeach
         </select>
     </div>
-
-    <div class="form-group">
-        <label>Region Code</label>
-        <select class="livesearch form-control" name="region_code"></select>
-    </div>
 </div>
-
-
-<script type="text/javascript">
-
-    var roles = $("select[name=roles]").val();
-
-    $('.livesearch').select2({
-        placeholder: 'Select Region',
-        ajax: {
-            type:'POST',
-            url: '/l-app/live-search',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            // data: {roles: $("#select2Single :selected").val()},
-            data: function (params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page,
-                    roles: $("#select2Single :selected").val(),
-                };
-            },
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.code
-                        }
-                    })
-                };
-            },
-            cache: true
-        }
-    });
-</script>

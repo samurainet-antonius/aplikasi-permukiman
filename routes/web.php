@@ -66,6 +66,8 @@ Route::prefix('/l-app/')
         Route::resource('evaluasi', EvaluasiController::class);
         Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
+        
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
+        Route::post('/evaluasi/status/{evaluasi_id}', [EvaluasiController::class, 'changeSatatus'])->name('change-status');
     });

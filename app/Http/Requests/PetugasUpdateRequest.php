@@ -27,8 +27,6 @@ class PetugasUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', Rules\Password::defaults()],
             'district' => ['required'],
             'village' => ['required'],
             'jabatan' => ['required'],

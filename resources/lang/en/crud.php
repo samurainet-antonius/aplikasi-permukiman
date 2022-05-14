@@ -59,6 +59,7 @@ return [
             'avatar' => 'Avatar',
             'email' => 'Email',
             'password' => 'Password',
+            'role' => 'Role',
         ],
     ],
 

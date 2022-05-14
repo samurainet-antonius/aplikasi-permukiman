@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Petugas;
 use App\Models\Evaluasi;
+use App\Models\StatusKumuh;
 use App\Models\EvaluasiDetail;
 use App\Models\City;
 use App\Models\Districts;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EvaluasiStoreRequest;
 use Exception;
+use Auth;
 
 class EvaluasiController extends Controller
 {
@@ -41,20 +44,57 @@ class EvaluasiController extends Controller
     {
         $this->authorize('create', Evaluasi::class);
 
+        $auth = Auth::user();
+        $user_id = $auth->id;
+
+        $petugas = Petugas::where('users_id',$user_id)->first();
+        $city_code =  '1207';
+        $district_code = '12071';
+        if($auth->region_code == 1){
+            $city_code = $petugas->city_code;
+        }
+        elseif($auth->region_code == 2){
+            $city_code = $petugas->city_code;
+            $district_code = $petugas->district_code;
+        }
+        elseif($auth->region_code == 3){
+            $city_code = $petugas->city_code;
+            $district_code = $petugas->district_code;
+            $village_code = $petugas->village_code;
+        }
+
         $city = City::where([
             ['province_code', 12],
             ['code',1207]
         ])->orderBy('name', 'ASC')->get();
 
         $citySelected = $city->toArray();
-        $citySelected = $request->has('city') ? $request->city : '1207';
-
+        $citySelected = $request->has('city') ? $request->city : $city_code;
         $district = Districts::where('city_code', $citySelected)->orderBy('name', 'ASC')->get();
 
-        $districtSelected = $district->toArray();
-        $districtSelected = $request->has('district') ? $request->district : $districtSelected[0]['code'];
+        if($auth->region_code == 2 || $auth->region_code == 3){
+            $district = Districts::where([
+                ['city_code', $citySelected],
+                ['code',$district_code]
+            ])->orderBy('name', 'ASC')->get();
+        }
+        
 
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+        $districtSelected = $district->toArray();
+        $districtSelected = $request->has('district') ? $request->district : $district_code;
+
+        if($auth->region_code == 3){
+            $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+            ->where(function ($query) use ($request) {
+                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+            })
+            ->where('code',$village_code)
+            ->orderBy('district_code', 'ASC')
+            ->orderBy('code', 'ASC')
+            ->latest()
+            ->get();
+        }else{
+            $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
             })
@@ -62,6 +102,7 @@ class EvaluasiController extends Controller
             ->orderBy('code', 'ASC')
             ->latest()
             ->get();
+        }
 
         $kriteria = Kriteria::latest()->get();
 
@@ -121,7 +162,9 @@ class EvaluasiController extends Controller
                     ->groupBy('kriteria_id')
                     ->get();
 
-        return view('app.evaluasi.show', compact('evaluasi','kriteria'));
+        $status = StatusKumuh::get();
+
+        return view('app.evaluasi.show', compact('evaluasi','kriteria','status'));
     }
 
     /**
@@ -135,20 +178,57 @@ class EvaluasiController extends Controller
 
         $evaluasi = Evaluasi::find($id);
 
+        $auth = Auth::user();
+        $user_id = $auth->id;
+
+        $petugas = Petugas::where('users_id',$user_id)->first();
+        $city_code =  '1207';
+        $district_code = '12071';
+        if($auth->region_code == 1){
+            $city_code = $petugas->city_code;
+        }
+        elseif($auth->region_code == 2){
+            $city_code = $petugas->city_code;
+            $district_code = $petugas->district_code;
+        }
+        elseif($auth->region_code == 3){
+            $city_code = $petugas->city_code;
+            $district_code = $petugas->district_code;
+            $village_code = $petugas->village_code;
+        }
+
         $city = City::where([
             ['province_code', 12],
             ['code',1207]
         ])->orderBy('name', 'ASC')->get();
 
         $citySelected = $city->toArray();
-        $citySelected = $request->has('city') ? $request->city : '1207';
-
+        $citySelected = $request->has('city') ? $request->city : $city_code;
         $district = Districts::where('city_code', $citySelected)->orderBy('name', 'ASC')->get();
+        
+        if($auth->region_code == 2 || $auth->region_code == 3){
+            $district = Districts::where([
+                ['city_code', $citySelected],
+                ['code',$district_code]
+            ])->orderBy('name', 'ASC')->get();
+        }
+        
 
         $districtSelected = $district->toArray();
-        $districtSelected = $request->has('district') ? $request->district : $districtSelected[0]['code'];
+        $districtSelected = $request->has('district') ? $request->district : $district_code;
 
-        $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+        if($auth->region_code == 3){
+            $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
+            ->where(function ($query) use ($request) {
+                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+            })
+            ->where('code',$village_code)
+            ->orderBy('district_code', 'ASC')
+            ->orderBy('code', 'ASC')
+            ->latest()
+            ->get();
+        }else{
+            $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
             ->where(function ($query) use ($request) {
                 return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
             })
@@ -156,6 +236,7 @@ class EvaluasiController extends Controller
             ->orderBy('code', 'ASC')
             ->latest()
             ->get();
+        }
 
         $kriteria = Kriteria::latest()->get();
 
@@ -203,7 +284,6 @@ class EvaluasiController extends Controller
             ->route('evaluasi.index')
             ->withSuccess(__('crud.common.created'));
         }catch(Exception $e){
-            dd($e->getMessage());
             DB::rollback();
             return redirect()
             ->route('evaluasi.update',['id' => $id])
@@ -222,5 +302,27 @@ class EvaluasiController extends Controller
         return redirect()
             ->route('evaluasi.index')
             ->withSuccess(__('crud.common.removed'));
+    }
+
+    public function changeSatatus(Request $request,$evaluasi_id){
+
+        $status = StatusKumuh::find($request->status);
+        $evaluasi = Evaluasi::find($evaluasi_id);
+
+        DB::beginTransaction();
+        try{
+            $data['status_id']  = $status->id;
+            Evaluasi::where('id',$evaluasi_id)->update($data);
+            DB::commit();
+
+            return redirect()
+            ->route('evaluasi.index')
+            ->withSuccess(__('crud.common.created'));
+        }catch(Exception $e){
+            DB::rollback();
+            return redirect()
+            ->route('evaluasi',['id' => $evaluasi_id])
+            ->withErrors(__('crud.common.errors'));
+        }
     }
 }

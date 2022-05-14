@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="row bg-white" style="height: 100vh !important;">
+    <div class="row container-fluid bg-white" style="height: 100vh !important;">
         <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
             <img src="{{ asset('assets/img/login1.png') }}" class="img" style="" alt="">
 

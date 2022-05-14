@@ -25,7 +25,7 @@ class EvaluasiPolicy
         return $user->hasPermissionTo('create evaluasi');
     }
 
-    public function update(User $user,Evaluasi $evaluasi)
+    public function update(User $user)
     {
         return $user->hasPermissionTo('update evaluasi');
     }

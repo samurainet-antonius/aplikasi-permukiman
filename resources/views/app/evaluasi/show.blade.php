@@ -35,7 +35,20 @@
                         <dd class="col-sm-9">{{ $evaluasi->village->name ?? '-' }}</dd>
 
                         <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
-                        <dd class="col-sm-9">{{ $evaluasi->status->nama ?? '-' }}</dd>
+                        <dd class="col-sm-9">
+                            <form action="{{ route('change-status',$evaluasi->id) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <select name="status" class="form-control" onchange="submit()" require>
+                                        <option value="">- Pilih Status Kumuh -</option>
+                                        @foreach($status as $v)
+                                            <option value="{{ $v->id }}" {{ ($evaluasi->status_id == $v->id ) ? 'selected' : '' }}>{{ $v->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </form>
+
+                        </dd>
                     </dl>
                     <h4>Data</h4>
                     <hr/>
