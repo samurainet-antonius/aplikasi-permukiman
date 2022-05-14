@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Nama lengkap</label>
-                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan username" />
+                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan nama lengkap" />
                         </div>
                         <div class="row">
                             <div class="col-6">
