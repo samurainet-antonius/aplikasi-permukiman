@@ -18,7 +18,10 @@
                             <div class="form-group">
                                 <label>Kecamatan</label>
                                 <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
-                                    <option value="12">SUMATERA UTARA</option>
+                                    <option>Semua Kecamatan</option>
+                                    <option>Gunung Meriah</option>
+                                    <option>Tanjung Morawa</option>
+                                    <option>Sibolangit</option>
                                 </select>
                             </div>
                         </div>
@@ -27,7 +30,10 @@
                             <div class="form-group">
                                 <label>Desa</label>
                                 <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
-                                    <option value="12">SUMATERA UTARA</option>
+                                    <option>Semua Desa</option>
+                                    <option>Bintang Meriah</option>
+                                    <option>Kuta Tengah</option>
+                                    <option>Marjanji Pematang</option>
                                 </select>
                             </div>
                         </div>
@@ -66,9 +72,7 @@
                     text: ''
                 },
                 xAxis: {
-                    categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                        'October', 'November', 'December'
-                    ]
+                    categories: ['2018', '2019', '2020', '2021', '2022']
                 },
                 yAxis: {
                     title: {
@@ -89,20 +93,17 @@
                     }
                 },
                 series: [{
-                        name: 'Installation',
-                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                        name: 'Tidak kumuh',
+                        data: [43934, 52503, 57177, 69658, 97031]
                     }, {
-                        name: 'Manufacturing',
-                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                        name: 'Kumuh ringan',
+                        data: [24916, 24064, 29742, 29851, 32490]
                     }, {
-                        name: 'Sales & Distribution',
-                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                        name: 'Kumuh sedang',
+                        data: [11744, 17722, 16005, 19771, 20185]
                     }, {
-                        name: 'Project Development',
-                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                    }, {
-                        name: 'Other',
-                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                        name: 'Kumuh berat',
+                        data: [null, null, 7988, 12169, 15112]
                     }],
                 responsive: {
                     rules: [{
