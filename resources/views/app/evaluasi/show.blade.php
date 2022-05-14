@@ -36,6 +36,9 @@
 
                         <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
                         <dd class="col-sm-9">
+
+                            @if(Auth::user()->roles[0]->name == "super-admin" || Auth::user()->roles[0]->name == "admin-provinsi" || Auth::user()->roles[0]->name == "admin-kabupaten")
+                            
                             <form action="{{ route('change-status',$evaluasi->id) }}" method="POST">
                                 @csrf
                                 <div class="form-group">
@@ -47,6 +50,10 @@
                                     </select>
                                 </div>
                             </form>
+
+                            @else
+                                {{ $evaluasi->status->nama }}
+                            @endif
 
                         </dd>
                     </dl>
