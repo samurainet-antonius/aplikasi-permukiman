@@ -27,7 +27,10 @@
                         <div class="text-center my-4">
                             <h4 class=""><span class="font-weight-bold text-green">Buat Akun</span> untuk dapat masuk</h4>
                         </div>
-
+                        <div class="form-group">
+                            <label for="name">Nama lengkap</label>
+                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan username" />
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -56,10 +59,6 @@
                         <div class="form-group">
                             <label for="nomer_hp">Nomer Whatsapp</label>
                             <input class="form-control input-lg" type="number" name="nomer_hp" placeholder="masukan nomer whatsapp" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Username</label>
-                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan username" />
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
