@@ -10,11 +10,6 @@
     <div class="row">
         <div class="col-lg-12 mb-4">
             <div class="card">
-                <?php $exif = exif_read_data(asset('assets/img/example.jpg'), 0, true);
-                echo "<pre>";
-                print_r($exif);
-                echo "</pre>";
-                ?>
                 <div class="card-body">
                     <form method="POST">
                         @csrf
