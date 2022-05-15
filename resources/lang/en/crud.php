@@ -82,7 +82,8 @@ return [
         'new_title' => 'New Staff',
         'create_title' => 'Create Staff',
         'edit_title' => 'Edit Staff',
-        'show_title' => 'Show Staff',
+        'profile_title' => 'Edit Profile',
+        'show_title' => 'Profile',
         'inputs' => [
             'no' => 'No',
             'nama' => 'Nama',

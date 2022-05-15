@@ -52,6 +52,12 @@ Route::prefix('/l-app/')
         Route::get('district/city',[DistrictsController::class,'district'])->name('district-city');
         Route::get('village/district',[VillageController::class,'village'])->name('village-district');
 
+        Route::get('profil',[UserController::class,'profil'])->name('profil');
+        Route::get('setting/profil',[UserController::class,'profilChange'])->name('setting-profil');
+        Route::post('setting/profil',[UserController::class,'updateProfile']);
+        Route::get('setting/password',[UserController::class,'setting'])->name('setting');
+        Route::post('setting/password',[UserController::class,'settingPassword']);
+
         // Users
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
