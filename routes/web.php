@@ -16,6 +16,7 @@ use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeafletController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +45,11 @@ Route::prefix('/l-app/')
     ->middleware('auth')
     ->group(function () {
 
-        Route::get('dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        // Route::get('dashboard', function () {
+        //     return view('dashboard');
+        // })->name('dashboard');
+
+        Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
 
         Route::get('city/province',[CityController::class,'city'])->name('city-province');
         Route::get('district/city',[DistrictsController::class,'district'])->name('district-city');
@@ -72,7 +75,7 @@ Route::prefix('/l-app/')
         Route::resource('evaluasi', EvaluasiController::class);
         Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
-        
+
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
         Route::post('/evaluasi/status/{evaluasi_id}', [EvaluasiController::class, 'changeSatatus'])->name('change-status');

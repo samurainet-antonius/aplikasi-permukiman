@@ -53,7 +53,8 @@ class LeafletController extends Controller
 
     public function village(Request $request)
     {
-        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"));
+        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', 'status_kumuh.nama as status', 'warna',
+            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"));
 
         // if($request->district_code) {
         //     $query = $query->leftJoin('indonesia_districts', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
@@ -65,10 +66,15 @@ class LeafletController extends Controller
         //         ->get();
         // }
 
+
         $district = Districts::select('code')->where('city_code', 1207)->get();
 
+        $query = $query->join('evaluasi', 'evaluasi.village_code', '=', 'indonesia_villages.code');
+        $query = $query->join('status_kumuh', 'status_kumuh.id', '=', 'evaluasi.status_id');
+
         $query = $query->leftJoin('indonesia_districts', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
-            ->whereIn('district_code', $district->toArray())
+            ->where('evaluasi.deleted_at', null)
+            ->whereIn('indonesia_villages.district_code', $district->toArray())
             ->get();
 
         // $query = Village::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))

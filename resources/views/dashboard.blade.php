@@ -17,11 +17,11 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>Kecamatan</label>
-                                <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
-                                    <option>Semua Kecamatan</option>
-                                    <option>Gunung Meriah</option>
-                                    <option>Tanjung Morawa</option>
-                                    <option>Sibolangit</option>
+                                <select class="select2-single form-control" name="district_code" id="district">
+                                    <option>Pilih Kecamatan</option>
+                                    @foreach ($district as $val)
+                                        <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -29,11 +29,14 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>Desa</label>
-                                <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
-                                    <option>Semua Desa</option>
-                                    <option>Bintang Meriah</option>
-                                    <option>Kuta Tengah</option>
-                                    <option>Marjanji Pematang</option>
+                                <select class="select2-single form-control" name="village_code" id="{{ $village == '' ? 'village' : '' }}">
+                                    <option>Pilih Desa</option>
+
+                                    @if ($village)
+                                        @foreach ($village as $val)
+                                            <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -42,7 +45,9 @@
                             <div class="form-group">
                                 <label>Rentang Tahun</label>
                                 <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
-                                    <option value="12">5</option>
+                                    <option value="5">5 Tahun</option>
+                                    <option value="4">4 Tahun</option>
+                                    <option value="3">3 Tahun</option>
                                 </select>
                             </div>
                         </div>

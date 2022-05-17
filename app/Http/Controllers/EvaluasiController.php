@@ -117,7 +117,7 @@ class EvaluasiController extends Controller
                 ['code',$district_code]
             ])->orderBy('name', 'ASC')->get();
         }
-        
+
 
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $district_code;
@@ -167,7 +167,7 @@ class EvaluasiController extends Controller
 
                 foreach ($details as $subkriteriaID => $value) {
 
-                    $subkriteria = SubKriteria::find($subkriteriaID);    
+                    $subkriteria = SubKriteria::find($subkriteriaID);
 
                     EvaluasiDetail::insert(array(
                         'kriteria_id' => $kriteriaID,
@@ -190,7 +190,7 @@ class EvaluasiController extends Controller
             ->route('evaluasi.create')
             ->withErrors(__('crud.common.errors'));
         }
-        
+
     }
 
     public function show(Request $request, Evaluasi $evaluasi)
@@ -244,14 +244,14 @@ class EvaluasiController extends Controller
         $citySelected = $city->toArray();
         $citySelected = $request->has('city') ? $request->city : $city_code;
         $district = Districts::where('city_code', $citySelected)->orderBy('name', 'ASC')->get();
-        
+
         if($auth->region_code == 2 || $auth->region_code == 3){
             $district = Districts::where([
                 ['city_code', $citySelected],
                 ['code',$district_code]
             ])->orderBy('name', 'ASC')->get();
         }
-        
+
 
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $district_code;
@@ -305,7 +305,7 @@ class EvaluasiController extends Controller
 
                 foreach ($details as $subkriteriaID => $value) {
 
-                    $subkriteria = SubKriteria::find($subkriteriaID);    
+                    $subkriteria = SubKriteria::find($subkriteriaID);
 
                     EvaluasiDetail::insert(array(
                         'kriteria_id' => $kriteriaID,

@@ -25,6 +25,7 @@
     <div class="form-group">
         <label>Districts</label>
         <select class="select2-single form-control" name="district_code" id="district">
+            <option value="">Select District</option>
             @if ($district)
                 @foreach ($district as $val)
                     <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
@@ -79,3 +80,6 @@
     @endforelse
 
 </div>
+
+<script>
+</script>

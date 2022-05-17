@@ -374,8 +374,10 @@
                     const pos = new L.LatLng(val.latitude,val.longitude);
                     const title = val.name;
                     const kec = val.kecamatan;
-                    const color = colorMarker[Math.floor(Math.random() * colorMarker.length)];
-                    style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color.color+'; border-radius: 50%; display: inline-block; }';
+                    const color = val.warna;
+                    const status = val.status;
+                    const icon = '<i class="far fa-check-circle"></i>';
+                    style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({
                         className: 'color-'+i+'',
@@ -389,9 +391,9 @@
                         `<div class="bg-white border" style="margin: -25px !important;">
                             <img src="{{ asset("assets/img/modal.png") }}" class="img-fluid" alt="">
                             <div class="text-center fa-7x mx-3">
-                                <div class="mb-4" style="color: ${color.color};">
-                                    ${color.icon}
-                                    <h4 class="font-weight-bold">${color.status}</h4>
+                                <div class="mb-4" style="color: ${color};">
+                                    ${icon}
+                                    <h4 class="font-weight-bold">${status}</h4>
                                 </div>
                                 <div style="margin-bottom: -30px !important;">
                                     <h5>DESA ${title}</h5>
