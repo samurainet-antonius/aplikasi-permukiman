@@ -100,8 +100,8 @@
                                     @foreach($kriteria as $z)
                                         <td>
                                         @foreach($evaluasi->evaluasidetail as $x)
-                                            <dt class="col-sm-3">{{ $x->nama_subkriteria }}</dt>
-                                            <dd class="col-sm-9">{{ $x->jawaban }}</dd>
+                                            <dt class="col-sm-12">{{ $x->nama_subkriteria }}</dt>
+                                            <dd class="col-sm-12">{{ $x->jawaban }}</dd>
                                         @endforeach
                                         </td>
                                     @endforeach
