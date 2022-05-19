@@ -203,7 +203,11 @@ class EvaluasiController extends Controller
 
         $status = StatusKumuh::get();
 
-        return view('app.evaluasi.show', compact('evaluasi','kriteria','status'));
+        $village = Village::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"))
+            ->where('code', $evaluasi->village_code)
+            ->first();
+
+        return view('app.evaluasi.show', compact('evaluasi','kriteria','status', 'village'));
     }
 
     /**
