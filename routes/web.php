@@ -78,6 +78,7 @@ Route::prefix('/l-app/')
 
         Route::get('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaCreate'])->name('evaluasi.create.kriteria');
         Route::post('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaStore'])->name('evaluasi.store.kriteria');
+        Route::get('evaluasi/{evaluasi_id}/kriteria/{page}/{id}',[EvaluasiController::class, 'destroyFotoEvaluasi'])->name('evaluasi.delete.foto');
 
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
