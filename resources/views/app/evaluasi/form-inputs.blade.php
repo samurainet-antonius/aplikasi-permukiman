@@ -65,7 +65,7 @@
         </select>
     </div>
 
-    <h3>Data</h3>
+    {{-- <h3>Data</h3>
     <hr/>
     @forelse($kriteria as $key => $value)
         <h5 class="mt-3 mb-4">{{ $value->nama }}</h5>
@@ -77,7 +77,7 @@
         @endforeach
     @empty
         @lang('crud.common.no_items_found')
-    @endforelse
+    @endforelse --}}
 
 </div>
 

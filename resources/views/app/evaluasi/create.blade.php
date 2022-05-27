@@ -28,9 +28,14 @@
                             </a>
 
                             <button type="submit" class="btn btn-primary float-right">
-                                <i class="mr-1 fa fa-soldi fa-save"></i>
-                                @lang('crud.common.create')
+                                {{-- <i class="mr-1 fa fa-soldi fa-save"></i> --}}
+                                {{-- @lang('crud.common.create') --}}
+                                Selanjutnya
                             </button>
+
+                            {{-- <a href="{{ route('evaluasi.create.kriteria', 0) }}" class="btn btn-primary float-right">
+                                Selanjutnya
+                            </a> --}}
                         </div>
                     </form>
                 </div>

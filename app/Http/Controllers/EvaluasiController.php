@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EvaluasiKriteriaStoreRequest;
 use App\Models\Petugas;
 use App\Models\Evaluasi;
 use App\Models\StatusKumuh;
@@ -81,6 +82,7 @@ class EvaluasiController extends Controller
      */
     public function create(Request $request)
     {
+        ini_set('memory_limit', '2048M');
         $this->authorize('create', Evaluasi::class);
 
         $auth = Auth::user();
@@ -148,18 +150,91 @@ class EvaluasiController extends Controller
         return view('app.evaluasi.create',compact('village', 'city', 'district','kriteria'));
     }
 
+    public function kriteriaCreate(Request $request, $evaluasi_id, $page)
+    {
+        $kriteria = Kriteria::latest()->get();
+        $kriteria = $kriteria->toArray();
+
+        $kriteriaId = $kriteria[$page]['id'];
+        $subkriteria = SubKriteria::where('kriteria_id', $kriteriaId)->get();
+
+        foreach($subkriteria as $key => $val) {
+            $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaId)->where('subkriteria_id', $val->id)->first();
+
+            if($evaluasiDetail) {
+                $val->evaluasi = $evaluasiDetail->jawaban;
+            } else {
+                $val->evaluasi = '';
+            }
+        }
+
+        $data = [
+            'next' => $page + 1,
+            'prev' => $page - 1,
+            'count' => count($kriteria),
+            'evaluasi' => $evaluasi_id
+        ];
+
+        $kriteria = $kriteria[$page];
+
+        return view('app.evaluasi.form-kriteria', compact('data', 'subkriteria', 'kriteria'));
+    }
+
     public function store(EvaluasiStoreRequest $request)
     {
         $this->authorize('create', Evaluasi::class);
 
         $validated = $request->validated();
 
-        $evaluasiDetail = $validated['jawaban'];
-        unset($validated['jawaban']);
+        // $evaluasiDetail = $validated['jawaban'];
+        // unset($validated['jawaban']);
 
         DB::beginTransaction();
         try{
             $evaluasi = Evaluasi::create($validated);
+
+            // foreach ($evaluasiDetail as $kriteriaID => $details) {
+
+            //     $kriteria = Kriteria::find($kriteriaID);
+
+            //     foreach ($details as $subkriteriaID => $value) {
+
+            //         $subkriteria = SubKriteria::find($subkriteriaID);
+
+            //         EvaluasiDetail::insert(array(
+            //             'kriteria_id' => $kriteriaID,
+            //             'nama_kriteria' => $kriteria->nama,
+            //             'subkriteria_id' => $subkriteriaID,
+            //             'nama_subkriteria' => $subkriteria->nama,
+            //             'jawaban' => $value,
+            //             'evaluasi_id'=> $evaluasi->id,
+            //             'created_at' => date("Y-m-d H:i:s")
+            //         ));
+            //     }
+            // }
+            DB::commit();
+            return redirect()
+            ->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi, 'page' => 0]);
+            // ->withSuccess(__('crud.common.created'));
+        }catch(Exception $e){
+            DB::rollback();
+            return redirect()
+            ->route('evaluasi.create')
+            ->withErrors(__('crud.common.errors'));
+        }
+
+    }
+
+    public function kriteriaStore(EvaluasiKriteriaStoreRequest $request,$evaluasi_id, $page)
+    {
+        $validated = $request->validated();
+
+        $evaluasiDetail = $validated['jawaban'];
+        unset($validated['jawaban']);
+        $count = Kriteria::latest()->get()->count();
+
+        DB::beginTransaction();
+        try {
 
             foreach ($evaluasiDetail as $kriteriaID => $details) {
 
@@ -168,29 +243,42 @@ class EvaluasiController extends Controller
                 foreach ($details as $subkriteriaID => $value) {
 
                     $subkriteria = SubKriteria::find($subkriteriaID);
+                    $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaID)->where('subkriteria_id', $subkriteriaID)->first();
 
-                    EvaluasiDetail::insert(array(
-                        'kriteria_id' => $kriteriaID,
-                        'nama_kriteria' => $kriteria->nama,
-                        'subkriteria_id' => $subkriteriaID,
-                        'nama_subkriteria' => $subkriteria->nama,
-                        'jawaban' => $value,
-                        'evaluasi_id'=> $evaluasi->id,
-                        'created_at' => date("Y-m-d H:i:s")
-                    ));
+                    if($evaluasiDetail) {
+                        EvaluasiDetail::find($evaluasiDetail->id)->update(array(
+                            'jawaban' => $value,
+                            'updated_at' => date("Y-m-d H:i:s")
+                        ));
+                    } else {
+                        EvaluasiDetail::insert(array(
+                            'kriteria_id' => $kriteriaID,
+                            'nama_kriteria' => $kriteria->nama,
+                            'subkriteria_id' => $subkriteriaID,
+                            'nama_subkriteria' => $subkriteria->nama,
+                            'jawaban' => $value,
+                            'evaluasi_id'=> $evaluasi_id,
+                            'created_at' => date("Y-m-d H:i:s")
+                        ));
+                    }
+
                 }
             }
             DB::commit();
-            return redirect()
-            ->route('evaluasi.index')
-            ->withSuccess(__('crud.common.created'));
-        }catch(Exception $e){
+
+            if($count == $page) {
+                return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
+            } else {
+                return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
+            }
+
+            // ->withSuccess(__('crud.common.created'));
+        } catch (Exception $e) {
             DB::rollback();
             return redirect()
-            ->route('evaluasi.create')
-            ->withErrors(__('crud.common.errors'));
+                ->route('evaluasi.create')
+                ->withErrors(__('crud.common.errors'));
         }
-
     }
 
     public function show(Request $request, Evaluasi $evaluasi)

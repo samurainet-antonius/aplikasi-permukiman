@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EvaluasiStoreRequest extends FormRequest
+class EvaluasiKriteriaStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,7 @@ class EvaluasiStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'province_code' => ['required'],
-            'city_code' => ['required'],
-            'district_code' => ['required'],
-            'village_code' => ['required'],
-            'tahun' => ['required'],
-            // 'jawaban' => ['required'],
+            'jawaban' => ['required'],
         ];
     }
 }

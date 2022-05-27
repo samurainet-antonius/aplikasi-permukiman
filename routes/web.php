@@ -76,6 +76,9 @@ Route::prefix('/l-app/')
         Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
 
+        Route::get('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaCreate'])->name('evaluasi.create.kriteria');
+        Route::post('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaStore'])->name('evaluasi.store.kriteria');
+
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
         Route::post('/evaluasi/status/{evaluasi_id}', [EvaluasiController::class, 'changeSatatus'])->name('change-status');
