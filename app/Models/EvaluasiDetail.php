@@ -18,4 +18,14 @@ class EvaluasiDetail extends Model
     protected $fillable = ['evaluasi_id','kriteria_id', 'nama_kriteria','subkriteria_id','nama_subkriteria','jawaban','created_at','updated_at'];
 
     protected $searchableFields = ['*'];
+
+    public function kriteria()
+    {
+        return $this->belongsTo('App\Models\Kriteria');
+    }
+
+    public function subkriteria()
+    {
+        return $this->belongsTo('App\Models\SubKriteria');
+    }
 }

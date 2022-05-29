@@ -30,4 +30,9 @@ class SubKriteria extends Model
     {
         return $this->hasRole('super-admin');
     }
+
+    public function evaluasiDetail()
+    {
+        return $this->hasMany('App\Models\EvaluasiDetail');
+    }
 }

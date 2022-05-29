@@ -26,6 +26,11 @@ class Kriteria extends Model
         return $this->hasMany('App\Models\SubKriteria');
     }
 
+    public function evaluasiDetail()
+    {
+        return $this->hasMany('App\Models\EvaluasiDetail');
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');

@@ -314,6 +314,16 @@ class EvaluasiController extends Controller
                     ->groupBy('kriteria_id')
                     ->get();
 
+        foreach($kriteria as $val) {
+            $val->evaluasi = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+                ->where('kriteria_id', $val->kriteria_id)
+                ->get();
+
+            $val->foto = EvaluasiFoto::where('evaluasi_id', $evaluasi->id)
+                ->where('kriteria_id', $val->kriteria_id)
+                ->get();
+        }
+
         $status = StatusKumuh::get();
 
         $village = Village::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"))

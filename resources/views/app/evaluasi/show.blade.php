@@ -86,7 +86,7 @@
                     </div>
                     <h4>Data</h4>
                     <hr/>
-                    <div class="table-responsive">
+                    {{-- <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -108,6 +108,43 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div> --}}
+
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kriteria</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($kriteria as $key => $value)
+                                <tr>
+                                    <td>
+                                        {{ $key+1 }}
+                                    </td>
+                                    <td>
+                                        {{ $value->nama_kriteria }}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="mr-1 btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-{{$value->id}}">
+                                                <i class="fa fa-solid fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3">
+                                        @lang('crud.common.no_items_found')
+                                    </td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
                     </div>
                     <br/>
                     <div class="mt-10">
@@ -124,6 +161,41 @@
             </div>
         </div>
     </div>
+
+
+    @foreach ($kriteria as $value)
+    <div class="modal fade" id="modal-{{$value->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Kriteria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @foreach ($value->evaluasi as $item)
+                    <div class="mb-3">
+                        <p class="font-weight-bold">{{ $item->nama_subkriteria }}</p>
+                        <p><i class="fas fa-circle mr-2"></i> {{ $item->jawaban }}</p>
+                    </div>
+                @endforeach
+
+                <div class="row mt-5">
+                    @foreach ($value->foto as $val)
+                        <div class="col-6">
+                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     <script type="text/javascript">
         var latitude = '{{ $village->latitude }}';
