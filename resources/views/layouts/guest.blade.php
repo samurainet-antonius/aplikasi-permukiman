@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/ruang-admin.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    {!! ReCaptcha::htmlScriptTagJsApi() !!}
+
     <style>
         body{
             background-color:white;

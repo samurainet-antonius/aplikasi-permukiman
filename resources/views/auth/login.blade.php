@@ -37,9 +37,18 @@
                             <input class="form-control input-lg" type="password" name="password" placeholder="password" />
                         </div>
                         <div class="form-group">
-                            <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
-                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                <label class="custom-control-label" for="customCheck">Ingat akun saya</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                                        <label class="custom-control-label" for="customCheck">Ingat akun saya</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="float-right">
+                                        <a class="font-weight-bold text-dark" href="{{ route('password.request') }}">Lupa password ?</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
