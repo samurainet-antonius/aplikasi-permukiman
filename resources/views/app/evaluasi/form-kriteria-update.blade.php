@@ -15,7 +15,7 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('evaluasi.store.kriteria', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next']]) }}" has-files class="mt-4" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('evaluasi.update.kriteria', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next']]) }}" has-files class="mt-4" enctype="multipart/form-data">
 
                         @csrf
                         <div class="flex flex-wrap mb-5">
@@ -63,7 +63,7 @@
                                     <div class="border border-danger text-danger rounded p-2 mt-2 py-3 col-6">
                                         {{ $val->foto }}
 
-                                        <a href="{{ route('evaluasi.delete.foto.create', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next'], 'id' => $val->id ]) }}" class="btn btn-danger btn-sm float-right ml-2">
+                                        <a href="{{ route('evaluasi.delete.foto.edit', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next'], 'id' => $val->id ]) }}" class="btn btn-danger btn-sm float-right ml-2">
                                             <i class="fa fa-solid fa-trash"></i>
                                         </a>
                                         <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#modal-{{$val->id}}">
@@ -89,11 +89,11 @@
                         <div class="mt-10">
 
                             @if ($data['next'] != 1)
-                                <a href="{{ route('evaluasi.create.kriteria', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['prev']]) }}" class="btn btn-primary">
+                                <a href="{{ route('evaluasi.edit.kriteria', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['prev']]) }}" class="btn btn-primary">
                                     Kembali
                                 </a>
                             @else
-                                <a href="{{ route('evaluasi.create') }}" class="btn btn-primary">
+                                <a href="{{ route('evaluasi.edit', $data['evaluasi']) }}" class="btn btn-primary">
                                     Kembali
                                 </a>
                             @endif

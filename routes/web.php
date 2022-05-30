@@ -78,7 +78,12 @@ Route::prefix('/l-app/')
 
         Route::get('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaCreate'])->name('evaluasi.create.kriteria');
         Route::post('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaStore'])->name('evaluasi.store.kriteria');
-        Route::get('evaluasi/{evaluasi_id}/kriteria/{page}/{id}',[EvaluasiController::class, 'destroyFotoEvaluasi'])->name('evaluasi.delete.foto');
+        Route::get('evaluasi/{evaluasi_id}/kriteria/{page}/{id}',[EvaluasiController::class, 'destroyFotoEvaluasiCreate'])->name('evaluasi.delete.foto.create');
+
+        Route::get('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaEdit'])->name('evaluasi.edit.kriteria');
+        Route::post('evaluasi/{evaluasi_id}/kriteria/{page}',[EvaluasiController::class, 'kriteriaUpdate'])->name('evaluasi.update.kriteria');
+    Route::get('evaluasi/{evaluasi_id}/kriteria/{page}/{id}', [EvaluasiController::class, 'destroyFotoEvaluasiEdit'])->name('evaluasi.delete.foto.edit');
+
 
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
