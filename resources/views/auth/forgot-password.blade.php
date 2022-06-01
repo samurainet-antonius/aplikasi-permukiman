@@ -14,7 +14,7 @@
         <div class="col-12 col-md-7 col-lg-7 col-xl-8">
             <div class="row justify-content-center" style="margin-top: 25vh !important;">
                 <div class="container col-10 col-md-10 col-lg-8 col-xl-6">
-                    <form class="myForm user" method="post" action="{{ route('login-proses') }}">
+                    <form class="myForm user" method="post" action="{{ route('password.email') }}">
                         @csrf
                         <div>
                             @php
