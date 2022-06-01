@@ -26,7 +26,8 @@ class SubKriteriaController extends Controller
 
         $kriteriaSelected = $request->get('kriteria', $kriteriaOne->id);
 
-        $subkriteria = SubKriteria::search($search)
+        $subkriteria = SubKriteria::where('kriteria_id',$kriteriaSelected)
+            ->search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();

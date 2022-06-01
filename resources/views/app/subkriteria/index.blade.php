@@ -31,7 +31,8 @@
                             </div>
                         </div>
                     </form>
-
+                    <div class="clearfix"></div>
+                    <br/>
                     @can('create', App\Models\SubKriteria::class)
                     <a href="{{ route('subkriteria.create') }}" class="btn btn-primary">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
