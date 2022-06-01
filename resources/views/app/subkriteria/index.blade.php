@@ -12,27 +12,28 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
-                    <form class="float-left">
-                        <div class="form-group mb-3">
-                            <select name="kriteria" class="form-control" onchange="submit()">
-                                @foreach($kriteria as $x)
-                                    <option value="{{ $x->id }}" {{ ($x->id == $kriteriaSelected) ? 'selected' : ''; }}>{{ $x->nama }}</option>
-                                @endforeach
-                            </select>   
-                        </div>
-                    </form>
-                    <form class="float-right">
-                        <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-primary">
-                                    <i class="fa fa-solid fa-search"></i>
-                                </button>
+                    <form>
+                        <div class="float-left">
+                            <div class="form-group mb-3">
+                                <select name="kriteria" class="form-control" onchange="submit()">
+                                    @foreach($kriteria as $x)
+                                        <option value="{{ $x->id }}" {{ ($x->id == $kriteriaSelected) ? 'selected' : ''; }}>{{ $x->nama }}</option>
+                                    @endforeach
+                                </select>   
                             </div>
                         </div>
+                        <div class="float-right">
+                            <div class="input-group mb-3">
+                            <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-solid fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </form>
-                    <div class="clearfix"></div>
-                    <br/>
                     @can('create', App\Models\SubKriteria::class)
                     <a href="{{ route('subkriteria.create') }}" class="btn btn-primary">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
