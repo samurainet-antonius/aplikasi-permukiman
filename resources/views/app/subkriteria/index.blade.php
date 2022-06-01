@@ -14,7 +14,7 @@
                 <div class="card-header py-3">
                     <form class="float-left">
                         <div class="form-group mb-3">
-                            <select name="kriteria" class="form-control">
+                            <select name="kriteria" class="form-control" onchange="submit()">
                                 @foreach($kriteria as $x)
                                     <option value="{{ $x->id }}" {{ ($x->id == $kriteriaSelected) ? 'selected' : ''; }}>{{ $x->nama }}</option>
                                 @endforeach
