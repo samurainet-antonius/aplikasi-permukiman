@@ -16,8 +16,7 @@
         <textarea
         class="form-control"
         name="nama"
-        value="{{ old('nama', ($editing ? $subkriteria->nama : '')) }}"
-        ></textarea>
+        >{{ old('nama', ($editing ? $subkriteria->nama : '')) }}</textarea>
     </div>
 
 </div>

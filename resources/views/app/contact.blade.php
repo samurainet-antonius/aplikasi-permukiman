@@ -52,7 +52,7 @@
             <div class="col-12 col-md-6 col-lg-6 bg-white p-5">
                 <div class="my-4">
                     <h3 class="text-green font-weight-bold">HUBUNGI KAMI</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque interdum, ante id efficitur sollicitudin, augue leo tristique</p>
+                    <p>Kami siap membantu. Tanyakan kepada kami tentang produk, layanan kami, dan pertanyaan apa pun yang Anda miliki.</p>
 
                     <h6 class="text-green">Alamat</h6>
                     <p>Jl. Komp. Pemda Deli Serdang No.10, Kabupaten, Kec. Lubuk Pakam, Kabupaten Deli Serdang, Sumatera Utara 20514</p>
