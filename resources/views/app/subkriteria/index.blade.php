@@ -12,6 +12,15 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
+                    <form class="float-left">
+                        <div class="form-group mb-3">
+                            <select name="kriteria" class="form-control">
+                                @foreach($kriteria as $x)
+                                    <option value="{{ $x->id }}" {{ ($x->id == $kriteriaSelected) ? 'selected' : ''; }}>{{ $x->nama }}</option>
+                                @endforeach
+                            </select>   
+                        </div>
+                    </form>
                     <form class="float-right">
                         <div class="input-group mb-3">
                         <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">

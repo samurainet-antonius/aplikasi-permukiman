@@ -20,12 +20,18 @@ class SubKriteriaController extends Controller
 
         $search = $request->get('search', '');
 
+
+        $kriteria = Kriteria::get();
+        $kriteriaOne = Kriteria::first();
+
+        $kriteriaSelected = $request->get('kriteria', $kriteriaOne->id);
+
         $subkriteria = SubKriteria::search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.subkriteria.index', compact('subkriteria', 'search'));
+        return view('app.subkriteria.index', compact('subkriteria', 'search','kriteria','kriteriaSelected'));
     }
 
     /**
