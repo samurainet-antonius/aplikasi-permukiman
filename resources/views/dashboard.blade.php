@@ -18,10 +18,12 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Kecamatan</label>
-                                    <select class="select2-single form-control" name="district_code" id="district" onchange="submit()">
-                                        <option>Pilih Kecamatan</option>
+                                    <select class="select2-single form-control" name="district_code" onchange="submit()">
+                                        @if ($select['district'] == 1)
+                                            <option value="semua">Semua Kecamatan</option>
+                                        @endif
                                         @foreach ($district as $val)
-                                            <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                            <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -30,12 +32,13 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Desa</label>
-                                    <select class="select2-single form-control" name="village_code" id="{{ $village == '' ? 'village' : '' }}">
-                                        <option>Pilih Desa</option>
-
+                                    <select class="select2-single form-control" name="village_code" onchange="submit()">
+                                        @if ($select['village'] == 1)
+                                            <option value="semua">Semua Desa</option>
+                                        @endif
                                         @if ($village)
                                             @foreach ($village as $val)
-                                                <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -45,10 +48,10 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Rentang Tahun</label>
-                                    <select class="select2-single form-control" name="years" id="years" id="select2Single" onchange="submit()">
-                                        <option value="5">5 Tahun</option>
-                                        <option value="4">4 Tahun</option>
-                                        <option value="3">3 Tahun</option>
+                                    <select class="select2-single form-control" name="years" onchange="submit()">
+                                        <option value="5" {{ (Request::get('years') == 5) ? 'selected' : ''}}>5 Tahun</option>
+                                        <option value="4" {{ (Request::get('years') == 4) ? 'selected' : ''}}>4 Tahun</option>
+                                        <option value="3" {{ (Request::get('years') == 3) ? 'selected' : ''}}>3 Tahun</option>
                                     </select>
                                 </div>
                             </div>
@@ -59,8 +62,8 @@
                     <div class="mt-3">
                         <div class="text-center">
                             <h6 class="font-weight-bold">Status Kumuh</h6>
-                            <h6 class="font-weight-bold">Kecamatan Gunung Meriah Desa Bintang Meriah</h6>
-                            <h6>Dalam 5 Tahun</h6>
+                            <h6 class="font-weight-bold">{{$text['district']}} {{$text['village']}}</h6>
+                            <h6>{{$text['years']}}</h6>
                             <h6>Dinas Perkim Deli Serdang Sumatera Utara</h6>
                         </div>
                         <div id="container"></div>
@@ -72,15 +75,22 @@
 
 
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="text-center" style="margin-bottom: -20px;">
+                    <p>Presentase Status Kumuh<br/>
+                    {{$text['district']}}<br/>
+                    {{$text['village']}}<br/>
+                    Kabupaten Deli Serdang</p>
+                    {{-- <p>Tahun </p> --}}
+                </div>
                 <div id="pieChart"></div>
             </div>
             <div class="modal-footer">
@@ -95,8 +105,9 @@
         <script type="text/javascript">
             // var userData = <?php echo json_encode(['5','10']) ?>;
             var data = <?php echo json_encode($data); ?>;
+            var pieData = <?php echo json_encode($pie); ?>;
             var years = <?php echo json_encode($years); ?>;
-            console.log(years);
+            console.log(data);
             Highcharts.chart('container', {
                 title: {
                     text: ''
@@ -121,7 +132,7 @@
                             // var myHeading = "<p>I Am Added Dynamically </p>";
                             // $("#cek").html(myHeading + x);
                             // $('#myModal').modal('show');
-                            pie()
+                            pie(pieData[this.series[0].searchPoint(e, true).category], this.series[0].searchPoint(e, true).category)
                         }
                     }
                 },
@@ -178,7 +189,12 @@
 
 
 
-            function pie() {
+            function pie(data, tahun) {
+                var district = <?php echo json_encode($req['district']); ?>;
+                var village = <?php echo json_encode($req['village']); ?>;
+                var years = <?php echo json_encode($req['years']); ?>;
+
+
                 $('#myModal').modal('show');
 
                 Highcharts.chart('pieChart', {
@@ -186,10 +202,10 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'Browser market shares. January, 2018'
+                        text: ''
                     },
                     subtitle: {
-                        text: 'Click the slices to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+                        text: 'Tahun '+tahun
                     },
 
                     accessibility: {
@@ -214,237 +230,41 @@
                                 enabled: false
                             },
                             showInLegend: true
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            point: {
+                                events: {
+                                    click: function (event) {
+                                        var link = '{{ route("dashboard.detail", ["district_code" => ":district", "village_code" => ":village", "years" => ":tahun", "status_id" => ":id"]) }}';
+                                        link = link.replace(':district', district);
+                                        link = link.replace(':village', village);
+                                        link = link.replace(':tahun', tahun);
+                                        link = link.replace(':id', this.id);
+                                        location.href = link
+                                    }
+                                }
+                            }
                         }
                     },
 
                     tooltip: {
                         headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
                     },
 
                     series: [
                         {
-                            name: "Browsers",
+                            name: "Status Kumuh",
                             colorByPoint: true,
-                            data: [
-                                {
-                                    name: "Chrome",
-                                    y: 62.74,
-                                    drilldown: "Chrome"
-                                },
-                                {
-                                    name: "Firefox",
-                                    y: 10.57,
-                                    drilldown: "Firefox"
-                                },
-                                {
-                                    name: "Internet Explorer",
-                                    y: 7.23,
-                                    drilldown: "Internet Explorer"
-                                },
-                                {
-                                    name: "Safari",
-                                    y: 5.58,
-                                    drilldown: "Safari"
-                                }
-                            ]
+                            data: data
                         }
                     ],
-                    drilldown: {
-                        series: [
-                            {
-                                name: "Chrome",
-                                id: "Chrome",
-                                data: [
-                                    [
-                                        "v65.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v64.0",
-                                        1.3
-                                    ],
-                                    [
-                                        "v63.0",
-                                        53.02
-                                    ],
-                                    [
-                                        "v62.0",
-                                        1.4
-                                    ],
-                                    [
-                                        "v61.0",
-                                        0.88
-                                    ],
-                                    [
-                                        "v60.0",
-                                        0.56
-                                    ],
-                                    [
-                                        "v59.0",
-                                        0.45
-                                    ],
-                                    [
-                                        "v58.0",
-                                        0.49
-                                    ],
-                                    [
-                                        "v57.0",
-                                        0.32
-                                    ],
-                                    [
-                                        "v56.0",
-                                        0.29
-                                    ],
-                                    [
-                                        "v55.0",
-                                        0.79
-                                    ],
-                                    [
-                                        "v54.0",
-                                        0.18
-                                    ],
-                                    [
-                                        "v51.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v49.0",
-                                        2.16
-                                    ],
-                                    [
-                                        "v48.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v47.0",
-                                        0.11
-                                    ],
-                                    [
-                                        "v43.0",
-                                        0.17
-                                    ],
-                                    [
-                                        "v29.0",
-                                        0.26
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Firefox",
-                                id: "Firefox",
-                                data: [
-                                    [
-                                        "v58.0",
-                                        1.02
-                                    ],
-                                    [
-                                        "v57.0",
-                                        7.36
-                                    ],
-                                    [
-                                        "v56.0",
-                                        0.35
-                                    ],
-                                    [
-                                        "v55.0",
-                                        0.11
-                                    ],
-                                    [
-                                        "v54.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v52.0",
-                                        0.95
-                                    ],
-                                    [
-                                        "v51.0",
-                                        0.15
-                                    ],
-                                    [
-                                        "v50.0",
-                                        0.1
-                                    ],
-                                    [
-                                        "v48.0",
-                                        0.31
-                                    ],
-                                    [
-                                        "v47.0",
-                                        0.12
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Internet Explorer",
-                                id: "Internet Explorer",
-                                data: [
-                                    [
-                                        "v11.0",
-                                        6.2
-                                    ],
-                                    [
-                                        "v10.0",
-                                        0.29
-                                    ],
-                                    [
-                                        "v9.0",
-                                        0.27
-                                    ],
-                                    [
-                                        "v8.0",
-                                        0.47
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Safari",
-                                id: "Safari",
-                                data: [
-                                    [
-                                        "v11.0",
-                                        3.39
-                                    ],
-                                    [
-                                        "v10.1",
-                                        0.96
-                                    ],
-                                    [
-                                        "v10.0",
-                                        0.36
-                                    ],
-                                    [
-                                        "v9.1",
-                                        0.54
-                                    ],
-                                    [
-                                        "v9.0",
-                                        0.13
-                                    ],
-                                    [
-                                        "v5.1",
-                                        0.2
-                                    ]
-                                ]
-                            },
-                        ]
-                    },
-
-
-
                     responsive: {
                         rules: [{
                             condition: {
                                 maxWidth: 500
                             },
-                            // chartOptions: {
-                            //     legend: {
-                            //         layout: 'horizontal',
-                            //         align: 'center',
-                            //         verticalAlign: 'bottom'
-                            //     }
-                            // }
                         }]
                     }
                 });
