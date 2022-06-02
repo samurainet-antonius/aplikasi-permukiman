@@ -1,4 +1,16 @@
-@php $editing = isset($subkriteria) @endphp
+@php
+$editing = isset($subkriteria);
+
+$jawaban = '';
+$skor = '';
+if($editing) {
+    if(count($subkriteria->pilihan) > 0){
+        $jawaban = $subkriteria->pilihan[0]->jawaban;
+        $skor = $subkriteria->pilihan[0]->skor;
+    }
+}
+
+@endphp
 @csrf
 <div class="flex flex-wrap mb-5">
 
@@ -25,10 +37,10 @@
         <div id="dynamicAddRemove">
             <div class="row mb-3">
                 <div class="col">
-                    <input type="text" class="form-control" name="jawaban[]" value="{{ old('name', ($editing ? $subkriteria->pilihan[0]->jawaban : '')) }}" placeholder="Jawaban">
+                    <input type="text" class="form-control" name="jawaban[]" value="{{ old('name', $jawaban) }}" placeholder="Jawaban">
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" name="skor[]" value="{{ old('name', ($editing ? $subkriteria->pilihan[0]->skor : '')) }}" placeholder="Skor">
+                    <input type="text" class="form-control" name="skor[]" value="{{ old('name', $skor) }}" placeholder="Skor">
                 </div>
                 <div class="col">
                     <button type="button" name="add" id="add-btn" class="btn btn-success"><i class="mr-1 fa fa-solid fa-plus"></i></button>
