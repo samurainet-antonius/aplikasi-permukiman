@@ -376,7 +376,8 @@
                     const kec = val.kecamatan;
                     const color = val.warna;
                     const status = val.status;
-                    const icon = '<i class="far fa-check-circle"></i>';
+                    const icon = val.icon;
+                    console.log(icon);
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({

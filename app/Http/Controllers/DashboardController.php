@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EvaluasiStoreRequest;
 use App\Models\Petugas;
+use App\Models\StatusKumuh;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Laravolt\Indonesia\Models\District;
@@ -50,8 +52,37 @@ class DashboardController extends Controller
 
         }
 
-        // dd($users->roles[0]->name);
+        $evaluasi = Evaluasi::whereNotNull('status_id')->get();
+        $year = 5;
 
-        return view('dashboard', compact('district', 'village'));
+        $years[] = (int) date('Y');
+        for ($i=1; $i < $year; $i++) {
+            $years[] = date('Y') - $i;
+        }
+
+        $years = array_reverse($years);
+
+        $status = StatusKumuh::all();
+
+        $data = [];
+        foreach($status as $key => $val) {
+
+            $series = [];
+            foreach($years as $item) {
+                $eval = Evaluasi::whereNotNull('status_id')->where('status_id', $val->id)->where('tahun', $item)->count();
+                $series[] = $eval;
+            }
+
+            $data[] = [
+                'name' => $val->nama,
+                'data' => $series
+            ];
+        }
+
+        // dd($data);
+        // dd($evaluasi->toArray());
+
+
+        return view('dashboard', compact('district', 'village', 'data', 'years'));
     }
 }

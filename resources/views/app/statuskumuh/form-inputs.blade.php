@@ -26,4 +26,28 @@
         />
     </div>
 
+    <div class="form-group">
+        <label>Icon Status</label>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="icon" id="icon1" value='<i class="far fa-check-circle"></i>' {{ ($editing ? (($statuskumuh->icon == '<i class="far fa-check-circle"></i>') ? 'checked' : '') : '') }}>
+            <label class="form-check-label" for="icon1">
+                <i class="far fa-check-circle fa-2x"></i>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="icon" id="icon2" value='<i class="fas fa-info-circle"></i>' {{ ($editing ? (($statuskumuh->icon == '<i class="fas fa-info-circle"></i>') ? 'checked' : '') : '') }}>
+            <label class="form-check-label" for="icon2">
+                <i class="fas fa-info-circle fa-2x"></i>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="icon" id="icon3" value='<i class="far fa-times-circle"></i>' {{ ($editing ? (($statuskumuh->icon == '<i class="far fa-times-circle"></i>') ? 'checked' : '') : '') }}>
+            <label class="form-check-label" for="icon3">
+                <i class="far fa-times-circle fa-2x"></i>
+            </label>
+        </div>
+
+    </div>
+
 </div>

@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SubKriteriaStoreRequest;
 use App\Http\Requests\SubKriteriaUpdateRequest;
 use App\Models\Kriteria;
+use App\Models\PilihanJawaban;
 use App\Models\SubKriteria;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class SubKriteriaController extends Controller
 {
@@ -54,20 +57,45 @@ class SubKriteriaController extends Controller
      */
     public function store(SubKriteriaStoreRequest $request)
     {
-        $this->authorize('create', SubKriteria::class);
+        // $this->authorize('create', SubKriteria::class);
 
         $validated = $request->validated();
 
-        $subkriteria = SubKriteria::create($validated);
-        Kriteria::find($validated['kriteria_id'])->update([
-            'flag_pakai' => 1
-        ]);
+        DB::beginTransaction();
+        try {
+            $subkriteria = SubKriteria::create($validated);
+            Kriteria::find($validated['kriteria_id'])->update([
+                'flag_pakai' => 1
+            ]);
+
+            $jawaban = $request->jawaban;
+            $skor = $request->skor;
+
+            for($i = 0; $i < count($jawaban); $i++) {
+                $pilihanJawaban = [
+                    'subkriteria_id' => $subkriteria->id,
+                    'jawaban' => $jawaban[$i],
+                    'skor' => $skor[$i]
+                ];
+
+                PilihanJawaban::create($pilihanJawaban);
+            }
+
+
+            DB::commit();
+            return redirect()
+                ->route('subkriteria.index')
+                ->withSuccess(__('crud.common.created'));
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->route('subkriteria.create')
+                ->withErrors(__('crud.common.errors'));
+        }
 
         $subkriteria->syncRoles($request->roles);
 
-        return redirect()
-            ->route('subkriteria.index')
-            ->withSuccess(__('crud.common.created'));
+
     }
 
     /**
@@ -93,6 +121,9 @@ class SubKriteriaController extends Controller
 
         $subkriteria = SubKriteria::find($id);
         $kriteria = Kriteria::all();
+
+        $subkriteria->pilihan = PilihanJawaban::where('subkriteria_id', $id)->get();
+        $subkriteria->count = count($subkriteria->pilihan);
 
         return view('app.subkriteria.edit')->with('subkriteria', $subkriteria)->with(compact('kriteria'));
     }
@@ -124,6 +155,21 @@ class SubKriteriaController extends Controller
                     'flag_pakai' => 0
                 ]);
             }
+        }
+
+        PilihanJawaban::where('subkriteria_id', $subkriteria->id)->delete();
+
+        $jawaban = $request->jawaban;
+        $skor = $request->skor;
+
+        for ($i = 0; $i < count($jawaban); $i++) {
+            $pilihanJawaban = [
+                'subkriteria_id' => $subkriteria->id,
+                'jawaban' => $jawaban[$i],
+                'skor' => $skor[$i]
+            ];
+
+            PilihanJawaban::create($pilihanJawaban);
         }
 
         $subkriteria->update($validated);
