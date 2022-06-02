@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EvaluasiStoreRequest;
 use App\Models\EvaluasiFoto;
+use App\Models\PilihanJawaban;
 use Exception;
 use Auth;
 use Illuminate\Support\Facades\File;
@@ -416,6 +417,10 @@ class EvaluasiController extends Controller
             } else {
                 $val->evaluasi = '';
             }
+        }
+
+        foreach($subkriteria as $val) {
+            $val->pilihan = PilihanJawaban::where('subkriteria_id', $val->id)->get();
         }
 
         $data = [

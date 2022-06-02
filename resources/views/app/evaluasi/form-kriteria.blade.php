@@ -28,7 +28,7 @@
                             <div class="form-group mb-3">
                                 <label>{{$item->nama}}</label>
 
-                                <div class="custom-control custom-radio mt-3">
+                                {{-- <div class="custom-control custom-radio mt-3">
                                     <input type="radio" id="{{$item->id}}-1" value="Jawaban 1" {{ ($item->evaluasi == 'Jawaban 1') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
                                     <label class="custom-control-label" for="{{$item->id}}-1">Jawaban 1</label>
                                 </div>
@@ -47,7 +47,15 @@
                                 <div class="custom-control custom-radio mt-3">
                                     <input type="radio" id="{{$item->id}}-5" value="Jawaban 5" {{ ($item->evaluasi == 'Jawaban 5') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
                                     <label class="custom-control-label" for="{{$item->id}}-5">Jawaban 5</label>
-                                </div>
+                                </div> --}}
+
+                                @foreach ($item->pilihan as $value)
+                                    <div class="custom-control custom-radio mt-3">
+                                        <input type="radio" id="{{$item->id}}-1" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
+                                        <label class="custom-control-label" for="{{$item->id}}-1">{{$value->jawaban}}</label>
+                                    </div>
+                                @endforeach
+
                             </div>
                             @endforeach
 

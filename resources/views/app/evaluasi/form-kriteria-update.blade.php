@@ -28,26 +28,17 @@
                             <div class="form-group mb-3">
                                 <label>{{$item->nama}}</label>
 
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-1" value="Jawaban 1" {{ ($item->evaluasi == 'Jawaban 1') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-1">Jawaban 1</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-2" value="Jawaban 2" {{ ($item->evaluasi == 'Jawaban 2') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-2">Jawaban 2</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-3" value="Jawaban 3" {{ ($item->evaluasi == 'Jawaban 3') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-3">Jawaban 3</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-4" value="Jawaban 4" {{ ($item->evaluasi == 'Jawaban 4') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-4">Jawaban 4</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-5" value="Jawaban 5" {{ ($item->evaluasi == 'Jawaban 5') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-5">Jawaban 5</label>
-                                </div>
+                                @forelse ($item->pilihan as $key => $value)
+                                    <div class="custom-control custom-radio mt-3">
+                                        <input type="radio" id="{{$item->id}}-{{$key}}" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
+                                        <label class="custom-control-label" for="{{$item->id}}-{{$key}}">{{$value->jawaban}}</label>
+                                    </div>
+                                @empty
+                                    <div>
+                                        <p class="text-danger font-weight-bold">Hubungi petugas terkait untuk mengisi kriteria ini. Karena pilihan jawaban belum tersedia !</p>
+                                    </div>
+                                @endforelse
+
                             </div>
                             @endforeach
 
