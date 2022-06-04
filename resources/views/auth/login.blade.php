@@ -1,15 +1,9 @@
 <x-guest-layout>
     <div class="row bg-white container-fluid" style="height: 100vh !important;">
         <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
-            <img src="{{ asset('assets/img/login1.png') }}" class="img" style="" alt="">
-
-            <div class="section position-absolute top">
-                <div class="content text-center">
-                    <img src="{{ asset('assets/img/logo/logo1.png') }}" class="mx-auto d-block" height="100" alt="">
-                    <h5>Dinas Perkim Deli Serdang <br> Sumatera Utara</h5>
-                </div>
-            </div>
-            <img src="{{ asset('assets/img/login2.png') }}" class="img" style="" alt="">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/img/login.png') }}" class="img-fluid ml-n3" style="height: 100% !important; " alt="">
+            </a>
         </div>
         <div class="col-12 col-md-7 col-lg-7 col-xl-8">
             <div class="row justify-content-center" style="margin-top: 25vh !important;">
