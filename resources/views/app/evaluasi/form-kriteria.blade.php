@@ -49,10 +49,10 @@
                                     <label class="custom-control-label" for="{{$item->id}}-5">Jawaban 5</label>
                                 </div> --}}
 
-                                @foreach ($item->pilihan as $value)
+                                @foreach ($item->pilihan as $key => $value)
                                     <div class="custom-control custom-radio mt-3">
-                                        <input type="radio" id="{{$item->id}}-1" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                        <label class="custom-control-label" for="{{$item->id}}-1">{{$value->jawaban}}</label>
+                                        <input type="radio" id="{{$item->id}}-{{$key}}" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
+                                        <label class="custom-control-label" for="{{$item->id}}-{{$key}}">{{$value->jawaban}}</label>
                                     </div>
                                 @endforeach
 
