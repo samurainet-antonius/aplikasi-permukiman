@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </form>
-                    <form action="{{ route('evaluasi.index') }}" class="float-left">
+                    <form action="{{ route('arsip.index') }}" class="float-left">
                         <div class="form-group">
                             <select class="select2-single form-control" name="tahun" id="tahun" onchange="submit()">
                                 @for($i=date("Y")-1;$i>="2015";$i--)
