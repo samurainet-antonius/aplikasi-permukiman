@@ -15,7 +15,7 @@ class EvaluasiDetail extends Model
 
     protected $table = 'evaluasi_detail';
 
-    protected $fillable = ['evaluasi_id','kriteria_id', 'nama_kriteria','subkriteria_id','nama_subkriteria','jawaban','created_at','updated_at'];
+    protected $fillable = ['evaluasi_id','kriteria_id', 'nama_kriteria','subkriteria_id','nama_subkriteria','jawaban', 'skor','created_at','updated_at'];
 
     protected $searchableFields = ['*'];
 

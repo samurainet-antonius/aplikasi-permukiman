@@ -173,6 +173,7 @@ class EvaluasiController extends Controller
         $this->kriteriaPost($validated,$evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
+            $this->countSkor($evaluasi_id);
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
         } else {
             return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -328,6 +329,7 @@ class EvaluasiController extends Controller
         $this->kriteriaPost($validated, $evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
+            $this->countSkor($evaluasi_id);
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
         } else {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -484,11 +486,13 @@ class EvaluasiController extends Controller
                 foreach ($details as $subkriteriaID => $value) {
 
                     $subkriteria = SubKriteria::find($subkriteriaID);
+                    $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
                     $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaID)->where('subkriteria_id', $subkriteriaID)->first();
 
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
+                            'skor' => $jawaban->skor,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
                     } else {
@@ -498,6 +502,7 @@ class EvaluasiController extends Controller
                             'subkriteria_id' => $subkriteriaID,
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
+                            'skor' => $jawaban->skor,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")
                         ));
@@ -527,5 +532,43 @@ class EvaluasiController extends Controller
             DB::rollback();
             return $e;
         }
+    }
+
+    private function countSkor($evaluasi_id)
+    {
+        $evaluasi = EvaluasiDetail::select('kriteria_id')->where('evaluasi_id', $evaluasi_id)->groupBy('kriteria_id')->get();
+
+        $skorEvaluasi = 0;
+        foreach($evaluasi as $value) {
+
+            $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $value->kriteria_id);
+            $sum = $evaluasiKriteria->sum('skor');
+            $count = $evaluasiKriteria->count();
+
+            $skorKriteria = $sum / $count;
+
+            $skorEvaluasi = $skorEvaluasi + $skorKriteria;
+        }
+
+        $statusAll = StatusKumuh::all();
+        $max = StatusKumuh::max('nilai_max');
+
+        $status = '';
+        foreach($statusAll as $key => $val) {
+
+            if($max == $val->nilai_max) {
+                if ($val->nilai_min <= $skorEvaluasi) {
+                    $status = $val->id;
+                }
+            } else {
+                if($val->nilai_min <= $skorEvaluasi && $val->nilai_max >= $skorEvaluasi) {
+                    $status = $val->id;
+                }
+            }
+
+        }
+
+        $data['status_id']  = $status;
+        Evaluasi::where('id', $evaluasi_id)->update($data);
     }
 }

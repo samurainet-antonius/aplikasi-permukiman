@@ -16,7 +16,7 @@ class StatusKumuh extends Model
 
     protected $table = 'status_kumuh';
 
-    protected $fillable = ['nama', 'warna', 'icon'];
+    protected $fillable = ['nama', 'warna', 'icon', 'nilai_min', 'nilai_max'];
 
     protected $searchableFields = ['*'];
 

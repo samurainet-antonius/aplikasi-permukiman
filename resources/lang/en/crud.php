@@ -154,6 +154,9 @@ return [
             'no' => 'No',
             'nama' => 'Nama',
             'warna' => 'Warna',
+            'icon' => 'Icon',
+            'nilai_min' => 'Batas Skor Awal',
+            'nilai_max' => 'Batas Skor Akhir',
         ],
     ],
 

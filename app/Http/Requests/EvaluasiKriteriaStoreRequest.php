@@ -26,7 +26,7 @@ class EvaluasiKriteriaStoreRequest extends FormRequest
     {
         return [
             'jawaban' => ['required'],
-            'file.*' => 'max:5000'
+            'file.*' => 'max:50000'
         ];
     }
 }

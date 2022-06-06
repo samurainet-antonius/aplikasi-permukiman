@@ -38,6 +38,9 @@
                                 <th>@lang('crud.statuskumuh.inputs.no')</th>
                                 <th>@lang('crud.statuskumuh.inputs.nama')</th>
                                 <th>@lang('crud.statuskumuh.inputs.warna')</th>
+                                <th>@lang('crud.statuskumuh.inputs.icon')</th>
+                                <th>@lang('crud.statuskumuh.inputs.nilai_min')</th>
+                                <th>@lang('crud.statuskumuh.inputs.nilai_max')</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -52,6 +55,15 @@
                                 </td>
                                 <td>
                                     {{ $value->warna ?? '-' }}
+                                </td>
+                                <td>
+                                    {!! $value->icon ?? '-' !!}
+                                </td>
+                                <td>
+                                    {{ $value->nilai_min ?? '-' }}
+                                </td>
+                                <td>
+                                    {{ $value->nilai_max ?? '-' }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">

@@ -28,6 +28,8 @@ class StatusKumuhUpdateRequest extends FormRequest
             'nama' => ['required', 'max:255', 'string'],
             'warna' => ['required', 'max:255', 'string'],
             'icon' => ['required', 'max:255', 'string'],
+            'nilai_min' => ['required', 'max:11'],
+            'nilai_max' => ['required', 'max:11'],
         ];
     }
 }
