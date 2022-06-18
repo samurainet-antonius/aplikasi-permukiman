@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EvaluasiStoreRequest;
 use App\Models\EvaluasiFoto;
+use App\Models\Log;
 use App\Models\PilihanJawaban;
 use Exception;
 use Auth;
@@ -173,7 +174,8 @@ class EvaluasiController extends Controller
         $this->kriteriaPost($validated,$evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
-            $this->countSkor($evaluasi_id);
+            // $this->countSkor($evaluasi_id);
+            $this->dataLog($evaluasi_id, 'Menambahkan');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
         } else {
             return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -329,7 +331,8 @@ class EvaluasiController extends Controller
         $this->kriteriaPost($validated, $evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
-            $this->countSkor($evaluasi_id);
+            // $this->countSkor($evaluasi_id);
+            $this->dataLog($evaluasi_id, 'Melakukan perubahan');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
         } else {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -570,5 +573,30 @@ class EvaluasiController extends Controller
 
         $data['status_id']  = $status;
         Evaluasi::where('id', $evaluasi_id)->update($data);
+    }
+
+    private function dataLog($evaluasi_id, $type)
+    {
+        $evaluasi = Evaluasi::find($evaluasi_id);
+
+        $auth = Auth::user();
+        $user_id = $auth->id;
+
+        $data = [
+            'users_id' => $user_id,
+            'otoritas' => $auth->roles[0]->id,
+            'keterangan' => $type." hasil evaluasi Kecamatan ". $evaluasi->district->name ." Desa " . $evaluasi->village->name . " Lingkungan 1",
+        ];
+
+        DB::beginTransaction();
+        try {
+
+            Log::create($data);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e;
+        }
     }
 }
