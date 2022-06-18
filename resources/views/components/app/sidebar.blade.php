@@ -53,9 +53,9 @@
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
             @endcan
 
-            @can('view-any', App\Models\SubKriteria::class)
+            {{-- @can('view-any', App\Models\SubKriteria::class)
                 <a class="collapse-item" href="{{ route('subkriteria.index') }}">SubKriteria</a>
-            @endcan
+            @endcan --}}
 
             @can('view-any', App\Models\StatusKumuh::class)
                 <a class="collapse-item" href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
