@@ -73,6 +73,7 @@ return [
         'inputs' => [
             'no' => 'No',
             'nama' => 'Nama',
+            'satuan' => 'Satuan',
         ],
     ],
 

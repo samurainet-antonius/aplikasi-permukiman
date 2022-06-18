@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\KriteriaStoreRequest;
 use App\Http\Requests\KriteriaUpdateRequest;
 use App\Models\Kriteria;
+use App\Models\SubKriteria;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class KriteriaController extends Controller
 {
@@ -48,11 +51,36 @@ class KriteriaController extends Controller
 
         $validated = $request->validated();
 
-        $kriteria = Kriteria::create($validated);
+        DB::beginTransaction();
+        try {
+            $kriteria = Kriteria::create($validated);
+            Kriteria::find($kriteria->id)->update([
+                'flag_pakai' => 1
+            ]);
 
-        return redirect()
-            ->route('kriteria.index')
-            ->withSuccess(__('crud.common.created'));
+            $subkriteria = $request->subkriteria;
+            $satuan = $request->satuan;
+
+            for ($i = 0; $i < count($subkriteria); $i++) {
+                $dataSubkriteria = [
+                    'kriteria_id' => $kriteria->id,
+                    'nama' => $subkriteria[$i],
+                    'satuan' => $satuan[$i]
+                ];
+
+                SubKriteria::create($dataSubkriteria);
+            }
+
+            DB::commit();
+            return redirect()
+                ->route('kriteria.index')
+                ->withSuccess(__('crud.common.created'));
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->route('kriteria.create')
+                ->withErrors(__('crud.common.errors'));
+        }
     }
 
     /**
@@ -60,9 +88,13 @@ class KriteriaController extends Controller
      * @param \App\Models\Kriteria $kriteria
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Kriteria $kriteria)
+    public function show(Request $request, Kriteria $kriteria, $id)
     {
         $this->authorize('view', $kriteria);
+
+        $kriteria = Kriteria::find($id);
+
+        $kriteria->subkriteria = SubKriteria::where('kriteria_id', $kriteria->id)->get();
 
         return view('app.kriteria.show', compact('kriteria'));
     }
@@ -77,6 +109,7 @@ class KriteriaController extends Controller
         $this->authorize('update', Kriteria::class);
 
         $kriteria = Kriteria::find($id);
+        $kriteria->subkriteria = SubKriteria::where('kriteria_id', $id)->get();
 
         return view('app.kriteria.edit')->with('kriteria', $kriteria);
     }
@@ -97,6 +130,27 @@ class KriteriaController extends Controller
         $kriteria->update($validated);
 
         $kriteria->syncRoles($request->roles);
+
+        $subkriteria = $request->subkriteria;
+        $satuan = $request->satuan;
+        $subkriteriaId = $request->subkriteria_id;
+
+        SubKriteria::where('kriteria_id', $id)->whereNotIn('id', $subkriteriaId)->delete();
+
+        for ($i = 0; $i < count($subkriteria); $i++) {
+
+            $dataSubkriteria = [
+                'kriteria_id' => $kriteria->id,
+                'nama' => $subkriteria[$i],
+                'satuan' => $satuan[$i]
+            ];
+
+            if($subkriteriaId[$i]) {
+                SubKriteria::find($subkriteriaId[$i])->update($dataSubkriteria);
+            } else {
+                SubKriteria::create($dataSubkriteria);
+            }
+        }
 
         return redirect()
             ->route('kriteria.index')
