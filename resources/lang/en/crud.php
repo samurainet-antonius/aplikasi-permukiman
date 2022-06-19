@@ -18,6 +18,7 @@ return [
         'created' => 'Successfully created',
         'saved' => 'Saved successfully',
         'removed' => 'Successfully removed',
+        'removed_file' => 'Successfully removed file',
         'errors' => 'Failed to create / update / delete',
     ],
 

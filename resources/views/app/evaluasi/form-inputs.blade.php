@@ -1,6 +1,6 @@
 @csrf
 <div class="flex flex-wrap mb-5">
-    <h3>Geografis</h3>
+    <h3>Lokasi</h3>
     <hr/>
     <div class="form-group">
         <label>Tahun</label>
@@ -10,7 +10,7 @@
             @endfor
         </select>
     </div>
-    
+
     <div class="form-group">
         <label>Provinsi</label>
         <select class="select2-single form-control" name="province_code" id="province" id="select2Single" onchange="submit()">
@@ -91,26 +91,83 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col">
+                <label>Latitude</label>
+                <input type="text" class="form-control" name="latitude" id="lat" required>
+            </div>
+            <div class="col">
+                <label>Longitude</label>
+                <input type="text" class="form-control" name="longitude" id="lng" required>
+            </div>
+        </div>
+    </div>
+
     <button class="mb-4 btn btn-primary btn-sm" type="button" onclick="getLocation();">Lokasi Ku</button>
     <div id="map"></div>
+
+    <div class="form-group mt-5">
+        <label>Unggah Gambar Delinasi &#42;</label>
+        <input type="file" class="form-control" id="file" name="gambar_delinasi" accept="image/*" multiple>
+        <small class="form-text text-muted">
+            Tipe file berekstensi .jpeg/.jpg/.png <br> Maksimal 5MB
+        </small>
+    </div>
+
 </div>
 <script>
     var map = L.map("map");
+    var marker = {};
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(map);
 
-    map.setView([48.85, 2.35], 12);
+    map.setView([3.4201802, 98.704075], 12);
 
-    getLocation();
+    lokasi()
 
-    function getLocation() {
-    map.locate({
-        setView: true,
-        enableHighAccuracy: true
+    function lokasi() {
+        map.locate({
+            setView: true,
+            enableHighAccuracy: true
         })
         .on('locationfound', function(e) {
-            console.log(e.latlng)
-        var marker = new L.marker(e.latlng);
-        marker.addTo(map);
+            // console.log(e.latlng)
+
+            var formLok = e.latlng;
+            document.getElementById("lat").value = formLok.lat;
+            document.getElementById("lng").value = formLok.lng;
+
+            marker = new L.marker(e.latlng, {draggable: true});
+            map.addLayer(marker)
+            .on('dragend', function() {
+                var coord = String(marker.getLatLng()).split(',');
+                // console.log(marker.getLatLng());
+            });
         });
     }
+
+    function getLocation() {
+        map.removeLayer(marker)
+        // map.stopLocate()
+        var lok = map.locate({
+            setView: true,
+            enableHighAccuracy: true
+        })
+        // console.log(lok._lastCenter);
+        var formLok = lok._lastCenter;
+        document.getElementById("lat").value = formLok.lat;
+        document.getElementById("lng").value = formLok.lng;
+    }
+
+
+    map.on('click',
+        function (e) {
+            marker.setLatLng(e.latlng)
+            console.log(marker.getLatLng());
+            var formLok = e.latlng;
+            document.getElementById("lat").value = formLok.lat;
+            document.getElementById("lng").value = formLok.lng;
+        }
+    );
 </script>

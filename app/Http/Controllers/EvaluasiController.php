@@ -15,6 +15,7 @@ use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EvaluasiStoreRequest;
+use App\Http\Requests\EvaluasiUpdateRequest;
 use App\Models\EvaluasiFoto;
 use App\Models\Log;
 use App\Models\PilihanJawaban;
@@ -198,6 +199,14 @@ class EvaluasiController extends Controller
 
         DB::beginTransaction();
         try {
+
+            $foto = $validated['gambar_delinasi'];
+            $fileName = time() . '.' . $foto->getClientOriginalExtension();
+            $folder = 'file/evaluasi';
+            $foto->move(public_path($folder), $fileName);
+
+            $validated['gambar_delinasi'] = $folder . '/' . $fileName;
+
             $evaluasi = Evaluasi::create($validated);
 
             DB::commit();
@@ -311,6 +320,29 @@ class EvaluasiController extends Controller
         return view('app.evaluasi.edit',compact('village', 'city', 'district','kriteria','evaluasi'));
     }
 
+    public function destroyGambar($id)
+    {
+        $evaluasi = Evaluasi::find($id);
+
+        DB::beginTransaction();
+        try {
+
+            File::delete(public_path($evaluasi->gambar_delinasi));
+
+            $evaluasi = Evaluasi::find($id)->update([
+                'gambar_delinasi' => null
+            ]);
+
+            DB::commit();
+            return redirect()
+                ->route('evaluasi.edit', $id)
+                ->withSuccess(__('crud.common.removed_file'));
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e;
+        }
+    }
+
     public function kriteriaEdit($evaluasi_id, $page)
     {
         $result = $this->kriteriaGet($evaluasi_id, $page);
@@ -347,7 +379,7 @@ class EvaluasiController extends Controller
         return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
     }
 
-    public function update(EvaluasiStoreRequest $request,$id){
+    public function update(EvaluasiUpdateRequest $request,$id){
 
         $this->authorize('create', Evaluasi::class);
 
@@ -355,8 +387,23 @@ class EvaluasiController extends Controller
 
         $validated = $request->validated();
 
+        if($evaluasi->gambar_delinasi == null && $request->gambar_delinasi == null) {
+            return redirect()->route('evaluasi.edit', $id)->withErrors('Wajib unggah file');
+        } elseif($evaluasi->gambar_delinasi != null && $request->gambar_delinasi) {
+            return redirect()->route('evaluasi.edit', $id)->withErrors('Unggah file hanya bisa 1 file');
+        }
+
         DB::beginTransaction();
         try{
+            if($request->gambar_delinasi) {
+                $foto = $request->gambar_delinasi;
+                $fileName = time() . '.' . $foto->getClientOriginalExtension();
+                $folder = 'file/evaluasi';
+                $foto->move(public_path($folder), $fileName);
+
+                $validated['gambar_delinasi'] = $folder . '/' . $fileName;
+            }
+
             $evaluasi = $evaluasi->update($validated);
 
             DB::commit();
@@ -365,8 +412,8 @@ class EvaluasiController extends Controller
         }catch(Exception $e){
             DB::rollback();
             return redirect()
-            ->route('evaluasi.update',['id' => $id])
-            ->withErrors(__('crud.common.errors'));
+                ->route('evaluasi.edit',['id' => $id])
+                ->withErrors(__('crud.common.errors'));
         }
     }
 

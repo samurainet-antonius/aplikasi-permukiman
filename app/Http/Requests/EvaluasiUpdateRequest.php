@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EvaluasiStoreRequest extends FormRequest
+class EvaluasiUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,7 +35,6 @@ class EvaluasiStoreRequest extends FormRequest
             'luas_kumuh' => ['required'],
             'latitude' => ['required'],
             'longitude' => ['required'],
-            'gambar_delinasi' => ['required'],
         ];
     }
 }

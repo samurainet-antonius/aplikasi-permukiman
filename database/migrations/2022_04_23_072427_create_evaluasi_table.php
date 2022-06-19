@@ -24,8 +24,10 @@ class CreateEvaluasiTable extends Migration
             $table->string('tahun',200);
             $table->string('luas_kawasan',200);
             $table->string('luas_kumuh',200);
+            $table->string('lingkungan', 200);
             $table->string('latitude',200);
             $table->string('longitude', 200);
+            $table->string('gambar_delinasi', 200);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -31,7 +31,7 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('evaluasi.store') }}" has-files class="mt-4">
+                    <form method="POST" action="{{ route('evaluasi.store') }}" has-files class="mt-4" enctype="multipart/form-data">
                         @include('app.evaluasi.form-inputs')
 
                         <div class="mt-10">
