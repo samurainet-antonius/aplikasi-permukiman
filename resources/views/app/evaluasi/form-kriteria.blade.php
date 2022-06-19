@@ -24,37 +24,21 @@
                             <hr/>
 
 
-                            @foreach ($subkriteria as $item)
-                            <div class="form-group mb-3">
-                                <label>{{$item->nama}}</label>
+                            @foreach ($subkriteria as $key => $item)
+                            <div class="form-group mb-4">
+                                <label>{{ $key+1 }}. {{$item->nama}}</label>
 
-                                {{-- <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-1" value="Jawaban 1" {{ ($item->evaluasi == 'Jawaban 1') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-1">Jawaban 1</label>
+                                <div class="row">
+                                    <input type="text" class="ml-4 col-8 form-control" placeholder="masukan skor" name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" required>
+                                    <h6 class="col-2 mt-2">{{ $item->satuan }}</h6>
                                 </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-2" value="Jawaban 2" {{ ($item->evaluasi == 'Jawaban 2') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-2">Jawaban 2</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-3" value="Jawaban 3" {{ ($item->evaluasi == 'Jawaban 3') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-3">Jawaban 3</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-4" value="Jawaban 4" {{ ($item->evaluasi == 'Jawaban 4') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-4">Jawaban 4</label>
-                                </div>
-                                <div class="custom-control custom-radio mt-3">
-                                    <input type="radio" id="{{$item->id}}-5" value="Jawaban 5" {{ ($item->evaluasi == 'Jawaban 5') ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
-                                    <label class="custom-control-label" for="{{$item->id}}-5">Jawaban 5</label>
-                                </div> --}}
 
-                                @foreach ($item->pilihan as $key => $value)
+                                {{-- @foreach ($item->pilihan as $key => $value)
                                     <div class="custom-control custom-radio mt-3">
                                         <input type="radio" id="{{$item->id}}-{{$key}}" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
                                         <label class="custom-control-label" for="{{$item->id}}-{{$key}}">{{$value->jawaban}}</label>
                                     </div>
-                                @endforeach
+                                @endforeach --}}
 
                             </div>
                             @endforeach

@@ -172,12 +172,16 @@ class EvaluasiController extends Controller
 
         $count = Kriteria::latest()->get()->count();
 
-        $this->kriteriaPost($validated,$evaluasi_id, $page, $request->file);
+        $homePage = $page - 1;
+
+        $result = $this->kriteriaPost($validated,$evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
             $this->dataLog($evaluasi_id, 'Menambahkan');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
+        } elseif($result['status'] == false) {
+            return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
         } else {
             return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
         }
@@ -360,12 +364,16 @@ class EvaluasiController extends Controller
 
         $count = Kriteria::latest()->get()->count();
 
-        $this->kriteriaPost($validated, $evaluasi_id, $page, $request->file);
+        $homePage = $page - 1;
+
+        $result = $this->kriteriaPost($validated, $evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
             $this->dataLog($evaluasi_id, 'Melakukan perubahan');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
+        } elseif($result['status'] == false) {
+            return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
         } else {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
         }
@@ -499,6 +507,8 @@ class EvaluasiController extends Controller
         $evaluasiDetail = $validated['jawaban'];
         unset($validated['jawaban']);
 
+        $result['status'] = true;
+
         DB::beginTransaction();
         try {
 
@@ -525,24 +535,28 @@ class EvaluasiController extends Controller
                             ]);
                         }
                     } else {
-                        return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page - 1])
-                            ->withErrors('Maksimal unggah 2 file !');
+                        $result['status'] = false;
+                        $result['error'] = 'Maksimal unggah 2 file !';
+                        // return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => ($page - 1)])
+                        //     ->withErrors('Maksimal unggah 2 file !');
                     }
                 } elseif ($evaluasiFoto->isEmpty()) {
-                    return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page - 1])
-                        ->withErrors('Wajib unggah file minimal 1');
+                    $result['status'] = false;
+                    $result['error'] = 'Wajib unggah file minimal 1';
+                    // return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => ($page - 1)])
+                    //     ->withErrors('Wajib unggah file minimal 1');
                 }
 
                 foreach ($details as $subkriteriaID => $value) {
 
                     $subkriteria = SubKriteria::find($subkriteriaID);
-                    $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
+                    // $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
                     $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaID)->where('subkriteria_id', $subkriteriaID)->first();
 
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
-                            'skor' => $jawaban->skor,
+                            'skor' => $value,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
                     } else {
@@ -552,7 +566,7 @@ class EvaluasiController extends Controller
                             'subkriteria_id' => $subkriteriaID,
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
-                            'skor' => $jawaban->skor,
+                            'skor' => $value,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")
                         ));
@@ -564,6 +578,8 @@ class EvaluasiController extends Controller
             DB::rollback();
             return $e;
         }
+
+        return $result;
     }
 
     private function evaluasiDeleteFoto($id)

@@ -24,11 +24,16 @@
                             <hr/>
 
 
-                            @foreach ($subkriteria as $item)
+                            @foreach ($subkriteria as $key => $item)
                             <div class="form-group mb-3">
-                                <label>{{$item->nama}}</label>
+                                <label>{{ $key+1 }}. {{$item->nama}}</label>
 
-                                @forelse ($item->pilihan as $key => $value)
+                                <div class="row">
+                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan skor" name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" required>
+                                    <h6 class="col-2 mt-2">{{ $item->satuan }}</h6>
+                                </div>
+
+                                {{-- @forelse ($item->pilihan as $key => $value)
                                     <div class="custom-control custom-radio mt-3">
                                         <input type="radio" id="{{$item->id}}-{{$key}}" value="{{$value->jawaban}}" {{ ($item->evaluasi == $value->jawaban) ? 'checked' : '' }} name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" class="custom-control-input">
                                         <label class="custom-control-label" for="{{$item->id}}-{{$key}}">{{$value->jawaban}}</label>
@@ -37,7 +42,7 @@
                                     <div>
                                         <p class="text-danger font-weight-bold">Hubungi petugas terkait untuk mengisi kriteria ini. Karena pilihan jawaban belum tersedia !</p>
                                     </div>
-                                @endforelse
+                                @endforelse --}}
 
                             </div>
                             @endforeach
