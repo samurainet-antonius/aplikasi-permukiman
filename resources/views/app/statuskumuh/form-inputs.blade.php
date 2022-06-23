@@ -3,9 +3,17 @@
 <div class="flex flex-wrap mb-5">
 
     <div class="form-group">
+        <label>Tahun</label>
+        <select class="select2-single form-control" name="tahun" id="tahun">
+            @for($i=date("Y");$i>="2016";$i--)
+                <option value="{{ $i; }}" {{ ($editing ? (($statuskumuh->tahun == $i) ? 'selected' : '') : '') }}>{{ $i }}</option>
+            @endfor
+        </select>
+    </div>
+
+    <div class="form-group">
         <label>Nama</label>
-        <input
-        type="text"
+        <input type="text"
         class="form-control"
         name="nama"
         value="{{ old('nama', ($editing ? $statuskumuh->nama : '')) }}"

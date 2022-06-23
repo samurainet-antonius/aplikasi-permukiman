@@ -25,6 +25,7 @@ class StatusKumuhUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'tahun' => ['required'],
             'nama' => ['required', 'max:255', 'string'],
             'warna' => ['required', 'max:255', 'string'],
             'icon' => ['required', 'max:255', 'string'],
