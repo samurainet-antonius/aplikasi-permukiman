@@ -18,6 +18,10 @@ class CreateLogTable extends Migration
             $table->unsignedBigInteger('users_id');
             $table->string('otoritas', 200);
             $table->longText('keterangan');
+            $table->unsignedBigInteger('province_code');
+            $table->unsignedBigInteger('city_code');
+            $table->unsignedBigInteger('district_code');
+            $table->unsignedBigInteger('village_code');
             $table->timestamps();
         });
     }

@@ -9,9 +9,13 @@ use App\Models\Kriteria;
 use App\Models\Log;
 use App\Models\Petugas;
 use App\Models\SubKriteria;
+use App\Models\User;
+use App\Models\Village;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravolt\Indonesia\Models\District;
 
 class LogController extends Controller
 {
@@ -23,15 +27,115 @@ class LogController extends Controller
     {
         $this->authorize('view-any', Log::class);
 
-        $log = Log::all();
-        $log = Log::select(DB::raw('year(created_at) as year'))
-            ->groupBy(DB::raw('year(created_at)'))
-            ->get();
+        $user = Auth::id();
+        $users = User::find($user);
+
+        $role = $users->roles[0]->name;
+        $petugas = Petugas::where('users_id', $user)->first();
+
+        $village = '';
+
+        switch ($role) {
+            case "admin-provinsi":
+            case "admin-kabupaten":
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+
+                $selectDistrict = '1';
+                $selectVillage = '1';
+
+                if ($request->district_code == 'semua') {
+                    $village = '';
+                } elseif ($request->district_code) {
+                    $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
+                }
+
+                $req['district'] = 'semua';
+                $req['village'] = 'semua';
+                break;
+            case "admin-kecamatan":
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
+
+                $selectDistrict = '0';
+                $selectVillage = '1';
+
+                $req['district'] = $petugas->district_code;
+                $req['village'] = 'semua';
+                break;
+            case "admin-kelurahan":
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
+
+                $selectDistrict = '0';
+                $selectVillage = '0';
+
+                $req['district'] = $petugas->district_code;
+                $req['village'] = $petugas->village_code;
+                break;
+            default:
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+
+                $selectDistrict = '1';
+                $selectVillage = '1';
+
+                if ($request->district_code == 'semua') {
+                    $village = '';
+                } elseif ($request->district_code) {
+                    $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
+                }
+
+                $req['district'] = 'semua';
+                $req['village'] = 'semua';
+        }
+
+        if ($request->district_code) {
+            $req['district'] = $request->district_code;
+        }
+
+        if ($request->village_code) {
+            $req['village'] = $request->village_code;
+        }
+
+        $log = Log::select(DB::raw('year(created_at) as year'));
+
+        if ($request->district) {
+            $log = $log->where('district_code', $request->district);
+        }
+
+        if ($request->village) {
+            $log = $log->where('village_code', $request->village);
+        }
+
+        if ($request->start_date) {
+            $log = $log->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->end_date) {
+            $log = $log->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $log = $log->groupBy(DB::raw('year(created_at)'))->get();
 
         foreach($log as $value) {
-            $value->data = Log::whereYear('created_at', $value->year)
-                ->orderBy('created_at' , 'DESC')
-                ->get();
+            $logs = Log::whereYear('created_at', $value->year);
+
+            if($request->district) {
+                $logs = $logs->where('district_code', $request->district);
+            }
+
+            if ($request->village) {
+                $logs = $logs->where('village_code', $request->village);
+            }
+
+            if ($request->start_date) {
+                $logs = $logs->whereDate('created_at', '>=', $request->start_date);
+            }
+
+            if ($request->end_date) {
+                $logs = $logs->whereDate('created_at', '<=', $request->end_date);
+            }
+
+            $value->data = $logs->orderBy('created_at', 'DESC')->get();
 
             foreach($value->data as $item) {
                 $query = Petugas::where('users_id', $item->users_id)->first();
@@ -41,7 +145,14 @@ class LogController extends Controller
             }
         }
 
-        return view('app.log.index', compact('log'));
+        $select = [
+            'district' => $selectDistrict,
+            'village' => $selectVillage,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
+        ];
+
+        return view('app.log.index', compact('log','select', 'req','district', 'village',));
     }
 
     /**

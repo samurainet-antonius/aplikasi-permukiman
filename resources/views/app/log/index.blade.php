@@ -166,15 +166,56 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
-                    <form class="float-right">
-                        <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-primary">
-                                    <i class="fa fa-solid fa-search"></i>
-                                </button>
+                    <form class="">
+                        <div class="row">
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Kecamatan</label>
+                                    <select class="select2-single form-control" name="district_code" onchange="submit()">
+                                        @if ($select['district'] == 1)
+                                            <option value="semua">Semua Kecamatan</option>
+                                        @endif
+                                        @foreach ($district as $val)
+                                            <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Desa</label>
+                                    <select class="select2-single form-control" name="village_code" onchange="submit()">
+                                        @if ($select['village'] == 1)
+                                            <option value="semua">Semua Desa</option>
+                                        @endif
+                                        @if ($village)
+                                            @foreach ($village as $val)
+                                                <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tanggal Awal</label>
+                                    <input type="date" name="start_date" value="{{ $select['start_date'] }}" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tanggal Akhir</label>
+                                    <input type="date" name="end_date" value="{{ $select['end_date'] }}" class="form-control" onchange="submit()">
+                                </div>
+                            </div>
+
                         </div>
+
+
                     </form>
                 </div>
                 <div class="card-body">
