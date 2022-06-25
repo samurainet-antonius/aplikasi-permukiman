@@ -17,6 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeafletController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,7 @@ Route::prefix('/l-app/')
         Route::resource('evaluasi', EvaluasiController::class);
         Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
+        Route::resource('log', LogController::class);
 
         Route::get('evaluasi/delete/file/{id}',[EvaluasiController::class, 'destroyGambar'])->name('evaluasi.delete.file');
 

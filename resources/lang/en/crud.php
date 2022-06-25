@@ -177,6 +177,16 @@ return [
         ],
     ],
 
+    'log' => [
+        'name' => 'Log',
+        'index_title' => 'Log Activity',
+        'inputs' => [
+            'name' => 'Nama',
+            'role' => 'Role',
+            'keterangab' => 'Keterangan'
+        ],
+    ],
+
     'province' => [
         'name' => 'Province',
         'index_title' => 'Province List',

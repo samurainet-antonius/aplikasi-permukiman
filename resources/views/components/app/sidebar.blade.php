@@ -61,6 +61,10 @@
                 <a class="collapse-item" href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
             @endcan
 
+            @can('view-any', App\Models\Log::class)
+                <a class="collapse-item" href="{{ route('log.index') }}">Log Aktivitas</a>
+            @endcan
+
           </div>
         </div>
       </li>
