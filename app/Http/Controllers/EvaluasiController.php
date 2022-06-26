@@ -21,6 +21,8 @@ use App\Models\Log;
 use App\Models\PilihanJawaban;
 use Exception;
 use Auth;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\File;
 
 class EvaluasiController extends Controller
@@ -229,16 +231,31 @@ class EvaluasiController extends Controller
     {
         $this->authorize('view', $evaluasi);
 
+        $bulan = $this->bulan();
+
+        $date = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)->orderBy('created_at', 'DESC')->first();
+        $date = date('m', strtotime($date->created_at));
+        $cek = $date;
+        $date = $request->get('bulan', $date);
+
         $kriteria = EvaluasiDetail::where('evaluasi_id',$evaluasi->id)
+                    ->whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', $date)
                     ->groupBy('kriteria_id')
                     ->get();
 
+        // dd($kriteria);
+
         foreach($kriteria as $val) {
             $val->evaluasi = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $date)
                 ->where('kriteria_id', $val->kriteria_id)
                 ->get();
 
             $val->foto = EvaluasiFoto::where('evaluasi_id', $evaluasi->id)
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $date)
                 ->where('kriteria_id', $val->kriteria_id)
                 ->get();
         }
@@ -249,7 +266,7 @@ class EvaluasiController extends Controller
             ->where('code', $evaluasi->village_code)
             ->first();
 
-        return view('app.evaluasi.show', compact('evaluasi','kriteria','status', 'village'));
+        return view('app.evaluasi.show', compact('evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
     }
 
     public function edit(Request $request,$id)
@@ -354,8 +371,9 @@ class EvaluasiController extends Controller
         $data = $result['data'];
         $subkriteria = $result['subkriteria'];
         $kriteria = $result['kriteria'];
+        $date = $result['date'];
 
-        return view('app.evaluasi.form-kriteria-update', compact('data', 'subkriteria', 'kriteria'));
+        return view('app.evaluasi.form-kriteria-update', compact('data', 'subkriteria', 'kriteria', 'date'));
     }
 
     public function kriteriaUpdate(EvaluasiKriteriaStoreRequest $request, $evaluasi_id, $page)
@@ -366,11 +384,11 @@ class EvaluasiController extends Controller
 
         $homePage = $page - 1;
 
-        $result = $this->kriteriaPost($validated, $evaluasi_id, $page, $request->file);
+        $result = $this->kriteriaPostReform($validated, $evaluasi_id, $page, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
-            $this->dataLog($evaluasi_id, 'Melakukan perubahan');
+            $this->dataLog($evaluasi_id, 'Melakukan pembaruan data');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
         } elseif($result['status'] == false) {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
@@ -415,8 +433,11 @@ class EvaluasiController extends Controller
             $evaluasi = $evaluasi->update($validated);
 
             DB::commit();
+            $this->dataLog($evaluasi->id, 'Melakukan perubahan data');
             return redirect()
-            ->route('evaluasi.edit.kriteria', ['evaluasi_id' => $id, 'page' => 0]);
+                // ->route('evaluasi.edit.kriteria', ['evaluasi_id' => $id, 'page' => 0]);
+                ->route('evaluasi.index')
+                ->withSuccess(__('crud.common.saved'));
         }catch(Exception $e){
             DB::rollback();
             return redirect()
@@ -467,10 +488,30 @@ class EvaluasiController extends Controller
 
         $kriteriaId = $kriteria[$page]['id'];
         $subkriteria = SubKriteria::where('kriteria_id', $kriteriaId)->get();
-        $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaId)->get();
+
+        $evaluasiFoto = EvaluasiFoto::select(DB::raw('month(created_at) as month, year(created_at) as year'))
+            ->where('evaluasi_id', $evaluasi_id)
+            ->where('kriteria_id', $kriteriaId)
+            ->groupBy(DB::raw('month(created_at), year(created_at)'))
+            ->orderByRaw('month(created_at) DESC, year(created_at) DESC')
+            ->get();
+
+        if($evaluasiFoto->toArray() != null) {
+            $date['month'] = $evaluasiFoto[0]->month;
+            $date['year'] = $evaluasiFoto[0]->year;
+            $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $evaluasi_id)
+                ->where('kriteria_id', $kriteriaId)
+                ->whereYear('created_at', $evaluasiFoto[0]->year)
+                ->whereMonth('created_at', $evaluasiFoto[0]->month)
+                ->get();
+        } else {
+            $evaluasiFoto = [];
+            $date = '';
+        }
+
 
         foreach ($subkriteria as $key => $val) {
-            $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaId)->where('subkriteria_id', $val->id)->first();
+            $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaId)->where('subkriteria_id', $val->id)->orderBy('created_at', 'DESC')->first();
 
             if ($evaluasiDetail) {
                 $val->evaluasi = $evaluasiDetail->jawaban;
@@ -479,9 +520,9 @@ class EvaluasiController extends Controller
             }
         }
 
-        foreach($subkriteria as $val) {
-            $val->pilihan = PilihanJawaban::where('subkriteria_id', $val->id)->get();
-        }
+        // foreach($subkriteria as $val) {
+        //     $val->pilihan = PilihanJawaban::where('subkriteria_id', $val->id)->get();
+        // }
 
         $data = [
             'next' => $page + 1,
@@ -496,7 +537,8 @@ class EvaluasiController extends Controller
         $result = [
             'kriteria' => $kriteria,
             'data' => $data,
-            'subkriteria' => $subkriteria
+            'subkriteria' => $subkriteria,
+            'date' => $date
         ];
 
         return $result;
@@ -531,7 +573,8 @@ class EvaluasiController extends Controller
                                 'evaluasi_id' => $evaluasi_id,
                                 'kriteria_id' => $kriteriaID,
                                 'nama_kriteria' => $kriteria->nama,
-                                'foto' => $folder . '/' . $fileName
+                                'foto' => $folder . '/' . $fileName,
+                                'created_at' => date("Y-m-d H:i:s")
                             ]);
                         }
                     } else {
@@ -552,6 +595,124 @@ class EvaluasiController extends Controller
                     $subkriteria = SubKriteria::find($subkriteriaID);
                     // $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
                     $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaID)->where('subkriteria_id', $subkriteriaID)->first();
+
+                    if ($evaluasiDetail) {
+                        EvaluasiDetail::find($evaluasiDetail->id)->update(array(
+                            'jawaban' => $value,
+                            'skor' => $value,
+                            'updated_at' => date("Y-m-d H:i:s")
+                        ));
+                    } else {
+                        EvaluasiDetail::insert(array(
+                            'kriteria_id' => $kriteriaID,
+                            'nama_kriteria' => $kriteria->nama,
+                            'subkriteria_id' => $subkriteriaID,
+                            'nama_subkriteria' => $subkriteria->nama,
+                            'jawaban' => $value,
+                            'skor' => $value,
+                            'evaluasi_id' => $evaluasi_id,
+                            'created_at' => date("Y-m-d H:i:s")
+                        ));
+                    }
+                }
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e;
+        }
+
+        return $result;
+    }
+
+    private function kriteriaPostReform($validated, $evaluasi_id, $page, $foto)
+    {
+        $evaluasiDetail = $validated['jawaban'];
+        unset($validated['jawaban']);
+
+        $result['status'] = true;
+
+        DB::beginTransaction();
+        try {
+
+            foreach ($evaluasiDetail as $kriteriaID => $details) {
+
+                $kriteria = Kriteria::find($kriteriaID);
+
+                $eva = EvaluasiFoto::select(DB::raw('month(created_at) as month, year(created_at) as year'))
+                    ->where('evaluasi_id', $evaluasi_id)
+                    ->where('kriteria_id', $kriteriaID)
+                    ->groupBy(DB::raw('month(created_at), year(created_at)'))
+                    ->orderByRaw('month(created_at) DESC, year(created_at) DESC')
+                    ->get();
+
+                $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $evaluasi_id)
+                    ->where('kriteria_id', $kriteriaID)
+                    ->whereYear('created_at', $eva[0]->year)
+                    ->whereMonth('created_at', $eva[0]->month)
+                    ->get();
+
+                if ($foto) {
+
+                    $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $evaluasi_id)
+                        ->where('kriteria_id', $kriteriaID)
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', date('m'))
+                        ->get();
+
+                    $check = count($evaluasiFoto) + count($foto);
+
+                    if ($check <= 2) {
+                        foreach ($foto as $keys => $val) {
+                            $fileName = time() . '-' . $keys . '.' . $val->getClientOriginalExtension();
+                            $folder = 'file/evaluasi';
+                            $val->move(public_path($folder), $fileName);
+
+                            EvaluasiFoto::insert([
+                                'evaluasi_id' => $evaluasi_id,
+                                'kriteria_id' => $kriteriaID,
+                                'nama_kriteria' => $kriteria->nama,
+                                'foto' => $folder . '/' . $fileName,
+                                'created_at' => date("Y-m-d H:i:s")
+                            ]);
+                        }
+                    } else {
+                        $result['status'] = false;
+                        $result['error'] = 'Maksimal unggah 2 file !';
+                    }
+                } elseif ($evaluasiFoto->isEmpty()) {
+                    $result['status'] = false;
+                    $result['error'] = 'Wajib unggah file minimal 1';
+                } elseif(($eva[0]->year.'-'.$eva[0]->month) != date('Y-n')) {
+
+                    foreach ($evaluasiFoto as $keys => $val) {
+
+                        $folder = 'file/pembaruan';
+                        $fileName = explode('/', $val->foto);
+
+                        File::copy(public_path($val->foto), public_path($folder.'/'.$fileName[2]));
+
+                        EvaluasiFoto::insert([
+                            'evaluasi_id' => $val->evaluasi_id,
+                            'kriteria_id' => $val->kriteria_id,
+                            'nama_kriteria' => $val->nama_kriteria,
+                            'foto' => $folder . '/' . $fileName[2],
+                            'created_at' => date("Y-m-d H:i:s")
+                        ]);
+                    }
+                }
+
+                foreach ($details as $subkriteriaID => $value) {
+
+                    $subkriteria = SubKriteria::find($subkriteriaID);
+
+                    $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)
+                        ->where('kriteria_id', $kriteriaID)
+                        ->where('subkriteria_id', $subkriteriaID)
+                        ->whereYear('created_at', date('Y'))
+                        ->whereMonth('created_at', date('m'))
+                        ->orderBy('created_at', 'DESC')
+                        ->first();
 
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
@@ -665,5 +826,18 @@ class EvaluasiController extends Controller
             DB::rollback();
             return $e;
         }
+    }
+
+    private function bulan()
+    {
+        $now = CarbonPeriod::create('2022-01-01', '2022-12-01')->month()->locale('id');
+
+        $date = [];
+        foreach ($now as $key => $val) {
+            $key = $key + 1;
+            $date[$key] = $val->isoFormat('MMMM');
+        }
+
+        return $date;
     }
 }

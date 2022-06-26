@@ -46,8 +46,13 @@
                             </a>
 
                             <button type="submit" class="btn btn-primary float-right">
-                                Selanjutnya
+                                <i class="mr-1 fa fa-soldi fa-save"></i>
+                                @lang('crud.common.create')
                             </button>
+
+                            {{-- <button type="submit" class="btn btn-primary float-right">
+                                Selanjutnya
+                            </button> --}}
                         </div>
 
                     </form>

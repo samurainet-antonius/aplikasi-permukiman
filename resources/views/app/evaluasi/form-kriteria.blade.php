@@ -7,7 +7,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ route('evaluasi.index') }}">Evaluasi</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Create</li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </div>
 

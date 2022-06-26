@@ -13,11 +13,10 @@ class Evaluasi extends Model
     use HasRoles;
     use Notifiable;
     use Searchable;
-    use SoftDeletes;
 
     protected $table = 'evaluasi';
 
-    protected $fillable = ['tahun','province_code','city_code','district_code','village_code', 'status_code', 'lingkungan', 'luas_kawasan', 'luas_kumuh', 'latitude', 'longitude', 'gambar_delinasi','created_at','updated_at'];
+    protected $fillable = ['tahun','province_code','city_code','district_code','village_code', 'status_id', 'lingkungan', 'luas_kawasan', 'luas_kumuh', 'latitude', 'longitude', 'gambar_delinasi','created_at','updated_at'];
 
     protected $searchableFields = ['*'];
 

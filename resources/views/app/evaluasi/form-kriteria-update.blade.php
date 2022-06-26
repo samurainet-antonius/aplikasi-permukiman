@@ -1,13 +1,13 @@
 <x-app-layout>
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@lang('crud.evaluasi.create_title')</h1>
+        <h1 class="h3 mb-0 text-gray-800">Pembaruan Data</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">
                 <a href="{{ route('evaluasi.index') }}">Evaluasi</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Create</li>
+            <li class="breadcrumb-item active" aria-current="page">Pembaruan</li>
         </ol>
     </div>
 
@@ -22,7 +22,6 @@
                             <h3>{{ $kriteria['nama'] }}</h3>
                             <p>Silakan lakukan pengisian data dengan cara memilih salah satu kondisi yang tepat, dan unggah maksimal dua foto</p>
                             <hr/>
-
 
                             @foreach ($subkriteria as $key => $item)
                             <div class="form-group mb-3">
@@ -49,19 +48,23 @@
 
                             <div class="form-group mt-5">
                                 <label>Unggah gambar &#42;</label>
-                                <input type="file" class="form-control" id="file" name="file[]" accept="image/*" multiple>
+                                <small class="form-text text-muted">
+                                    Abaikan jika ingin memakai file lama <br> jika ingin menggantinya silahkan upload kembali
+                                </small>
+                                <input type="file" class="form-control mt-2" id="file" name="file[]" accept="image/*" multiple>
                                 <small class="form-text text-muted">
                                     Maksimal unggah 2 file <br> Tipe file berekstensi .jpeg/.jpg/.png <br> Maksimal 5MB
                                 </small>
-
 
                                 @foreach ($data['foto'] as $val)
                                     <div class="border border-danger text-danger rounded p-2 mt-2 py-3 col-6">
                                         {{ $val->foto }}
 
-                                        <a href="{{ route('evaluasi.delete.foto.edit', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next'], 'id' => $val->id ]) }}" class="btn btn-danger btn-sm float-right ml-2">
-                                            <i class="fa fa-solid fa-trash"></i>
-                                        </a>
+                                        @if ($date['year'] == date('Y') && $date['month'] == date('m'))
+                                            <a href="{{ route('evaluasi.delete.foto.edit', ['evaluasi_id' => $data['evaluasi'], 'page' => $data['next'], 'id' => $val->id ]) }}" class="btn btn-danger btn-sm float-right ml-2">
+                                                <i class="fa fa-solid fa-trash"></i>
+                                            </a>
+                                        @endif
                                         <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#modal-{{$val->id}}">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </button>
@@ -89,7 +92,7 @@
                                     Kembali
                                 </a>
                             @else
-                                <a href="{{ route('evaluasi.edit', $data['evaluasi']) }}" class="btn btn-primary">
+                                <a href="{{ route('evaluasi.show', $data['evaluasi']) }}" class="btn btn-primary">
                                     Kembali
                                 </a>
                             @endif

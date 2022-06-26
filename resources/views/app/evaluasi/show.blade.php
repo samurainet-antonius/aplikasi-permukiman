@@ -13,7 +13,7 @@
         <style>
         #map {
             width: 100%;
-            height: 100%;
+            height: 250px;
         }
     </style>
     @endpush
@@ -36,10 +36,10 @@
                 <div class="card-body">
                     <h4>Lokasi</h4>
                     <hr/>
-                    <div class="row">
+                    <div class="row mb-5">
                         <div class="col-7">
                             <dl class="row">
-                                <dt class="col-sm-3">Tahun</dt>
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.tahun')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->tahun ?? '-' }}</dd>
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.provinsi')</dt>
@@ -56,7 +56,25 @@
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.desa')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->village->name ?? '-' }}</dd>
 
-                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.lingkungan')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->lingkungan ?? '-' }}</dd>
+
+                                <dt class="col-sm-3 mt-4">@lang('crud.evaluasi.inputs.latitude')</dt>
+                                <dd class="col-sm-9 mt-4">{{ $evaluasi->latitude ?? '-' }}</dd>
+
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.longitude')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->longitude ?? '-' }}</dd>
+
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.luas_kawasan')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->luas_kawasan ?? '-' }} Ha</dd>
+
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.luas_kumuh')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->luas_kumuh ?? '-' }} Ha</dd>
+
+                                <dt class="col-sm-3 mt-5">@lang('crud.evaluasi.inputs.status')</dt>
+                                <dd class="col-sm-9 mt-5">{{ $evaluasi->status->nama ?? '-' }}</dd>
+
+                                {{-- <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
                                 <dd class="col-sm-9">
 
                                     @if(Auth::user()->roles[0]->name == "super-admin" || Auth::user()->roles[0]->name == "admin-provinsi" || Auth::user()->roles[0]->name == "admin-kabupaten")
@@ -77,15 +95,61 @@
                                         {{ $evaluasi->status->nama }}
                                     @endif
 
-                                </dd>
+                                </dd> --}}
                             </dl>
                         </div>
-                        <div class="col-5">
-                            <div id="map" class="map"></div>
+                        <div class="col-5 row">
+                            <div class="col-12">
+                                <div id="map" class="map"></div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <img src="{{ asset($evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
+                            </div>
+
                         </div>
                     </div>
-                    <h4>Data</h4>
+                    <h4>Parameter</h4>
                     <hr/>
+                    <form class="row justify-content-between mb-4">
+                        <div class="col-2">
+                            <select class="select2-single form-control" name="bulan" onchange="submit()">
+                                @foreach ($bulan as $key => $item)
+                                    <option value="{{$key}}" {{ (($date == $key ? 'selected' : '')) }}>{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <a href="{{ route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi->id, 'page' => 0]) }}" class="btn btn-primary float-right {{ $cek == date('m') ? 'disabled' : '' }}">Pembaruan Data</a>
+                        </div>
+                    </form>
+                    {{-- <div class="row">
+                    </div> --}}
+                    <div class="row">
+                        @foreach ($kriteria as $item)
+                            <div class="col-4">
+                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">
+                                    <div class="card mb-3" style="height: 180px; !important">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <p>{{$item->nama_kriteria}}</p>
+                                                    <button type="button" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm" data-toggle="modal" data-target="#mods">
+                                                        Edit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
+                                                <h1>5</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+
+
+
                     {{-- <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -110,7 +174,7 @@
                         </table>
                     </div> --}}
 
-                    <div class="table-responsive">
+                    {{-- <div class="table-responsive">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
@@ -145,7 +209,7 @@
                             @endforelse
                             </tbody>
                         </table>
-                    </div>
+                    </div> --}}
                     <br/>
                     <div class="mt-10">
                         <a href="{{ route('evaluasi.index') }}" class="button">
@@ -176,8 +240,8 @@
             <div class="modal-body">
                 @foreach ($value->evaluasi as $item)
                     <div class="mb-3">
-                        <p class="font-weight-bold">{{ $item->nama_subkriteria }}</p>
-                        <p><i class="fas fa-circle mr-2"></i> {{ $item->jawaban }}</p>
+                        <p class="font-weight-bold"><i class="fas fa-circle mr-1"></i> {{ $item->nama_subkriteria }}</p>
+                        <p class="ml-4">{{ $item->jawaban }} {{ $item->subkriteria->satuan }}</p>
                     </div>
                 @endforeach
 
@@ -198,8 +262,8 @@
     @endforeach
 
     <script type="text/javascript">
-        var latitude = '{{ $village->latitude }}';
-        var longitude = '{{ $village->longitude }}';
+        var latitude = '{{ $evaluasi->latitude }}';
+        var longitude = '{{ $evaluasi->longitude }}';
 
         var mapOptions = {
             center: [latitude,longitude],
