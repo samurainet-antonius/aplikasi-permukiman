@@ -139,7 +139,7 @@
                                                 </div>
                                             </div>
                                             <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
-                                                <h1>5</h1>
+                                                <h1>{{$item->skor}}</h1>
                                             </div>
                                         </div>
                                     </div>

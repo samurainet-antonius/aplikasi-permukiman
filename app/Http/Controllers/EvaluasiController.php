@@ -253,6 +253,12 @@ class EvaluasiController extends Controller
                 ->where('kriteria_id', $val->kriteria_id)
                 ->get();
 
+            $val->skor = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $date)
+                ->where('kriteria_id', $val->kriteria_id)
+                ->sum('skor');
+
             $val->foto = EvaluasiFoto::where('evaluasi_id', $evaluasi->id)
                 ->whereYear('created_at', date('Y'))
                 ->whereMonth('created_at', $date)
