@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-group">
-        <label>Provinsi</label>
+        <label>@lang('crud.districts.inputs.province')</label>
         <select class="select2-single form-control" name="province_code" id="province">
             <option>Pilih Provinsi</option>
             <option value="12">SUMATERA UTARA</option>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="form-group">
-        <label>Kabupaten</label>
+        <label>@lang('crud.districts.inputs.city')</label>
         <select class="select2-single form-control" name="city_code" id="city">
             <option>Pilih Kabupaten</option>
         </select>

@@ -5,9 +5,9 @@
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
+                <a href="{{ route('statuskumuh.index') }}">@lang('crud.statuskumuh.name')</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Create</li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </div>
 

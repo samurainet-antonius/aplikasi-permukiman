@@ -4,7 +4,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
-            <li class="breadcrumb-item active" aria-current="page">Kriteria</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.kriteria.name')</li>
         </ol>
     </div>
 

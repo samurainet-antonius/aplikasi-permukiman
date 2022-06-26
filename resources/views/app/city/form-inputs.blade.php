@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-group">
-        <label>Province</label>
+        <label>@lang('crud.city.inputs.province')</label>
         <select class="select2-single form-control" name="province_code" id="select2Single">
             <option value="12">SUMATERA UTARA</option>
         </select>

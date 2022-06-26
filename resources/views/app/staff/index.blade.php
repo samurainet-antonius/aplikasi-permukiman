@@ -4,7 +4,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
-            <li class="breadcrumb-item active" aria-current="page">Staff</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.staff.name')</li>
         </ol>
     </div>
 
@@ -71,7 +71,7 @@
                                         <a href="{{ route('staff.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        
+
                                         @endcan @can('delete', $value)
                                         <form action="{{ route('staff.destroy', $value) }}" method="POST"
                                             onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">

@@ -3,11 +3,11 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.permissions.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Permissions</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.permissions.name')</li>
         </ol>
     </div>
-    
+
     <div class="row">
         <div class="col-lg-12 mb-4">
             <div class="card">

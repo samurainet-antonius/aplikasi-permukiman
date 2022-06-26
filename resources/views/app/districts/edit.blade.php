@@ -3,9 +3,9 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.districts.edit_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
+            <li class="breadcrumb-item">Pengaturan</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('district.index') }}">Districts</a>
+                <a href="{{ route('district.index') }}">@lang('crud.districts.name')</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Edit</li>
         </ol>

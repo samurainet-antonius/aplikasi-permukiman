@@ -3,8 +3,8 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.users.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Users</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.users.name')</li>
         </ol>
     </div>
 
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                     </form>
-                    
+
                 </div>
 
                 <div class="table-responsive">

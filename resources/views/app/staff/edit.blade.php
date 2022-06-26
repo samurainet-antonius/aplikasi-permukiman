@@ -5,7 +5,7 @@
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('staff.index') }}">Staff</a>
+                <a href="{{ route('staff.index') }}">@lang('crud.staff.name')</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Edit</li>
         </ol>

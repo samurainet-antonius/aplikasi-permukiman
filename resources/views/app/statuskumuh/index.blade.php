@@ -4,7 +4,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
-            <li class="breadcrumb-item active" aria-current="page">Status Kimia</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.statuskumuh.name')</li>
         </ol>
     </div>
 
@@ -12,15 +12,27 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
-                    <form class="float-right">
-                        <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-primary">
-                                    <i class="fa fa-solid fa-search"></i>
-                                </button>
+                    <form>
+                        <div class="float-left">
+                            <div class="form-group mb-3">
+                                <select name="tahun" class="form-control" onchange="submit()">
+                                    @for($i=date("Y");$i>="2015";$i--)
+                                        <option value="{{ $i; }}" {{ (($tahun == $i) ? 'selected' : '')  }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
+                        <div class="float-right">
+                            <div class="input-group mb-3">
+                            <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-solid fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </form>
 
                     @can('create', App\Models\StatusKumuh::class)
@@ -36,6 +48,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>@lang('crud.statuskumuh.inputs.no')</th>
+                                <th>@lang('crud.statuskumuh.inputs.tahun')</th>
                                 <th>@lang('crud.statuskumuh.inputs.nama')</th>
                                 <th>@lang('crud.statuskumuh.inputs.warna')</th>
                                 <th>@lang('crud.statuskumuh.inputs.icon')</th>
@@ -49,6 +62,9 @@
                             <tr>
                                 <td>
                                     {{ $key+1 }}
+                                </td>
+                                <td>
+                                    {{ $value->tahun ?? '-' }}
                                 </td>
                                 <td>
                                     {{ $value->nama ?? '-' }}

@@ -3,11 +3,11 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.city.create_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
+            <li class="breadcrumb-item">Pengaturan</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('city.index') }}">City</a>
+                <a href="{{ route('city.index') }}">@lang('crud.city.name')</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Create</li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </div>
 

@@ -3,8 +3,8 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.city.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">City</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.city.name')</li>
         </ol>
     </div>
 
@@ -15,7 +15,7 @@
                     <div class="col-12">
                         <div class="form-group col-6">
                             <form action="" method="get">
-                                <label>Province</label>
+                                <label>@lang('crud.city.inputs.province')</label>
                                 <select class="select2-single form-control" name="province" id="province" id="select2Single" onchange="submit()">
                                     <option value="12">SUMATERA UTARA</option>
                                 </select>
