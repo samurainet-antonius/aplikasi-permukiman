@@ -127,23 +127,23 @@
                     <div class="row">
                         @foreach ($kriteria as $item)
                             <div class="col-4">
-                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">
-                                    <div class="card mb-3" style="height: 180px; !important">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <p>{{$item->nama_kriteria}}</p>
-                                                    <button type="button" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm" data-toggle="modal" data-target="#mods">
-                                                        Edit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
-                                                <h1>{{$item->skor}}</h1>
+
+                                <div class="card mb-3" style="height: 180px; !important">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">{{$item->nama_kriteria}}</a>
+                                                {{-- <p>{{$item->nama_kriteria}}</p> --}}
+                                                <button type="button" data-toggle="modal" data-target="#edit-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm mt-2" data-toggle="modal" data-target="#mods">
+                                                    Edit
+                                                </button>
                                             </div>
                                         </div>
+                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
+                                            <h1>{{$item->skor}}</h1>
+                                        </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -261,6 +261,89 @@
     </div>
     @endforeach
 
+    @foreach ($kriteria as $value)
+    <div class="modal fade" id="edit-{{$value->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Kriteria {{$value->nama_kriteria}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('evaluasi.store.kriteria', ['evaluasi_id' => $evaluasi->id]) }}" has-files class="mt-4" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    @csrf
+                    @foreach ($value->evaluasi as $key => $item)
+                        <div class="form-group mb-3">
+                            <label>{{ $key+1 }}. {{$item->nama_subkriteria}}</label>
+
+                            <div class="row">
+                                <input type="text" class="ml-4 col-8 form-control" value="{{$item->skor}}" placeholder="masukan skor" name="jawaban[{{$value->kriteria_id}}][{{$item->subkriteria_id}}]" required>
+                                <h6 class="col-2 mt-2">{{ $item->subkriteria->satuan }}</h6>
+                            </div>
+
+                        </div>
+                    @endforeach
+
+                    {{-- <div class="row mt-5">
+                        @foreach ($value->foto as $val)
+                            <div class="col-6">
+                                <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                            </div>
+                        @endforeach
+                    </div> --}}
+                    <div class="form-group mt-5">
+                        <label>Unggah gambar &#42;</label>
+                        <input type="file" class="form-control mt-2" id="file" name="file[]" accept="image/*" multiple>
+                        <small class="form-text text-muted">
+                            Maksimal unggah 2 file <br> Tipe file berekstensi .jpeg/.jpg/.png <br> Maksimal 5MB
+                        </small>
+
+                        @foreach ($value->foto as $val)
+                            <div class="border border-danger text-danger rounded p-2 mt-2 py-3 col-6">
+                                {{ $val->foto }}
+
+                                <a href="{{ route('evaluasi.delete.foto', ['evaluasi_id' => $evaluasi->id, 'id' => $val->id ]) }}" class="btn btn-danger btn-sm float-right ml-2">
+                                    <i class="fa fa-solid fa-trash"></i>
+                                </a>
+                                <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#modal-{{$val->id}}">
+                                    <i class="fa fa-fw fa-eye"></i>
+                                </button>
+                            </div>
+
+                            <div class="modal fade" id="modal-{{$val->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- <button type="submit" class="btn btn-primary float-right">
+                        <i class="mr-1 fa fa-soldi fa-save"></i>
+                        @lang('crud.common.create')
+                    </button> --}}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary float-right">
+                        <i class="mr-1 fa fa-soldi fa-save"></i>
+                        @lang('crud.common.create')
+                    </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
     <script type="text/javascript">
         var latitude = '{{ $evaluasi->latitude }}';
         var longitude = '{{ $evaluasi->longitude }}';
@@ -281,5 +364,19 @@
         var marker = L.marker(pos).addTo(map);
 
     </script>
+
+    @push('styles')
+        <script>
+            $(function(){
+                $("#file").change(function(){
+                    var $fileUpload = $("input[type='file']");
+                    if (parseInt($fileUpload.get(0).files.length)>2){
+                        alert("Hanya bisa upload gambar maksimal 2 file");
+                        $fileUpload.val('');
+                    }
+                });
+            });
+        </script>
+    @endpush
 
 </x-app-layout>

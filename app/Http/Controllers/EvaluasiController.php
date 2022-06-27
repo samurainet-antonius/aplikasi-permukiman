@@ -176,7 +176,7 @@ class EvaluasiController extends Controller
 
         $homePage = $page - 1;
 
-        $result = $this->kriteriaPost($validated,$evaluasi_id, $page, $request->file);
+        $result = $this->kriteriaPost($validated,$evaluasi_id, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
@@ -265,6 +265,8 @@ class EvaluasiController extends Controller
                 ->where('kriteria_id', $val->kriteria_id)
                 ->get();
         }
+
+        // dd($kriteria->toArray());
 
         $status = StatusKumuh::get();
 
@@ -390,7 +392,7 @@ class EvaluasiController extends Controller
 
         $homePage = $page - 1;
 
-        $result = $this->kriteriaPostReform($validated, $evaluasi_id, $page, $request->file);
+        $result = $this->kriteriaPostReform($validated, $evaluasi_id, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
@@ -400,6 +402,20 @@ class EvaluasiController extends Controller
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
         } else {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
+        }
+    }
+
+    public function kriteriaEvaluasi(EvaluasiKriteriaStoreRequest $request, $evaluasi_id)
+    {
+        $validated = $request->validated();
+
+        $result = $this->kriteriaPostReform($validated, $evaluasi_id, $request->file);
+
+        if ($result['status'] == false) {
+            return redirect()->route('evaluasi.show', $evaluasi_id)->withErrors($result['error']);
+        } else {
+            $this->dataLog($evaluasi_id, 'Melakukan perubahan data');
+            return redirect()->route('evaluasi.show', $evaluasi_id);
         }
     }
 
@@ -487,6 +503,13 @@ class EvaluasiController extends Controller
         }
     }
 
+    public function destroyFotoEvaluasi($evaluasi_id, $id)
+    {
+        $this->evaluasiDeleteFoto($id);
+
+        return redirect()->route('evaluasi.show', $evaluasi_id);
+    }
+
     private function kriteriaGet($evaluasi_id, $page)
     {
         $kriteria = Kriteria::latest()->get();
@@ -550,7 +573,7 @@ class EvaluasiController extends Controller
         return $result;
     }
 
-    private function kriteriaPost($validated, $evaluasi_id, $page, $foto)
+    private function kriteriaPost($validated, $evaluasi_id, $foto)
     {
         $evaluasiDetail = $validated['jawaban'];
         unset($validated['jawaban']);
@@ -600,7 +623,11 @@ class EvaluasiController extends Controller
 
                     $subkriteria = SubKriteria::find($subkriteriaID);
                     // $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
-                    $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $kriteriaID)->where('subkriteria_id', $subkriteriaID)->first();
+                    $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)
+                        ->where('kriteria_id', $kriteriaID)
+                        ->where('subkriteria_id', $subkriteriaID)
+                        ->orderBy('created_at', 'DESC')
+                        ->first();
 
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
@@ -625,13 +652,13 @@ class EvaluasiController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            return $e;
+            dd($e);
         }
 
         return $result;
     }
 
-    private function kriteriaPostReform($validated, $evaluasi_id, $page, $foto)
+    private function kriteriaPostReform($validated, $evaluasi_id, $foto)
     {
         $evaluasiDetail = $validated['jawaban'];
         unset($validated['jawaban']);
