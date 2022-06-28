@@ -271,7 +271,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ route('evaluasi.store.kriteria', ['evaluasi_id' => $evaluasi->id]) }}" has-files class="mt-4" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('evaluasi.store.kriteria.edit', ['evaluasi_id' => $evaluasi->id]) }}" has-files class="mt-4" enctype="multipart/form-data">
                 <div class="modal-body">
 
                     @csrf
