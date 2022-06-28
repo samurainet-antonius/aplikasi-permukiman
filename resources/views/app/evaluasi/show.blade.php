@@ -166,7 +166,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="text-center">
+                                <h2>Data belum ada.</h2>
+                            </div>
+                        @endforelse
                     </div>
 
 
