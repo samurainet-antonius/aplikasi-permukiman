@@ -29,7 +29,7 @@
                                         <select class="select2-single form-control" name="city" id="city" onchange="submit()">
                                             @if ($city)
                                                 @foreach ($city as $val)
-                                                    <option value="{{$val->code}}" {{ (Request::get('city') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                    <option value="{{$val->code}}" {{ ('1207' == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                                 @endforeach
                                             @else
                                                 <option>-------</option>

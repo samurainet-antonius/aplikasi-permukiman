@@ -23,11 +23,11 @@ class VillageController extends Controller
         $search = $request->get('search', '');
 
         $city = City::where('province_code', 12)->orderBy('name', 'ASC')->get();
-        $district = Districts::where('city_code', $request->city)->orderBy('name', 'ASC')->get();
+        $district = Districts::where('city_code', '1207')->orderBy('name', 'ASC')->get();
 
         $village = Village::select('id', 'code', 'district_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
-                return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '';
+                return '120701' ? $query->from('indonesia_villages')->where('district_code', '120701') : '120701';
             })
             ->orderBy('district_code', 'ASC')
             ->orderBy('code', 'ASC')
