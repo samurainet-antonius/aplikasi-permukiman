@@ -89,7 +89,7 @@ Route::prefix('/l-app/')
         Route::post('evaluasi/{evaluasi_id}/edit/kriteria/{page}',[EvaluasiController::class, 'kriteriaUpdate'])->name('evaluasi.update.kriteria');
         Route::get('evaluasi/{evaluasi_id}/edit/kriteria/{page}/{id}', [EvaluasiController::class, 'destroyFotoEvaluasiEdit'])->name('evaluasi.delete.foto.edit');
 
-        Route::post('evaluasi/{evaluasi_id}/edit',[EvaluasiController::class, 'kriteriaEvaluasi'])->name('evaluasi.store.kriteria');
+        // Route::post('evaluasi/{evaluasi_id}/edit',[EvaluasiController::class, 'kriteriaEvaluasi'])->name('evaluasi.store.kriteria');
         Route::get('evaluasi/{evaluasi_id}/edit/{id}', [EvaluasiController::class, 'destroyFotoEvaluasi'])->name('evaluasi.delete.foto');
 
 
