@@ -132,6 +132,7 @@
                     </div> --}}
                     <div class="row">
                         @foreach ($kriteria as $item)
+                            <?php $skor = floor($item->skor/$item->sub); ?>
                             <div class="col-4">
 
                                 <div class="card mb-3" style="height: 180px; !important">
@@ -145,9 +146,23 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        @if($skor == 0)
                                         <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
-                                            <h1>{{$item->skor}}</h1>
+                                            <h1>{{$skor}}</h1>
                                         </div>
+                                        @elseif($skor == 1)
+                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-warning py-5 rounded-right align-items-center text-center">
+                                            <h1>{{$skor}}</h1>
+                                        </div>
+                                        @elseif($skor == 3)
+                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-warning py-5 rounded-right align-items-center text-center">
+                                            <h1>{{$skor}}</h1>
+                                        </div>
+                                        @else
+                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-danger py-5 rounded-right align-items-center text-center">
+                                            <h1>{{$skor}}</h1>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
