@@ -29,7 +29,7 @@
                                         <select class="select2-single form-control" name="city" id="city" onchange="submit()">
                                             @if ($city)
                                                 @foreach ($city as $val)
-                                                    <option value="{{$val->code}}" {{ (Request::get('1207') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                    <option value="{{$val->code}}" {{ ('1207' == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                                 @endforeach
                                             @else
                                                 <option>-------</option>
@@ -43,7 +43,7 @@
                                         <select class="select2-single form-control" name="district" id="district" onchange="submit()">
                                             @if ($district)
                                                 @foreach ($district as $val)
-                                                    <option value="{{$val->code}}" {{ (Request::get('120701') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                    <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                                 @endforeach
                                             @else
                                                 <option>-------</option>
@@ -121,14 +121,6 @@
                                         <a href="{{ route('village.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
-                                        @endcan @can('delete', $value)
-                                        <form action="{{ route('village.destroy', $value) }}" method="POST"
-                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fa fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
                                         @endcan
                                     </div>
                                 </td>
