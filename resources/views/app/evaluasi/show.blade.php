@@ -131,7 +131,7 @@
                     {{-- <div class="row">
                     </div> --}}
                     <div class="row">
-                        @foreach ($kriteria as $item)
+                        @forelse ($kriteria as $item)
                             <div class="col-4">
 
                                 <div class="card mb-3" style="height: 180px; !important">
@@ -151,7 +151,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="text-center">
+                                <h2>Data belum ada.</h2>
+                            </div>
+                        @endforelse
                     </div>
 
 
