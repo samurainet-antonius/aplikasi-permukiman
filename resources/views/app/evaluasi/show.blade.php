@@ -248,7 +248,7 @@
                 <div class="row mt-5">
                     @foreach ($value->foto as $val)
                         <div class="col-6">
-                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                            <img src="{{ asset('public/'.$val->foto) }}" class="img-fluid"/>
                         </div>
                     @endforeach
                 </div>
