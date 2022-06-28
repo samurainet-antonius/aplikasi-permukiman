@@ -103,7 +103,7 @@
                                 <div id="map" class="map"></div>
                             </div>
                             <div class="col-12 mt-4">
-                                <img src="{{ asset($evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
+                                <img src="{{ asset('public/'.$evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
                             </div>
 
                         </div>
@@ -317,7 +317,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-body">
-                                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                                            <img src="{{ asset('public/'.$val->foto) }}" class="img-fluid"/>
                                         </div>
                                     </div>
                                 </div>
