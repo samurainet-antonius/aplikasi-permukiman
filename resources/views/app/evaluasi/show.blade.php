@@ -139,10 +139,12 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">{{$item->nama_kriteria}}</a> <br>
-                                                {{-- <p>{{$item->nama_kriteria}}</p> --}}
+                                                <p>{{$item->nama_kriteria}}</p>
                                                 <button type="button" data-toggle="modal" data-target="#edit-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm mt-2" data-toggle="modal" data-target="#mods">
                                                     Edit
+                                                </button>
+                                                <button type="button" data-toggle="modal" data-target="#modal-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-info btn-sm mt-2" data-toggle="modal" data-target="#mods">
+                                                    View
                                                 </button>
                                             </div>
                                         </div>
