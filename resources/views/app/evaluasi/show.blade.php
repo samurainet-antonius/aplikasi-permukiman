@@ -131,7 +131,7 @@
                     {{-- <div class="row">
                     </div> --}}
                     <div class="row">
-                        @foreach ($kriteria as $item)
+                        @forelse ($kriteria as $item)
                             <?php $skor = floor($item->skor/$item->sub); ?>
                             <div class="col-4">
 
