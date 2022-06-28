@@ -109,7 +109,7 @@
                                 <div id="map" class="map"></div>
                             </div>
                             <div class="col-12 mt-4">
-                                <img src="{{ asset($evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
+                                <img src="{{ asset('public/'.$evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
                             </div>
 
                         </div>
@@ -138,7 +138,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">{{$item->nama_kriteria}}</a>
+                                                <a data-toggle="modal" data-target="#modal-{{$item->id}}">{{$item->nama_kriteria}}</a> <br>
                                                 {{-- <p>{{$item->nama_kriteria}}</p> --}}
                                                 <button type="button" data-toggle="modal" data-target="#edit-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm mt-2" data-toggle="modal" data-target="#mods">
                                                     Edit
@@ -254,7 +254,7 @@
                 <div class="row mt-5">
                     @foreach ($value->foto as $val)
                         <div class="col-6">
-                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                            <img src="{{ asset('public/'.$val->foto) }}" class="img-fluid"/>
                         </div>
                     @endforeach
                 </div>
@@ -277,7 +277,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ route('evaluasi.store.kriteria', ['evaluasi_id' => $evaluasi->id]) }}" has-files class="mt-4" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('evaluasi.store.kriteria.edit', ['evaluasi_id' => $evaluasi->id]) }}" has-files class="mt-4" enctype="multipart/form-data">
                 <div class="modal-body">
 
                     @csrf
@@ -323,7 +323,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-body">
-                                            <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                                            <img src="{{ asset('public/'.$val->foto) }}" class="img-fluid"/>
                                         </div>
                                     </div>
                                 </div>
