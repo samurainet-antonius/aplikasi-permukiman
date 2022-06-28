@@ -33,6 +33,8 @@ class EvaluasiUpdateRequest extends FormRequest
             'lingkungan' => ['required'],
             'luas_kawasan' => ['required'],
             'luas_kumuh' => ['required'],
+            'jumlah_bangunan' => ['required'],
+            'jumlah_penduduk' => ['required'],
             'latitude' => ['required'],
             'longitude' => ['required'],
         ];

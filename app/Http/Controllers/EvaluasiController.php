@@ -410,6 +410,7 @@ class EvaluasiController extends Controller
         $validated = $request->validated();
 
         $result = $this->kriteriaPostReform($validated, $evaluasi_id, $request->file);
+        
 
         if ($result['status'] == false) {
             return redirect()->route('evaluasi.show', $evaluasi_id)->withErrors($result['error']);
@@ -575,6 +576,10 @@ class EvaluasiController extends Controller
 
     private function kriteriaPost($validated, $evaluasi_id, $foto)
     {
+
+        $evaluasi = Evaluasi::find($evaluasi_id);
+        $jmlBangunan = $evaluasi->jumlah_bangunan;
+
         $evaluasiDetail = $validated['jawaban'];
         unset($validated['jawaban']);
 
@@ -629,10 +634,16 @@ class EvaluasiController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->first();
 
+                    $persen = $value/$jmlBangunan;
+
+                    $nilai = $this->formula($persen);
+
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
+                            'persen' => $persen,
+                            'nilai' => $nilai,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
                     } else {
@@ -643,6 +654,8 @@ class EvaluasiController extends Controller
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
                             'skor' => $value,
+                            'persen' => $persen,
+                            'nilai' => $nilai,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")
                         ));
@@ -658,8 +671,27 @@ class EvaluasiController extends Controller
         return $result;
     }
 
+    private function formula($persen){
+
+        if($persen >= 76 && $persen <= 100){
+            return 5;
+        }
+        elseif($persen >= 51 && $persen <= 75){
+            return 3;
+        }
+        elseif($persen >= 25 && $persen <= 50){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
     private function kriteriaPostReform($validated, $evaluasi_id, $foto)
     {
+        $evaluasi = Evaluasi::find($evaluasi_id);
+        $jmlBangunan = $evaluasi->jumlah_bangunan;
+
         $evaluasiDetail = $validated['jawaban'];
         unset($validated['jawaban']);
 
@@ -746,11 +778,16 @@ class EvaluasiController extends Controller
                         ->whereMonth('created_at', date('m'))
                         ->orderBy('created_at', 'DESC')
                         ->first();
+                        
+                    $persen = $value/$jmlBangunan;
+                    $nilai = $this->formula($persen);
 
                     if ($evaluasiDetail) {
                         EvaluasiDetail::find($evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
+                            'persen' => $persen,
+                            'nilai' => $nilai,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
                     } else {
@@ -761,6 +798,8 @@ class EvaluasiController extends Controller
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
                             'skor' => $value,
+                            'persen' => $persen,
+                            'nilai' => $nilai,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")
                         ));
@@ -770,9 +809,10 @@ class EvaluasiController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
+            dd($e->getMessage());
             return $e;
         }
-
+        
         return $result;
     }
 

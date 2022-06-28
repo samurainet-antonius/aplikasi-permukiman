@@ -16,7 +16,7 @@ class Evaluasi extends Model
 
     protected $table = 'evaluasi';
 
-    protected $fillable = ['tahun','province_code','city_code','district_code','village_code', 'status_id', 'lingkungan', 'luas_kawasan', 'luas_kumuh', 'latitude', 'longitude', 'gambar_delinasi','created_at','updated_at'];
+    protected $fillable = ['tahun','province_code','city_code','district_code','village_code', 'status_id', 'lingkungan', 'luas_kawasan', 'luas_kumuh','jumlah_bangunan','jumlah_penduduk', 'latitude', 'longitude', 'gambar_delinasi','created_at','updated_at'];
 
     protected $searchableFields = ['*'];
 

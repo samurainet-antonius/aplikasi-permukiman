@@ -93,6 +93,26 @@
     </div>
 
     <div class="form-group">
+        <label>Jumlah Bangunan</label>
+        <div class="input-group mb-3">
+            <input name="jumlah_bangunan" type="number" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon">Unit</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Jumlah Penduduk</label>
+        <div class="input-group mb-3">
+            <input name="jumlah_penduduk" type="number" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon">Jiwa</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="row">
             <div class="col">
                 <label>Latitude</label>
