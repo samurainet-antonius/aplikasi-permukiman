@@ -67,7 +67,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-body">
-                                                    <img src="{{ asset($val->foto) }}" class="img-fluid"/>
+                                                    <img src="{{ asset('public/'.$val->foto) }}" class="img-fluid"/>
                                                 </div>
                                             </div>
                                         </div>
