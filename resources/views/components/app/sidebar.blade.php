@@ -99,14 +99,6 @@
                 <a class="collapse-item" href="{{ route('permissions.index') }}">Hak Akses</a>
             @endcan
 
-            @can('view-any', Spatie\Permission\Models\Province::class)
-                <a class="collapse-item" href="{{ route('province.index') }}">Provinsi</a>
-            @endcan
-
-            @can('view-any', Spatie\Permission\Models\City::class)
-                <a class="collapse-item" href="{{ route('city.index') }}">Kabupataen/Kota</a>
-            @endcan
-
             @can('view-any', Spatie\Permission\Models\District::class)
                 <a class="collapse-item" href="{{ route('district.index') }}">Kecamatan</a>
             @endcan
