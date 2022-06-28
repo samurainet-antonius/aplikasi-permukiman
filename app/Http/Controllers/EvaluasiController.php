@@ -634,7 +634,7 @@ class EvaluasiController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->first();
 
-                    $persen = $value/$jmlBangunan;
+                    $persen = round($value/$jmlBangunan,2);
 
                     $nilai = $this->formula($persen);
 
@@ -779,7 +779,7 @@ class EvaluasiController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->first();
                         
-                    $persen = $value/$jmlBangunan;
+                    $persen = round($value/$jmlBangunan,2);
                     $nilai = $this->formula($persen);
 
                     if ($evaluasiDetail) {

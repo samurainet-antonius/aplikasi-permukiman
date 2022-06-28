@@ -71,6 +71,12 @@
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.luas_kumuh')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->luas_kumuh ?? '-' }} Ha</dd>
 
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_bangunan')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->jumlah_bangunan ?? '-' }} Ha</dd>
+
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_penduduk')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Ha</dd>
+
                                 <dt class="col-sm-3 mt-5">@lang('crud.evaluasi.inputs.status')</dt>
                                 <dd class="col-sm-9 mt-5">{{ $evaluasi->status->nama ?? '-' }}</dd>
 

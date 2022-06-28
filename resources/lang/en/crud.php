@@ -113,6 +113,8 @@ return [
             'tahun' => 'Tahun',
             'luas_kawasan' => 'Luas Kawasan',
             'luas_kumuh' => 'Luas Kumuh',
+            'jumlah_bangunan' => 'Jumlah Bangunan',
+            'jumlah_penduduk' => 'Jumlah Penduduk',
             'lingkungan' => 'Lingkungan',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
