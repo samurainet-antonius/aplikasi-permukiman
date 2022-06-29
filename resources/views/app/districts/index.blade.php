@@ -104,6 +104,14 @@
                                         <a href="{{ route('district.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
+                                        @endcan @can('delete', $value)
+                                        <form action="{{ route('district.destroy', $value) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
                                         @endcan
                                     </div>
                                 </td>
