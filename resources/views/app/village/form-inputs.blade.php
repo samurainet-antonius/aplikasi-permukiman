@@ -90,7 +90,7 @@
             }
         })
 
-        var city = '{{ $city->code }}';
+        var city = 1207;
         var selectDistrict = '{{ $districts->code }}';
         $.ajax({
             url:'<?= '/l-app/district/city'; ?>?city='+city+'&select='+selectDistrict,
