@@ -27,7 +27,7 @@ class VillageController extends Controller
 
         $village = Village::select('id', 'code', 'district_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
-                return '120701' ? $query->from('indonesia_villages')->where('district_code', '120701') : '120701';
+                return $request->district ? $query->from('indonesia_villages')->where('district_code', $request->district) : '120701';
             })
             ->orderBy('district_code', 'ASC')
             ->orderBy('code', 'ASC')
