@@ -172,7 +172,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Kecamatan</label>
-                                    <select class="select2-single form-control" name="district_code" onchange="submit()">
+                                    <select class="select2-single form-control" name="district" onchange="submit()">
                                         @if ($select['district'] == 1)
                                             <option value="semua">Semua Kecamatan</option>
                                         @endif
@@ -186,7 +186,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Desa</label>
-                                    <select class="select2-single form-control" name="village_code" onchange="submit()">
+                                    <select class="select2-single form-control" name="village" onchange="submit()">
                                         @if ($select['village'] == 1)
                                             <option value="semua">Semua Desa</option>
                                         @endif
