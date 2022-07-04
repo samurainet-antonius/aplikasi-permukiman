@@ -132,11 +132,31 @@
                     </div> --}}
                     <div class="row">
                         @forelse ($kriteria as $item)
-                            <?php $skor = floor($item->skor/$item->sub); ?>
-                            <div class="col-4">
+                            <?php
 
-                                <div class="card mb-3" style="height: 180px; !important">
+                            $skor = floor($item->skor/$item->sub);
+                            if($skor == 0) {
+                                $color = 'bg-primary';
+                            } elseif ($skor == 1 || $skor == 3) {
+                                $color = 'bg-warning';
+                            } else {
+                                $color = 'bg-danger';
+                            }
+
+                            ?>
+                            <div class="col-4">
+                                <div class="card mb-3" style="height: 300px; !important">
                                     <div class="row no-gutters align-items-center">
+                                        <div class="col-md-12 text-white {{$color}} py-4 rounded-top align-items-right text-center">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <img src="{{ asset($item->foto[0]->foto) }}" class="img-thumbnail ml-4"/>
+                                                </div>
+                                                <div class="col">
+                                                    <h1 class="mt-3">{{$skor}}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <p>{{$item->nama_kriteria}}</p>
@@ -148,23 +168,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        @if($skor == 0)
-                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-primary py-5 rounded-right align-items-center text-center">
-                                            <h1>{{$skor}}</h1>
-                                        </div>
-                                        @elseif($skor == 1)
-                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-warning py-5 rounded-right align-items-center text-center">
-                                            <h1>{{$skor}}</h1>
-                                        </div>
-                                        @elseif($skor == 3)
-                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-warning py-5 rounded-right align-items-center text-center">
-                                            <h1>{{$skor}}</h1>
-                                        </div>
-                                        @else
-                                        <div style="height: 180px; !important" class="col-md-4 text-white bg-danger py-5 rounded-right align-items-center text-center">
-                                            <h1>{{$skor}}</h1>
-                                        </div>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +177,7 @@
                                 <h2>Data belum ada.</h2>
                             </div>
                         @endforelse
+
                     </div>
 
 
