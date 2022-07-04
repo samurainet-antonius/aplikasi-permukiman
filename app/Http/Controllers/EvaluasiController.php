@@ -456,15 +456,15 @@ class EvaluasiController extends Controller
                 $validated['gambar_delinasi'] = $folder . '/' . $fileName;
             }
 
-            $evaluasi = $evaluasi->update($validated);
+            $evaluasi->update($validated);
 
             DB::commit();
             $this->dataLog($evaluasi->id, 'Melakukan perubahan data');
             return redirect()
-                // ->route('evaluasi.edit.kriteria', ['evaluasi_id' => $id, 'page' => 0]);
                 ->route('evaluasi.index')
                 ->withSuccess(__('crud.common.saved'));
         }catch(Exception $e){
+            dd($e->getMessage());
             DB::rollback();
             return redirect()
                 ->route('evaluasi.edit',['id' => $id])
