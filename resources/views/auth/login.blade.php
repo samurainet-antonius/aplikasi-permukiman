@@ -2,7 +2,7 @@
     <div class="row bg-white container-fluid" style="height: 100vh !important;">
         <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('assets/img/login.jpg') }}" class="img-fluid ml-n3" style="height: 100% !important; " alt="">
+                <img src="{{ asset('assets/img/login.png') }}" class="img-fluid ml-n3" style="height: 100% !important; " alt="">
             </a>
         </div>
         <div class="col-12 col-md-7 col-lg-7 col-xl-8">

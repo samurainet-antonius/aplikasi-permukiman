@@ -590,7 +590,6 @@ class EvaluasiController extends Controller
 
         DB::beginTransaction();
         try {
-
             foreach ($evaluasiDetail as $kriteriaID => $details) {
 
                 $kriteria = Kriteria::find($kriteriaID);
@@ -628,7 +627,7 @@ class EvaluasiController extends Controller
                 }
 
                 foreach ($details as $subkriteriaID => $value) {
-
+                    
                     $subkriteria = SubKriteria::find($subkriteriaID);
                     // $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
                     $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)
@@ -637,13 +636,15 @@ class EvaluasiController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->first();
 
-                    $nilai = $this->formula(str_replace("%","",$value));
+                    $persen = $validated['persen'][$kriteriaID][$subkriteriaID];
+
+                    $nilai = $this->formula(str_replace("%","",$persen));
 
                     if ($evaluasiDetail) {
-                        EvaluasiDetail::find($evaluasiDetail->id)->update(array(
+                        EvaluasiDetail::where('id',$evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
-                            'persen' => $nilai,
+                            'persen' => $persen,
                             'nilai' => $nilai,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
@@ -655,7 +656,7 @@ class EvaluasiController extends Controller
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
                             'skor' => $value,
-                            'persen' => $nilai,
+                            'persen' => $persen,
                             'nilai' => $nilai,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")
@@ -780,13 +781,15 @@ class EvaluasiController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->first();
                         
-                    $nilai = $this->formula(str_replace("%","",$value));
+                    $persen = $validated['persen'][$kriteriaID][$subkriteriaID];    
+
+                    $nilai = $this->formula(str_replace("%","",$persen));
 
                     if ($evaluasiDetail) {
-                        EvaluasiDetail::find($evaluasiDetail->id)->update(array(
+                        EvaluasiDetail::where('id',$evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
-                            'persen' => $nilai,
+                            'persen' => $persen,
                             'nilai' => $nilai,
                             'updated_at' => date("Y-m-d H:i:s")
                         ));
@@ -798,7 +801,7 @@ class EvaluasiController extends Controller
                             'nama_subkriteria' => $subkriteria->nama,
                             'jawaban' => $value,
                             'skor' => $value,
-                            'persen' => $nilai,
+                            'persen' => $persen,
                             'nilai' => $nilai,
                             'evaluasi_id' => $evaluasi_id,
                             'created_at' => date("Y-m-d H:i:s")

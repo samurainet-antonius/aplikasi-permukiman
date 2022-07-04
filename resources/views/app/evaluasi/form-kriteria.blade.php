@@ -29,12 +29,12 @@
                                 <label>{{ $key+1 }}. {{$item->nama}}</label>
 
                                 <div class="row">
-                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan skor" name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" required>
+                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan nilai numerik" name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" required>
                                     <h6 class="col-2 mt-2">{{ $item->satuan }}</h6>
                                 </div>
-
+                                <br/>
                                 <div class="row">
-                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan skor" name="jawaban[{{$kriteria['id']}}][{{$item->id}}]" required>
+                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan persen" name="persen[{{$kriteria['id']}}][{{$item->id}}]" required>
                                     <h6 class="col-2 mt-2">Persen (%)</h6>
                                 </div>
 

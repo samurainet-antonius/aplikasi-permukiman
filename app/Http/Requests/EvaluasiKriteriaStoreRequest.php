@@ -25,6 +25,7 @@ class EvaluasiKriteriaStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'persen' => ['required'],
             'jawaban' => ['required'],
             'file.*' => 'max:50000'
         ];
