@@ -34,8 +34,8 @@
                                 </div>
                                 <br/>
                                 <div class="row">
-                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan persen" name="persen[{{$kriteria['id']}}][{{$item->id}}]" required>
-                                    <h6 class="col-2 mt-2">Persen (%)</h6>
+                                    <input type="text" class="ml-4 col-8 form-control" value="{{$item->evaluasi}}" placeholder="masukan prosen" name="persen[{{$kriteria['id']}}][{{$item->id}}]" required>
+                                    <h6 class="col-2 mt-2">Prosen (%)</h6>
                                 </div>
 
 
