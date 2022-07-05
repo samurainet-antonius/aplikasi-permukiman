@@ -76,7 +76,7 @@
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_penduduk')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Ha</dd>
-                                
+
                                 <dt class="col-sm-3">Total Nilai</dt>
                                 <dd class="col-sm-9">{{ $evaluasiKriteria ?? '0' }}</dd>
 
@@ -151,7 +151,7 @@
                                         <div class="col-md-12 text-white {{$color}} py-4 rounded-top align-items-right text-center">
                                             <div class="row">
                                                 <div class="col">
-                                                    <img src="{{ asset('public/'.$item->foto[0]->foto) }}" class="img-thumbnail ml-4"/>
+                                                    <img src="{{ asset('public/'.$item->foto[0]->foto) }}" class="img-thumbnail ml-4" style="max-height: 100px;"/>
                                                 </div>
                                                 <div class="col">
                                                     <h1 class="mt-3">{{$skor}}</h1>
