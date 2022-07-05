@@ -244,6 +244,22 @@ class EvaluasiController extends Controller
                     ->groupBy('kriteria_id')
                     ->get();
 
+        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id',$evaluasi->id)
+                    ->whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', $date)
+                    ->sum('nilai');
+
+        
+        $status = StatusKumuh::where('tahun',date('Y'))->get();
+        
+        $statusEvaluasi = '';
+        foreach ($status as $key => $value) {
+            
+            if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria){
+                $statusEvaluasi = $value->nama;
+            }
+        }
+
         foreach($kriteria as $val) {
 
             $val->sub = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
@@ -271,13 +287,11 @@ class EvaluasiController extends Controller
                 ->get();
         }
 
-        $status = StatusKumuh::get();
-
         $village = Village::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"))
             ->where('code', $evaluasi->village_code)
             ->first();
 
-        return view('app.evaluasi.show', compact('evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
+        return view('app.evaluasi.show', compact('statusEvaluasi','evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
     }
 
     public function edit(Request $request,$id)

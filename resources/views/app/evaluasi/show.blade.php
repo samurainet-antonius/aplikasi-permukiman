@@ -77,8 +77,8 @@
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_penduduk')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Ha</dd>
 
-                                <dt class="col-sm-3 mt-5">@lang('crud.evaluasi.inputs.status')</dt>
-                                <dd class="col-sm-9 mt-5">{{ $evaluasi->status->nama ?? '-' }}</dd>
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
+                                <dd class="col-sm-9">{{ $statusEvaluasi ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-5 row">
