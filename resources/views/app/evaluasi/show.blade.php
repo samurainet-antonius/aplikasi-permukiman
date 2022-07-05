@@ -79,29 +79,6 @@
 
                                 <dt class="col-sm-3 mt-5">@lang('crud.evaluasi.inputs.status')</dt>
                                 <dd class="col-sm-9 mt-5">{{ $evaluasi->status->nama ?? '-' }}</dd>
-
-                                {{-- <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
-                                <dd class="col-sm-9">
-
-                                    @if(Auth::user()->roles[0]->name == "super-admin" || Auth::user()->roles[0]->name == "admin-provinsi" || Auth::user()->roles[0]->name == "admin-kabupaten")
-
-                                    <form action="{{ route('change-status',$evaluasi->id) }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <select name="status" class="form-control" onchange="submit()" require>
-                                                <option value="">- Pilih Status Kumuh -</option>
-                                                @foreach($status as $v)
-                                                    <option value="{{ $v->id }}" {{ ($evaluasi->status_id == $v->id ) ? 'selected' : '' }}>{{ $v->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </form>
-
-                                    @else
-                                        {{ $evaluasi->status->nama }}
-                                    @endif
-
-                                </dd> --}}
                             </dl>
                         </div>
                         <div class="col-5 row">
@@ -128,8 +105,6 @@
                             <a href="{{ route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi->id, 'page' => 0]) }}" class="btn btn-primary float-right {{ $cek == date('m') ? 'disabled' : '' }}">Pembaruan Data</a>
                         </div>
                     </form>
-                    {{-- <div class="row">
-                    </div> --}}
                     <div class="row">
                         @forelse ($kriteria as $item)
                             <?php
@@ -150,7 +125,7 @@
                                         <div class="col-md-12 text-white {{$color}} py-4 rounded-top align-items-right text-center">
                                             <div class="row">
                                                 <div class="col">
-                                                    <img src="{{ asset($item->foto[0]->foto) }}" class="img-thumbnail ml-4"/>
+                                                    <img src="{{ asset('public/'.$item->foto[0]->foto) }}" class="img-thumbnail ml-4"/>
                                                 </div>
                                                 <div class="col">
                                                     <h1 class="mt-3">{{$skor}}</h1>
