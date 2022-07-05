@@ -291,7 +291,7 @@ class EvaluasiController extends Controller
             ->where('code', $evaluasi->village_code)
             ->first();
 
-        return view('app.evaluasi.show', compact('statusEvaluasi','evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
+        return view('app.evaluasi.show', compact('status','evaluasiKriteria','statusEvaluasi','evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
     }
 
     public function edit(Request $request,$id)

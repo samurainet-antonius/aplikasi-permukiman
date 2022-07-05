@@ -76,10 +76,36 @@
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_penduduk')</dt>
                                 <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Ha</dd>
+                                
+                                <dt class="col-sm-3">Total Nilai</dt>
+                                <dd class="col-sm-9">{{ $evaluasiKriteria ?? '0' }}</dd>
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.status')</dt>
                                 <dd class="col-sm-9">{{ $statusEvaluasi ?? '-' }}</dd>
                             </dl>
+                            <h4>Data Kumuh tahun {{ $evaluasi->tahun }}</h4>
+                            <table class="table align-items-center table-flush">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tahun</th>
+                                        <th>Nilai Min</th>
+                                        <th>Nilai Max</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($status as $key => $value)
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $value->tahun }}</td>
+                                        <td>{{ $value->nilai_min }}</td>
+                                        <td>{{ $value->nilai_max }}</td>
+                                        <td>{{ $value->nama }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         <div class="col-5 row">
                             <div class="col-12">
