@@ -78,7 +78,7 @@ $evaluasidetail = isset($editing->evaluasidetail) ? $editing->evaluasidetail->to
     </div>
 
     <div class="form-group">
-        <label>Luas Kumuh</label>
+        <label>Luas Verifikasi</label>
         <div class="input-group mb-3">
             <input name="luas_kumuh" type="number" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon" value="{{ old('name', ($editing ? $evaluasi->luas_kumuh : '')) }}">
             <div class="input-group-append">

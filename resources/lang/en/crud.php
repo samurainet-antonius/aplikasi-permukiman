@@ -112,7 +112,7 @@ return [
             'status' => 'Status',
             'tahun' => 'Tahun',
             'luas_kawasan' => 'Luas Kawasan',
-            'luas_kumuh' => 'Luas Kumuh',
+            'luas_kumuh' => 'Luas Verifikasi',
             'jumlah_bangunan' => 'Jumlah Bangunan',
             'jumlah_penduduk' => 'Jumlah Penduduk',
             'lingkungan' => 'Lingkungan',
