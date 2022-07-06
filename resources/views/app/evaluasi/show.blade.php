@@ -319,7 +319,7 @@
                             <br/>
                             <div class="row">
                                 <input type="text" class="ml-4 col-8 form-control" value="{{$item->persen}}" placeholder="masukan skor" name="persen[{{$value->kriteria_id}}][{{$item->subkriteria_id}}]" required>
-                                <h6 class="col-2 mt-2">Persen (%)</h6>
+                                <h6 class="col-2 mt-2">Prosen (%)</h6>
                             </div>
 
                         </div>
