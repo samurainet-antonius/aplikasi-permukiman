@@ -16,6 +16,7 @@ use App\Models\Petugas;
 use App\Models\StatusKumuh;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Laravolt\Indonesia\Models\District;
@@ -37,9 +38,6 @@ class DashboardController extends Controller
             case "admin-kabupaten":
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
 
-                $selectDistrict = '1';
-                $selectVillage = '1';
-
                 $textDistrict = 'Semua Kecamatan ';
                 $textVillage = 'Semua Desa ';
 
@@ -48,25 +46,13 @@ class DashboardController extends Controller
                 } elseif ($request->district_code) {
                     $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
                 }
-
-                $req['district'] = 'semua';
-                $req['village'] = 'semua';
-                $req['years'] = '5';
                 break;
             case "admin-kecamatan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
-                $textVillage = 'Semua Desa ';
-
-                $selectDistrict = '0';
-                $selectVillage = '1';
-
-                $req['district'] = $petugas->district_code;
-                $req['village'] = 'semua';
-                $req['years'] = '5';
-
+                $textVillage = 'Desa '. $village[0]->name;
                 break;
             case "admin-kelurahan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
@@ -74,140 +60,41 @@ class DashboardController extends Controller
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
                 $textVillage = 'Desa '. $village[0]->name;
-
-                $selectDistrict = '0';
-                $selectVillage = '0';
-
-                $req['district'] = $petugas->district_code;
-                $req['village'] = $petugas->village_code;
-                $req['years'] = '5';
                 break;
             default:
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $villages = Village::select('code', 'name')->where('district_code', $district[0]->code)->first();
 
-                $selectDistrict = '1';
-                $selectVillage = '1';
-
-                $textDistrict = 'Semua Kecamatan ';
-                $textVillage = 'Semua Desa ';
+                $textDistrict = 'Kecamatan '.$district[0]->name;
+                $textVillage = 'Desa '.$villages->name;
 
                 if($request->district_code == 'semua') {
                     $village = '';
                 } elseif($request->district_code) {
                     $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
+                } else {
+                    $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
                 }
-
-                $req['district'] = 'semua';
-                $req['village'] = 'semua';
-                $req['years'] = '5';
         }
 
-        if($request->district_code == 'semua') {
-            $textDistrict = 'Semua Kecamatan ';
-        } elseif($request->district_code) {
+        if($request->district_code) {
             $dis = District::where('code', $request->district_code)->first();
             $textDistrict = 'Kecamatan ' . $dis->name . ' ';
-            $req['district'] = $request->district_code;
         }
 
-        if ($request->village_code == 'semua') {
-            $textVillage = 'Semua Desa ';
+        if($request->village_code == 'null') {
+            $dis = Village::select('code', 'name')->where('district_code', $request->district_code)->first();
+            $textVillage = 'Desa ' . $dis->name . ' ';
         } elseif ($request->village_code) {
             $dis = Village::where('code', $request->village_code)->first();
             $textVillage = 'Desa ' . $dis->name . ' ';
-            $req['village'] = $request->village_code;
         }
 
         if($request->years) {
-            $textYears = 'Dalam '. $request->years.' Tahun';
-            $req['years'] = $request->years;
+            $textYears = 'Tahun '. $request->years;
         } else {
-            $textYears = 'Dalam 5 Tahun';
+            $textYears = 'Tahun '.date('Y');
         }
-
-        $evaluasi = Evaluasi::whereNotNull('status_id')->get();
-
-        $year = 5;
-        if($request->years) {
-            $year = $request->years;
-        }
-
-        $years[] = (int) date('Y');
-        for ($i=1; $i < $year; $i++) {
-            $years[] = date('Y') - $i;
-        }
-
-        $years = array_reverse($years);
-
-        $status = StatusKumuh::all();
-
-        $data = [];
-        foreach($status as $key => $val) {
-
-            $series = [];
-            foreach($years as $item) {
-
-                $eval = Evaluasi::whereNotNull('status_id')
-                    ->where('province_code', 12)
-                    ->where('city_code', 1207);
-
-                if($request->district_code != 'semua' ) {
-                    $eval = $eval->where('district_code', $request->district_code);
-                }
-
-                if ($request->village_code != 'semua') {
-                    $eval = $eval->where('village_code', $request->village_code);
-                }
-
-                $eval = $eval->where('status_id', $val->id)
-                    ->where('tahun', $item)
-                    ->count();
-
-                $series[] = $eval;
-            }
-
-            $data[] = [
-                'name' => $val->nama,
-                'data' => $series
-            ];
-        }
-
-        $pie = [];
-        foreach($years as $key => $value) {
-
-            $y = [];
-            foreach($status as $val) {
-
-                $eval = Evaluasi::whereNotNull('status_id')
-                    ->where('province_code', 12)
-                    ->where('city_code', 1207);
-
-                if ($request->district_code != 'semua') {
-                    $eval = $eval->where('district_code', $request->district_code);
-                }
-
-                if ($request->village_code != 'semua') {
-                    $eval = $eval->where('village_code', $request->village_code);
-                }
-
-                $eval = $eval->where('status_id', $val->id)
-                    ->where('tahun', $value)
-                    ->count();
-
-                $y[] = [
-                    'name' => $val->nama,
-                    'y' => $eval,
-                    'id' => $val->id
-                ];
-            }
-
-            $pie[$value] = $y;
-        }
-
-        $select = [
-            'district' => $selectDistrict,
-            'village' => $selectVillage
-        ];
 
         $text = [
             'district' => $textDistrict,
@@ -215,7 +102,149 @@ class DashboardController extends Controller
             'years' => $textYears
         ];
 
-        return view('dashboard', compact('district', 'village', 'data', 'years', 'select', 'pie', 'text', 'req'));
+        $tahun = $request->years ? $request->years : date('Y');
+        $range = $request->range ? $request->range : 12;
+
+        $month = $this->monthChart($range);
+
+        $evaluasi = Evaluasi::select('id')->where('tahun', $tahun);
+
+        if($request->district_code) {
+            if ($request->district_code != 'semua') {
+                $evaluasi = $evaluasi->where('district_code', $request->district_code);
+            }
+        } else {
+            $evaluasi = $evaluasi->where('district_code', $district[0]->code);
+        }
+
+        if($request->village_code || $request->village_code == 'null') {
+
+            if($request->village_code == 'null') {
+                $dis = Village::select('code', 'name')->where('district_code', $request->district_code)->first();
+                $evaluasi = $evaluasi->where('village_code', $dis->village_code);
+            }elseif ($request->village_code != 'semua') {
+                $evaluasi = $evaluasi->where('village_code', $request->village_code);
+            }
+        } else {
+            $evaluasi = $evaluasi->where('village_code', $villages->code);
+        }
+
+        $evaluasi = $evaluasi->get();
+
+        $evaluasiId = array_column($evaluasi->toArray(), 'id');
+        $query = EvaluasiDetail::select('kriteria_id', 'nama_kriteria')->whereIn('evaluasi_id', $evaluasiId)->groupBy('kriteria_id')->get();
+
+        $data = [];
+        $bulan = [];
+        foreach($query as $val) {
+
+            $series = [];
+            $bulan = [];
+            foreach($month as $mon) {
+
+                $skor = 0;
+                foreach($evaluasi as $eval) {
+                    $evalCount = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
+                        ->where('evaluasi_id', $eval->id)
+                        ->whereMonth('created_at', $mon['number'])
+                        ->get()->count();
+
+                    if ($evalCount != 0) {
+                        $evalNilai = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
+                            ->whereIn('evaluasi_id', $evaluasi)
+                            ->whereMonth('created_at', $mon['number'])
+                            ->sum('nilai');
+
+                        $nilai = floor($evalNilai / $evalCount);
+
+                        $skor = $skor + $nilai;
+                    }
+                }
+
+                $evaluasiCheck = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
+                    ->whereIn('evaluasi_id', $evaluasiId)
+                    ->whereMonth('created_at', $mon['number'])
+                    ->get()->count();
+
+                if ($evalCount != 0) {
+                    $evaluasiCount = $evaluasi->count();
+
+                    $skor = floor($skor / $evaluasiCount);
+
+                    $skor = ($skor == 0) ? 0.01 : $skor;
+
+                    if ($skor == 0) {
+                        $color = '#00ff00';
+                    } elseif ($skor == 1) {
+                        $color = '#ff8000';
+                    } elseif($skor == 3) {
+                        $color = '#ffff00';
+                    } else {
+                        $color = '#ff0000';
+                    }
+
+                    $series[] = [
+                        'y' => $skor,
+                        'color' => $color
+                    ];
+
+                    $bulan[] = $mon['text'];
+                }
+
+
+
+
+                // $evalCount = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
+                //     ->whereIn('evaluasi_id', $evaluasi)
+                //     ->whereMonth('created_at', $mon['number'])
+                //     ->get()->count();
+
+                // if($evalCount != 0) {
+                //     $evalNilai = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
+                //         ->whereIn('evaluasi_id', $evaluasi)
+                //         ->whereMonth('created_at', $mon['number'])
+                //         ->sum('nilai');
+
+                //     $skor = floor($evalNilai / $evalCount);
+                //     $skor = ($skor == 0) ? 0.01 : $skor;
+
+                //     if ($skor == 0) {
+                //         $color = '#00ff00';
+                //     } elseif ($skor == 1) {
+                //         $color = '#ff8000';
+                //     } elseif($skor == 3) {
+                //         $color = '#ffff00';
+                //     } else {
+                //         $color = '#ff0000';
+                //     }
+
+                //     $series[] = [
+                //         'y' => $skor,
+                //         'color' => $color
+                //     ];
+
+                //     $bulan[] = $mon['text'];
+                // }
+
+            }
+
+            $data[] = [
+                'name' => $val->nama_kriteria,
+                'data' => $series
+            ];
+
+        }
+
+        if(!$data) {
+            $data[] = [
+                'name' => 'Kosong',
+                'data' => [0]
+            ];
+        }
+
+        $status = StatusKumuh::all();
+
+        return view('dashboard', compact('district', 'village', 'data', 'text', 'bulan', 'status'));
     }
 
     public function detail(Request $request, $district_code, $village_code, $years, $status_id)
@@ -242,5 +271,25 @@ class DashboardController extends Controller
         $status = StatusKumuh::find($status_id);
 
         return view('dasbor-detail', compact('evaluasi', 'status', 'years'));
+    }
+
+    private function monthChart($count)
+    {
+        $now = Carbon::now();
+        $startOfYears = $now->startOfYear('Y-m-d')->format('Y-m-d');
+        $endOfYears = $now->endOfYear()->format('Y-m-d');
+        $period = CarbonPeriod::create($startOfYears, '1 month', $endOfYears);
+
+        $data = [];
+        foreach ($period as $dt) {
+            $data[] = [
+                'text' => $dt->format("F"),
+                'number' => $dt->format("m")
+            ];
+        }
+
+        $data = array_slice($data, 0, $count);
+
+        return $data;
     }
 }
