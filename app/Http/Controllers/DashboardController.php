@@ -177,7 +177,7 @@ class DashboardController extends Controller
                         $color = '#00ff00';
                     } elseif ($skor == 1) {
                         $color = '#ff8000';
-                    } elseif($skor == 3) {
+                    } elseif($skor == 3 || $skor == 2) {
                         $color = '#ffff00';
                     } else {
                         $color = '#ff0000';

@@ -138,7 +138,7 @@
                             $skor = floor($item->skor/$item->sub);
                             if($skor == 0) {
                                 $color = 'bg-primary';
-                            } elseif ($skor == 1 || $skor == 3) {
+                            } elseif ($skor == 1 || $skor == 3 || $skor == 2) {
                                 $color = 'bg-warning';
                             } else {
                                 $color = 'bg-danger';
