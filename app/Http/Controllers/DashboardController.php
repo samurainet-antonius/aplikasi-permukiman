@@ -126,7 +126,7 @@ class DashboardController extends Controller
                 $evaluasi = $evaluasi->where('village_code', $request->village_code);
             }
         } else {
-            $evaluasi = $evaluasi->where('village_code', $village->code);
+            $evaluasi = $evaluasi->where('village_code', $village[0]->code);
         }
 
         $evaluasi = $evaluasi->get();
@@ -134,7 +134,7 @@ class DashboardController extends Controller
         $evaluasiId = array_column($evaluasi->toArray(), 'id');
         $query = EvaluasiDetail::select('kriteria_id', 'nama_kriteria')->whereIn('evaluasi_id', $evaluasiId)->groupBy('kriteria_id')->get();
 
-        $data = []; 
+        $data = [];
         $bulan = [];
         foreach($query as $val) {
 
