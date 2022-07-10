@@ -126,7 +126,7 @@ class DashboardController extends Controller
                 $evaluasi = $evaluasi->where('village_code', $request->village_code);
             }
         } else {
-            $evaluasi = $evaluasi->where('village_code', $villages->code);
+            $evaluasi = $evaluasi->where('village_code', $village->code);
         }
 
         $evaluasi = $evaluasi->get();
