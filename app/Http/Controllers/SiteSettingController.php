@@ -34,7 +34,7 @@ class SiteSettingController extends Controller
         $settings->site_email = $validated['site_email'];
         $settings->site_phone = $validated['site_phone'];
         $settings->site_address = $validated['site_address'];
-        $settings->site_facebook = $validated['site_fax_email'];
+        $settings->site_fax_email = $validated['site_fax_email'];
 
         $settings->save();
 

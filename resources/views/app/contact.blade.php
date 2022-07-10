@@ -52,19 +52,19 @@
             <div class="col-12 col-md-6 col-lg-6 bg-white p-5">
                 <div class="my-4">
                     <h3 class="text-green font-weight-bold">HUBUNGI KAMI</h3>
-                    <p>Kami siap membantu. Tanyakan kepada kami tentang produk, layanan kami, dan pertanyaan apa pun yang Anda miliki.</p>
+                    <p>{{ siteSetting('site_description') }}</p>
 
                     <h6 class="text-green">Alamat</h6>
-                    <p>Jl. Komp. Pemda Deli Serdang No.10, Kabupaten, Kec. Lubuk Pakam, Kabupaten Deli Serdang, Sumatera Utara 20514</p>
+                    <p>{{ siteSetting('site_address') }}</p>
 
                     <h6 class="text-green">Nomer Telepon</h6>
-                    <p>(061) 7956296</p>
+                    <p>{{ siteSetting('site_phone') }}</p>
 
-                    <h6 class="text-green">Faximile</h6>
-                    <p>(061) 7956296</p>
+                    <h6 class="text-green">Fax Email</h6>
+                    <p>{{ siteSetting('site_fax_email') }}</p>
 
                     <h6 class="text-green">Email</h6>
-                    <p>disperkim@deliserdangkab.go.id</p>
+                    <p>{{ siteSetting('site_email') }}</p>
                 </div>
             </div>
         </div>

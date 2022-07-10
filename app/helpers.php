@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 if(!function_exists('says')){
     function says(){
@@ -19,4 +20,12 @@ if(!function_exists('says')){
             return "Selamat malam";
         }
     }
+}
+
+function siteSetting($column){
+    $result = DB::table('settings')->where('name',$column)->first()->payload;
+    $result = str_replace('"',"",$result);
+    $result = str_replace("public","",$result);
+    return $result;
+
 }
