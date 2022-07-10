@@ -107,6 +107,10 @@
                 <a class="collapse-item" href="{{ route('village.index') }}">Desa</a>
             @endcan
 
+            @can('view-any', App\Models\Setting::class)
+                <a class="collapse-item" href="{{ route('setting.index') }}">Website</a>
+            @endcan
+
           </div>
         </div>
       </li>
