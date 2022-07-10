@@ -134,7 +134,7 @@ class DashboardController extends Controller
         $evaluasiId = array_column($evaluasi->toArray(), 'id');
         $query = EvaluasiDetail::select('kriteria_id', 'nama_kriteria')->whereIn('evaluasi_id', $evaluasiId)->groupBy('kriteria_id')->get();
 
-        $data = [];
+        $data = []; 
         $bulan = [];
         foreach($query as $val) {
 
