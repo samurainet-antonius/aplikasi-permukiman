@@ -72,8 +72,6 @@ class DashboardController extends Controller
                     $village = '';
                 } elseif($request->district_code) {
                     $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
-                } else {
-                    $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
                 }
         }
 
@@ -126,7 +124,7 @@ class DashboardController extends Controller
                 $evaluasi = $evaluasi->where('village_code', $request->village_code);
             }
         } else {
-            $evaluasi = $evaluasi->where('village_code', $village[0]->code);
+            $evaluasi = $evaluasi->where('village_code', $villages->code);
         }
 
         $evaluasi = $evaluasi->get();
