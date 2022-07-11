@@ -124,9 +124,24 @@
             var bulan = <?php echo json_encode($bulan); ?>;
             var labelData = ['cek', 'nama'];
 
+            var district = <?php echo json_encode($req['district']); ?>;
+            var village = <?php echo json_encode($req['village']); ?>;
+            var years = <?php echo json_encode($req['years']); ?>;
+
             Highcharts.chart('container', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    events: {
+                        click: function(e) {
+                            var link = '{{ route("dashboard.detail", ["district_code" => ":district", "village_code" => ":village", "years" => ":tahun", "month" => ":month"]) }}';
+                            link = link.replace(':district', district);
+                            link = link.replace(':village', village);
+                            link = link.replace(':tahun', years);
+                            link = link.replace(':month', this.series[0].searchPoint(e, true).category);
+                            location.href = link
+                            // console.log(this.series[0].searchPoint(e, true).category);
+                        }
+                    }
                 },
                 title: {
                     text: ''

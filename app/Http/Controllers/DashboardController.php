@@ -189,41 +189,6 @@ class DashboardController extends Controller
                     $bulan[] = $mon['text'];
                 }
 
-
-
-
-                // $evalCount = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
-                //     ->whereIn('evaluasi_id', $evaluasi)
-                //     ->whereMonth('created_at', $mon['number'])
-                //     ->get()->count();
-
-                // if($evalCount != 0) {
-                //     $evalNilai = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
-                //         ->whereIn('evaluasi_id', $evaluasi)
-                //         ->whereMonth('created_at', $mon['number'])
-                //         ->sum('nilai');
-
-                //     $skor = floor($evalNilai / $evalCount);
-                //     $skor = ($skor == 0) ? 0.01 : $skor;
-
-                //     if ($skor == 0) {
-                //         $color = '#00ff00';
-                //     } elseif ($skor == 1) {
-                //         $color = '#ff8000';
-                //     } elseif($skor == 3) {
-                //         $color = '#ffff00';
-                //     } else {
-                //         $color = '#ff0000';
-                //     }
-
-                //     $series[] = [
-                //         'y' => $skor,
-                //         'color' => $color
-                //     ];
-
-                //     $bulan[] = $mon['text'];
-                // }
-
             }
 
             $data[] = [
@@ -231,6 +196,16 @@ class DashboardController extends Controller
                 'data' => $series
             ];
 
+        }
+
+        if($request->all()) {
+            $req['district'] = $request->district_code;
+            $req['village'] = $request->village_code;
+            $req['years'] = $request->years;
+        } else {
+            $req['district'] = null;
+            $req['village'] = null;
+            $req['years'] = null;
         }
 
         if(!$data) {
@@ -242,10 +217,21 @@ class DashboardController extends Controller
 
         $status = StatusKumuh::all();
 
-        return view('dashboard', compact('district', 'village', 'data', 'text', 'bulan', 'status'));
+        return view('dashboard', compact('district', 'village', 'data', 'text', 'bulan', 'status', 'req'));
     }
 
-    public function detail(Request $request, $district_code, $village_code, $years, $status_id)
+    public function detail(Request $request, $district, $village, $month, $years)
+    {
+        $date = Carbon::parse($month);
+        $date = $date->format('m');
+
+        $data = Evaluasi::where('district_code', $district)->where('village_code', $village)->get();
+        $village = Village::where('code', $village)->first();
+
+        return view('dasbor-detail', compact('data', 'date', 'village', 'month', 'years'));
+    }
+
+    public function detail1(Request $request, $district_code, $village_code, $years, $status_id)
     {
         $search = $request->get('search', '');
 

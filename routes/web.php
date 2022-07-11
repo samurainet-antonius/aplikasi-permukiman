@@ -52,7 +52,7 @@ Route::prefix('/l-app/')
         // })->name('dashboard');
 
         Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
-        Route::get('dashboard/{district_code}/{village_code}/{years}/{status_id}',[DashboardController::class,'detail'])->name('dashboard.detail');
+        Route::get('dashboard/{district_code}/{village_code}/{month}/{years}',[DashboardController::class,'detail'])->name('dashboard.detail');
 
         Route::get('city/province',[CityController::class,'city'])->name('city-province');
         Route::get('district/city',[DistrictsController::class,'district'])->name('district-city');
@@ -79,7 +79,7 @@ Route::prefix('/l-app/')
         Route::resource('arsip', ArsipController::class);
         Route::resource('staff', EmployeeController::class);
         Route::resource('log', LogController::class);
-        
+
         Route::get('/setting', [SiteSettingController::class, 'index'])->name('setting.index');
         Route::put('/setting', [SiteSettingController::class, 'update'])->name('setting.update');
 
