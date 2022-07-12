@@ -32,6 +32,7 @@
                                     <select class="select2-single form-control" name="village_code" onchange="submit()">
 
                                         @if ($village)
+                                            <option value="null">Pilih Desa</option>
                                             @foreach ($village as $val)
                                                 <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                             @endforeach
@@ -123,9 +124,24 @@
             var bulan = <?php echo json_encode($bulan); ?>;
             var labelData = ['cek', 'nama'];
 
+            var district = <?php echo json_encode($req['district']); ?>;
+            var village = <?php echo json_encode($req['village']); ?>;
+            var years = <?php echo json_encode($req['years']); ?>;
+
             Highcharts.chart('container', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    events: {
+                        click: function(e) {
+                            var link = '{{ route("dashboard.detail", ["district_code" => ":district", "village_code" => ":village", "years" => ":tahun", "month" => ":month"]) }}';
+                            link = link.replace(':district', district);
+                            link = link.replace(':village', village);
+                            link = link.replace(':tahun', years);
+                            link = link.replace(':month', this.series[0].searchPoint(e, true).category);
+                            location.href = link
+                            // console.log(this.series[0].searchPoint(e, true).category);
+                        }
+                    }
                 },
                 title: {
                     text: ''
@@ -157,7 +173,7 @@
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true

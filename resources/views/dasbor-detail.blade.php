@@ -7,8 +7,12 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-header py-3">
-                    <div class="card-title">
-                        <h4>Kawasan {{$status->nama}} di Tahun {{$years}}</h4>
+                    <div class="card-title text-center">
+                        <h6>Kriteria Kumuh</h6>
+                        <h6>Kabupaten Deli Serdang</h6>
+                        <h6>Kecamatan {{ $village->district->name }}</h6>
+                        <h6>Desa {{ $village->name }}</h6>
+                        <h6>Bulan {{ $month }} Tahun {{ $years }}</h6>
                     </div>
                     <form class="float-right">
                         <div class="input-group mb-3">
@@ -31,11 +35,12 @@
                                 <th>No</th>
                                 <th>Kecamatan</th>
                                 <th>Desa</th>
+                                <th>Lingkungan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($evaluasi as $key => $value)
+                            @forelse($data as $key => $value)
                             <tr>
                                 <td>
                                     {{ $key+1 }}
@@ -47,9 +52,12 @@
                                     {{ $value->village->name }}
                                 </td>
                                 <td>
+                                    {{ $value->lingkungan }}
+                                </td>
+                                <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         @can('view', $value)
-                                        <a href="{{ route('evaluasi.show', $value) }}" class="mr-1 btn btn-secondary btn-sm">
+                                        <a href="{{ url('l-app/evaluasi').'/'.$value->id.'?bulan='.$date }}" class="mr-1 btn btn-secondary btn-sm">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                         @endcan
@@ -69,7 +77,7 @@
 
                 <div class="card-body">
                     <div class="d-flex justify-content-end">
-                        {!! $evaluasi->links() !!}
+                        {{-- {!! $data->links() !!} --}}
                     </div>
                 </div>
             </div>
