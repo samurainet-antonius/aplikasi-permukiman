@@ -253,12 +253,17 @@ class EvaluasiController extends Controller
         $status = StatusKumuh::where('tahun',date('Y'))->get();
         
         $statusEvaluasi = '';
+        $statusID = '';
         foreach ($status as $key => $value) {
             
             if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria){
                 $statusEvaluasi = $value->nama;
+                $statusID = $value->id;
             }
         }
+
+        $evaluasi->status_id = $statusID;
+        $evaluasi->save();
 
         foreach($kriteria as $val) {
 
