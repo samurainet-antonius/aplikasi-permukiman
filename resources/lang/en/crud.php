@@ -171,6 +171,23 @@ return [
         ],
     ],
 
+    'statuskriteria' => [
+        'name' => 'Status Kriteria',
+        'index_title' => 'Data Status Kriteria',
+        'new_title' => 'New Status Kriteria',
+        'create_title' => 'Tambah Status Kriteria',
+        'edit_title' => 'Edit Status Kriteria',
+        'show_title' => 'Show Status Kriteria',
+        'inputs' => [
+            'no' => 'No',
+            'tahun' => 'Tahun',
+            'nama' => 'Nama',
+            'warna' => 'Warna',
+            'nilai_min' => 'Batas Skor Awal',
+            'nilai_max' => 'Batas Skor Akhir',
+        ],
+    ],
+
     'settings' => [
         'name' => 'Settings',
         'index_title' => 'Site Setting',

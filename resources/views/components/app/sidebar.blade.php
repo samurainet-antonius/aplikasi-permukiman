@@ -72,6 +72,10 @@
                 <a class="collapse-item" href="{{ route('statuskumuh.index') }}">Status Kumuh</a>
             @endcan
 
+            @can('view-any', App\Models\StatusKriteria::class)
+                <a class="collapse-item" href="{{ route('statuskriteria.index') }}">Status Kriteria</a>
+            @endcan
+
           </div>
         </div>
       </li>
