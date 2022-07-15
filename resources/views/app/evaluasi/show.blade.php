@@ -135,7 +135,9 @@
                         @forelse ($kriteria as $item)
                             <?php
 
-                            $skor = floor($item->skor/$item->sub);
+                            $number = floor($item->skor/$item->sub);
+                            $skor = formulaKriteria($number);
+
                             if($skor == 0) {
                                 $color = 'bg-primary';
                             } elseif ($skor == 1 || $skor == 3 || $skor == 2) {
@@ -181,68 +183,6 @@
 
                     </div>
 
-
-
-                    {{-- <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    @foreach($kriteria as $v)
-                                        <th>{{ $v->nama_kriteria }}</th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    @foreach($kriteria as $z)
-                                        <td>
-                                        @foreach($evaluasi->evaluasidetail as $x)
-                                            <dt class="col-sm-12">{{ $x->nama_subkriteria }}</dt>
-                                            <dd class="col-sm-12">{{ $x->jawaban }}</dd>
-                                        @endforeach
-                                        </td>
-                                    @endforeach
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> --}}
-
-                    {{-- <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Kriteria</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($kriteria as $key => $value)
-                                <tr>
-                                    <td>
-                                        {{ $key+1 }}
-                                    </td>
-                                    <td>
-                                        {{ $value->nama_kriteria }}
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" class="mr-1 btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-{{$value->id}}">
-                                                <i class="fa fa-solid fa-eye"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="3">
-                                        @lang('crud.common.no_items_found')
-                                    </td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
-                    </div> --}}
                     <br/>
                     <div class="mt-10">
                         <a href="{{ route('evaluasi.index') }}" class="button">
