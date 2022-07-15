@@ -29,3 +29,18 @@ function siteSetting($column){
     return $result;
 
 }
+
+function formulaKriteria($number){
+
+    $status = DB::table('status_kriteria')->where('tahun',date('Y'))->get();
+        
+    $statusKriteria = '';
+    foreach ($status as $key => $value) {
+        if ($value->nilai_min <= $number && $value->nilai_max >= $number){
+            $statusKriteria = $value->nama;
+        }
+    }
+
+    return $statusKriteria;
+
+}
