@@ -38,12 +38,13 @@ class UserAuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => auth()->user(),
+            'data' => auth()->user(),
             'roles' => auth()->user()->roles[0]->name
         ]);
     }
 
-    public function refresh() {
+    public function refresh()
+    {
         return $this->createNewToken(auth()->refresh());
     }
 
@@ -53,7 +54,10 @@ class UserAuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function user() {
-        return response()->json(auth()->user());
+        return response()->json([
+            'status' => 200,
+            'data' => auth()->user(),
+        ]);
     }
 
     public function logout() {
