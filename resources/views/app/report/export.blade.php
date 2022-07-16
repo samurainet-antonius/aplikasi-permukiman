@@ -62,7 +62,7 @@
                 </table>
             </div>
         </div>
-        <table class="table table-bordered">
+        <table class="table table-bordered"> 
             <thead>
                 <tr>
                     <th rowspan="2" class="align-middle text-center">ASPEK</th>
