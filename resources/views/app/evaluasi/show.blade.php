@@ -34,7 +34,11 @@
         <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h4>Lokasi</h4>
+                    <div>
+                        <h4 class="float-left">Lokasi</h4>
+                        <a href="{{ route('export-evaluasi',$evaluasi) }}" class="float-right">Export</a>
+                    </div>
+                    <div class="clearfix"></div>
                     <hr/>
                     <div class="row mb-5">
                         <div class="col-7">

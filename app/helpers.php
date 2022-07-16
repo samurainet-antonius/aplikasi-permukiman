@@ -32,7 +32,7 @@ function siteSetting($column){
 
 function formulaKriteria($number){
 
-    $status = DB::table('status_kriteria')->where('tahun',date('Y'))->get();
+    $status = DB::table('status_kriteria')->get();
         
     $statusKriteria = '';
     foreach ($status as $key => $value) {
@@ -42,5 +42,28 @@ function formulaKriteria($number){
     }
 
     return $statusKriteria;
+
+}
+
+function evaluasiDetail($evaluasiID,$kriteriaID){
+
+    $evaluasiDetail = DB::table('evaluasi_detail')
+                ->where([
+                    ['evaluasi_id',$evaluasiID],
+                    ['kriteria_id',$kriteriaID],
+                ])
+                ->get();
+
+    return $evaluasiDetail;
+
+}
+
+function subKriteria($subkriteriaID){
+
+    $subkriteria = DB::table('subkriteria')
+                ->where('id',$subkriteriaID)
+                ->first();
+
+    return $subkriteria;
 
 }

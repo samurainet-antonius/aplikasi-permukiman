@@ -19,6 +19,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeafletController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SiteSettingController;
 use Illuminate\Support\Facades\Artisan;
 /*
@@ -102,4 +103,7 @@ Route::prefix('/l-app/')
 
         Route::post('/live-search', [UserController::class, 'selectSearch']);
         Route::post('/evaluasi/status/{evaluasi_id}', [EvaluasiController::class, 'changeSatatus'])->name('change-status');
+
+        // export
+        Route::get('export/evaluasi/{evaluasi_id}',[ReportController::class,'index'])->name('export-evaluasi');
     });

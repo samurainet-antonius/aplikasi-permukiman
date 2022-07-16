@@ -177,6 +177,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -235,6 +236,7 @@ return [
         'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
