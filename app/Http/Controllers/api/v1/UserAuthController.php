@@ -64,4 +64,16 @@ class UserAuthController extends Controller
         auth()->logout();
         return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
     }
+
+    public function cekUpload(Request $request)
+    {
+        try {
+            $foto = $request->image;
+            $fileName = time() . '.' . $foto->getClientOriginalExtension();
+            $folder = 'file/pembaruan';
+            $foto->move(public_path($folder), $fileName);
+        } catch (\Exception $e) {
+            echo $e;
+        }
+    }
 }

@@ -20,4 +20,5 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
     Route::get('auth/user', [UserAuthController::class, 'user']);
     Route::post('auth/refresh', [UserAuthController::class, 'refresh']);
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
+    Route::post('upload', [UserAuthController::class, 'cekUpload']);
 });
