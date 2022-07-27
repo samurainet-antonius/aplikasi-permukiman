@@ -35,6 +35,7 @@ class EvaluasiStoreRequest extends FormRequest
             'luas_kumuh' => ['required'],
             'jumlah_bangunan' => ['required'],
             'jumlah_penduduk' => ['required'],
+            'jumlah_kepala_keluarga' => ['required'],
             'latitude' => ['required'],
             'longitude' => ['required'],
             'gambar_delinasi' => ['required'],
