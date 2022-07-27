@@ -73,7 +73,7 @@
     </div>
 
     <div class="form-group">
-        <label>Luas Kawasan</label>
+        <label>Luas SK</label>
         <div class="input-group mb-3">
             <input type="number" name="luas_kawasan" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
@@ -108,6 +108,16 @@
             <input name="jumlah_penduduk" type="number" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon">Jiwa</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Jumlah Kepala Penduduk</label>
+        <div class="input-group mb-3">
+            <input name="jumlah_kepala_keluarga" type="number" step="any" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon">KK</span>
             </div>
         </div>
     </div>

@@ -76,10 +76,13 @@
                                 <dd class="col-sm-9">{{ $evaluasi->luas_kumuh ?? '-' }} Ha</dd>
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_bangunan')</dt>
-                                <dd class="col-sm-9">{{ $evaluasi->jumlah_bangunan ?? '-' }} Ha</dd>
+                                <dd class="col-sm-9">{{ $evaluasi->jumlah_bangunan ?? '-' }} Unit</dd>
 
                                 <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_penduduk')</dt>
-                                <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Ha</dd>
+                                <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} Jiwa</dd>
+
+                                <dt class="col-sm-3">@lang('crud.evaluasi.inputs.jumlah_kepala_keluarga')</dt>
+                                <dd class="col-sm-9">{{ $evaluasi->jumlah_penduduk ?? '-' }} KK</dd>
 
                                 <dt class="col-sm-3">Total Nilai</dt>
                                 <dd class="col-sm-9">{{ $evaluasiKriteria ?? '0' }}</dd>
