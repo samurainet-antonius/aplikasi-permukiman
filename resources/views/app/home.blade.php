@@ -389,7 +389,7 @@
                     marker.bindPopup(title);
                     marker.bindPopup(L.popup({}).setContent(
                         `<div class="bg-white border" style="margin: -25px !important;">
-                            <img src="${gambar}" class="img-fluid" alt="">
+                            <img src="/public/${gambar}" class="img-fluid" alt="">
                             <div class="text-center fa-7x mx-3">
                                 <div class="mb-4" style="color: ${color};">
                                     ${icon}
