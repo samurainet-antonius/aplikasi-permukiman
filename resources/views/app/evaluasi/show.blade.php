@@ -222,6 +222,7 @@
                     <div class="mb-3">
                         <p class="font-weight-bold"><i class="fas fa-circle mr-1"></i> {{ $item->nama_subkriteria }}</p>
                         <p class="ml-4">{{ $item->jawaban }} {{ $item->subkriteria->satuan }}</p>
+                        <p class="ml-4">{{ $item->persen }} Prosen (%)</p>
                     </div>
                 @endforeach
 
