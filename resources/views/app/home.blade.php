@@ -13,9 +13,7 @@
     <link href="{{ asset('/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
-    {{-- <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'> --}}
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('/assets/css/ruang-admin.css') }}">
@@ -370,14 +368,15 @@
 
         async function detailMap(data) {
             data.forEach(function(val, i) {
+                console.log(val);
                 if(val.latitude != 'NULL' && val.longitude != 'NULL') {
                     const pos = new L.LatLng(val.latitude,val.longitude);
                     const title = val.name;
                     const kec = val.kecamatan;
                     const color = val.warna;
+                    const gambar = val.gambar;
                     const status = val.status;
                     const icon = val.icon;
-                    console.log(icon);
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({
@@ -390,7 +389,7 @@
                     marker.bindPopup(title);
                     marker.bindPopup(L.popup({}).setContent(
                         `<div class="bg-white border" style="margin: -25px !important;">
-                            <img src="{{ asset("assets/img/modal.png") }}" class="img-fluid" alt="">
+                            <img src="${gambar}" class="img-fluid" alt="">
                             <div class="text-center fa-7x mx-3">
                                 <div class="mb-4" style="color: ${color};">
                                     ${icon}

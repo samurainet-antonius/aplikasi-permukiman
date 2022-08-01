@@ -53,7 +53,7 @@ class LeafletController extends Controller
 
     public function village(Request $request)
     {
-        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', 'status_kumuh.nama as status', 'warna', 'icon',
+        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', 'status_kumuh.nama as status', 'warna', 'icon','evaluasi.gambar_delinasi as gambar',
             DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"));
 
         // if($request->district_code) {

@@ -173,7 +173,7 @@
                                                 <button type="button" data-toggle="modal" data-target="#edit-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-primary btn-sm mt-2" data-toggle="modal" data-target="#mods">
                                                     Edit
                                                 </button>
-                                                <button type="button" data-toggle="modal" data-target="#modal-{{$item->id}}" {{ $date == date('m') ? '' : 'disabled' }} class="px-3 btn btn-info btn-sm mt-2" data-toggle="modal" data-target="#mods">
+                                                <button type="button" data-toggle="modal" data-target="#modal-{{$item->id}}" class="px-3 btn btn-info btn-sm mt-2" data-toggle="modal" data-target="#mods">
                                                     View
                                                 </button>
                                             </div>
