@@ -75,5 +75,7 @@ class UserAuthController extends Controller
         } catch (\Exception $e) {
             echo $e;
         }
+
+        return response()->json(['status' => 'success', 'message' => 'Upload successfully']);
     }
 }
