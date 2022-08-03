@@ -54,10 +54,15 @@ class UserAuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function user() {
-        return response()->json([
-            'status' => 200,
-            'data' => auth()->user(),
-        ]);
+
+        if(auth()->user()) {
+            return response()->json([
+                'status' => 200,
+                'data' => auth()->user(),
+            ]);
+        } else {
+            return response()->json(['status' => 'failed', 'message' => 'Invalid token.', 'error' => 'Unauthorized'], 401);
+        }
     }
 
     public function logout() {
