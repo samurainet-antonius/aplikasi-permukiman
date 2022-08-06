@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\UserAuthController;
+use App\Http\Controllers\api\v1\EvaluasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,10 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
     Route::post('auth/refresh', [UserAuthController::class, 'refresh']);
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
     Route::post('upload', [UserAuthController::class, 'cekUpload']);
+
+    Route::group(['prefix' => 'evaluasi/'], function () {
+        Route::get('create', [EvaluasiController::class, 'create']);
+    });
+
+
 });
