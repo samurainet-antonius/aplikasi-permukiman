@@ -42,6 +42,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/village', [LeafletController::class, 'village'])->name('village.home');
 Route::post('/select-village', [LeafletController::class, 'formVillage'])->name('village.select');
 Route::post('/search-village', [LeafletController::class, 'selectVillage'])->name('village.search');
+Route::get('/detail/{id}', [LeafletController::class, 'detail'])->name('detail.public');
 
 require __DIR__.'/auth.php';
 

@@ -377,6 +377,7 @@
                     const gambar = val.gambar;
                     const status = val.status;
                     const icon = val.icon;
+                    const id = val.id;
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({
@@ -399,7 +400,8 @@
                                     <h5>DESA ${title}</h5>
                                     <h6>Kec. ${kec}</h6>
                                 </div>
-                                <button onclick="removePopups()" type="button" class="btn btn-success px-4">Tutup</button>
+                                <button onclick="removePopups()" type="button" class="btn btn-secondary px-4">Tutup</button>
+                                <a href="/detail/${id}" type="button" class="btn btn-success text-white px-4">Detail</a>
                             </div>
                         </div>`
                     )).openPopup();
