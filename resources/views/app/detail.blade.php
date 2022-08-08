@@ -137,10 +137,10 @@
                             <div class="col-5 row">
                                 <div class="col-12">
                                     <div id="map" class="map"></div>
-                                    <br/>
-                                    <br/>
                                 </div>
                                 <div class="col-12 mt-4">
+                                    <br/>
+                                    <br/>
                                     <img src="{{ asset('public/'.$evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
                                 </div>
 
