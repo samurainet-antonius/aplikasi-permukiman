@@ -141,7 +141,7 @@
                                 <div class="col-12 mt-4">
                                     <br/>
                                     <br/>
-                                    <img src="{{ asset('public/'.$evaluasi->gambar_delinasi) }}" class="img-thumbnail"/>
+                                    <img src="{{ asset('public/'.$evaluasi->gambar_delinasi) }}" class="img-thumbnail" width="380"/>
                                 </div>
 
                             </div>
