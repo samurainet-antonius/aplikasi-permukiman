@@ -100,9 +100,9 @@ class EvaluasiController extends Controller
 
     }
 
-    public function filterVillage($district)
+    public function filterVillage(Request $request)
     {
-        $village = Village::select('code', 'name')->where('district_code', $district)->orderBy('name', 'ASC')->get();
+        $village = Village::select('code', 'name')->where('district_code', $request->district)->orderBy('name', 'ASC')->get();
 
         return response()->json([
             'status' => 200,
