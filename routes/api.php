@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
 
     Route::group(['prefix' => 'evaluasi/'], function () {
         Route::get('create', [EvaluasiController::class, 'create']);
+        Route::get('search-village/{district}', [EvaluasiController::class, 'filterVillage']);
     });
 
 

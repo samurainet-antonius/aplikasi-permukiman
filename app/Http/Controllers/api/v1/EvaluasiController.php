@@ -99,4 +99,14 @@ class EvaluasiController extends Controller
         ]);
 
     }
+
+    public function filterVillage($district)
+    {
+        $village = Village::select('code', 'name')->where('district_code', $district)->orderBy('name', 'ASC')->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $village
+        ]);
+    }
 }
