@@ -106,7 +106,9 @@ class EvaluasiController extends Controller
 
         return response()->json([
             'status' => 200,
-            'data' => $village
+            'data' => [
+                'desa' => $village
+            ]
         ]);
     }
 }
