@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EvaluasiStoreRequest;
+use App\Models\Evaluasi;
+use App\Models\EvaluasiDetail;
+use App\Models\EvaluasiFoto;
+use App\Models\Kriteria;
 use App\Models\Petugas;
+use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Village;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
@@ -28,28 +35,33 @@ class EvaluasiController extends Controller
         $role = $users->roles[0]->name;
         $petugas = Petugas::where('users_id', $user)->first();
 
-        $village = [];
+        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'status_kumuh.nama as status', 'status_kumuh.warna', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
+            ->join('status_kumuh', 'evaluasi.status_id', '=', 'status_kumuh.id')
+            ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
+            ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
+            ->where('status_kumuh.tahun', date('Y'));
 
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
-                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
-
+                $evaluasi = $evaluasi->where('city_code', '1207')->get();
                 break;
             case "admin-kecamatan":
-                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
-                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
-
+                $evaluasi = $evaluasi->where('district_code', $petugas->district_code)->get();
                 break;
             case "admin-kelurahan":
-                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
-                $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
-
+                $evaluasi = $evaluasi->where('village_code', $petugas->village_code)->get();
                 break;
             default:
-                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
-                $villages = Village::select('code', 'name')->where('district_code', $district[0]->code)->first();
+                $evaluasi = $evaluasi->where('province_code', 12)->get();
         }
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'evaluasi' => $evaluasi,
+            ]
+        ]);
     }
 
     public function create()
@@ -81,11 +93,10 @@ class EvaluasiController extends Controller
             default:
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
-
         }
 
         $years = [];
-        for($i= date("Y"); $i>="2015"; $i--) {
+        for ($i = date("Y"); $i >= "2015"; $i--) {
             $years[] = "$i";
         }
 
@@ -97,7 +108,38 @@ class EvaluasiController extends Controller
                 'tahun' => $years,
             ]
         ]);
+    }
 
+    public function store(EvaluasiStoreRequest $request)
+    {
+        $validated = $request->validated();
+
+        DB::beginTransaction();
+        try {
+
+            $foto = $validated['gambar_delinasi'];
+            $fileName = time() . '.' . $foto->getClientOriginalExtension();
+            $folder = 'file/evaluasi';
+            $foto->move(public_path($folder), $fileName);
+
+            $validated['gambar_delinasi'] = $folder . '/' . $fileName;
+
+            $evaluasi = Evaluasi::create($validated);
+
+            $this->storeKriteria($evaluasi);
+
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'evaluasi_id' => $evaluasi,
+                    'page' => 0
+                ]
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
+        }
     }
 
     public function filterVillage(Request $request)
@@ -110,5 +152,91 @@ class EvaluasiController extends Controller
                 'desa' => $village
             ]
         ]);
+    }
+
+    public function createKriteria(Request $request)
+    {
+        $req = [
+            'page' => $request->page,
+            'evaluasi_id' => $request->evaluasi_id,
+        ];
+
+        $kriteria = Kriteria::select('id', 'nama')->latest()->get();
+        $kriteria = $kriteria->toArray();
+
+        $totalKriteria = count($kriteria);
+        $first = array_key_first($kriteria);
+        $last = array_key_last($kriteria);
+
+        $kriteriaId = $kriteria[$req['page']]['id'];
+        $subkriteria = SubKriteria::select('id', 'kriteria_id', 'nama', 'satuan')->where('kriteria_id', $kriteriaId)->orderBy('id', 'ASC')->get();
+
+        foreach ($subkriteria as $key => $val) {
+            $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $req['evaluasi_id'])->where('kriteria_id', $kriteriaId)->where('subkriteria_id', $val->id)->orderBy('created_at', 'DESC')->first();
+
+            if ($evaluasiDetail) {
+                $val->evaluasi = $evaluasiDetail->jawaban;
+            } else {
+                $val->evaluasi = '';
+            }
+        }
+
+        $evaluasiFoto = EvaluasiFoto::select('id', 'evaluasi_id', 'kriteria_id', 'nama_kriteria', 'foto')->where('evaluasi_id', $req['evaluasi_id'])->where('kriteria_id', $kriteriaId)->get();
+
+        if ($req['page'] == 0) {
+            $prev = 0;
+        } else {
+            $prev = $req['page'] - 1;
+        }
+
+        if ($req['page'] == $last) {
+            $next = $last;
+        } else {
+            $next = $req['page'] + 1;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'prev' => "$prev",
+                'page' => $req['page'],
+                'next' => "$next",
+                'first' => "$first",
+                'last' => "$last",
+                'foto' => $evaluasiFoto,
+                'kriteria' => $kriteria[$req['page']],
+                'subkriteria' => $subkriteria
+            ]
+        ]);
+    }
+
+    private function storeKriteria($evaluasiId)
+    {
+        $kriteria = Kriteria::latest()->get();
+
+        foreach ($kriteria as $value) {
+            $subkriteria = SubKriteria::where('kriteria_id', $value->id)
+                ->orderBy('id', 'ASC')
+                ->get();
+
+            foreach ($subkriteria as $item) {
+                EvaluasiDetail::insert(array(
+                    'kriteria_id' => $value->id,
+                    'nama_kriteria' => $value->nama,
+                    'subkriteria_id' => $item->id,
+                    'nama_subkriteria' => $item->nama,
+                    'jawaban' => '',
+                    'skor' => 0,
+                    'persen' => '',
+                    'nilai' => '',
+                    'evaluasi_id' => $evaluasiId,
+                    'created_at' => date("Y-m-d H:i:s")
+                ));
+            }
+        }
+    }
+
+    public function updateKriteria(Request $request)
+    {
     }
 }
