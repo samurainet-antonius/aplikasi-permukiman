@@ -85,7 +85,7 @@
                             </a>
                             <div class="fs-14 mt-2 ml-3 text-white">
                                 <a href="{{ route('home') }}" class="text-white">
-                                    Dinas Perkim Deli Serdang Sumatera Utara
+                                    Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan Kabupaten Deli Serdang Sumatera Utara
                                 </a>
                             </div>
                         </li>

@@ -75,7 +75,7 @@
                             <h6 class="font-weight-bold">Status Kumuh</h6>
                             <h6 class="font-weight-bold">{{$text['district']}} {{$text['village']}}</h6>
                             <h6>{{$text['years']}}</h6>
-                            <h6>Dinas Perkim Deli Serdang Sumatera Utara</h6>
+                            <h6>Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan Kabupaten Deli Serdang Sumatera Utara</h6>
                         </div>
                         <div id="container"></div>
                         <div class="text-center row mx-5">
