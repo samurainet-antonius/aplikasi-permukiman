@@ -66,6 +66,19 @@
             border-radius: 50%;
             display: inline-block;
         }
+
+        .modal{
+            display: block !important; /* I added this to see the modal, you don't need this */
+        }
+
+        /* Important part */
+        .scroll{
+            overflow-y: initial !important
+        }
+        .scroll{
+            /* height: 150vh; */
+            overflow-y: auto;
+        }
     </style>
 
 </head>
@@ -376,6 +389,7 @@
                     const color = val.warna;
                     const gambar = val.gambar;
                     const status = val.status;
+                    const lingkungan = val.lingkungan;
                     const icon = val.icon;
                     const id = val.id;
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
@@ -389,7 +403,7 @@
 
                     marker.bindPopup(title);
                     marker.bindPopup(L.popup({}).setContent(
-                        `<div class="bg-white border" style="margin: -25px !important;">
+                        `<div data-spy="scroll" class="bg-white border scroll" style="margin: -25px !important;">
                             <img src="/public/${gambar}" class="img-fluid" alt="">
                             <div class="text-center fa-7x mx-3">
                                 <div class="mb-4" style="color: ${color};">
@@ -397,6 +411,7 @@
                                     <h4 class="font-weight-bold">${status}</h4>
                                 </div>
                                 <div style="margin-bottom: -30px !important;">
+                                    <h6>Lingkungan ${lingkungan}</h6>
                                     <h5>DESA ${title}</h5>
                                     <h6>Kec. ${kec}</h6>
                                 </div>
