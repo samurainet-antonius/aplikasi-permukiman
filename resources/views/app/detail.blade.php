@@ -60,6 +60,8 @@
                     <div class="card-body">
                         <div>
                             <h4 class="float-left">Lokasi</h4>
+                            {{-- <p class="float-right">Last Update : {{ $evaluasi->updated_at == null ?  $evaluasi->created_at : $evaluasi->updated_at}}</p> --}}
+                            <p class="float-right">Last Update : {{ $evaluasi->updated_at == null ?  \Carbon\Carbon::parse($evaluasi->created_at)->format('d M Y, H:i') : \Carbon\Carbon::parse($evaluasi->updated_at)->format('d M Y, H:i')}}</p>
                         </div>
                         <div class="clearfix"></div>
                         <hr />
