@@ -27,7 +27,7 @@ class LeafletController extends Controller
 
     public function formVillage(Request $request)
     {
-        if($request->district_code) {
+        if ($request->district_code) {
             $district = $request->district_code;
         } else {
             $district = Districts::where('city_code', 1207)->first()->code;
@@ -36,12 +36,12 @@ class LeafletController extends Controller
         $districts = Districts::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))->where('code', $district)->first();
 
         $query = Village::select('code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
-                ->where('district_code', $district)
-                ->get();
+            ->where('district_code', $district)
+            ->get();
 
         $data = [
             'district' => $districts,
-            'data' =>$query
+            'data' => $query
         ];
 
         return response()->json($data);
@@ -58,8 +58,17 @@ class LeafletController extends Controller
 
     public function village(Request $request)
     {
-        $query = Village::select('indonesia_villages.code', 'indonesia_villages.name', 'indonesia_districts.name as kecamatan', 'status_kumuh.nama as status', 'warna', 'icon','evaluasi.gambar_delinasi as gambar','evaluasi.id as id',
-            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude"));
+        $query = Village::select(
+            'indonesia_villages.code',
+            'indonesia_villages.name',
+            'indonesia_districts.name as kecamatan',
+            'status_kumuh.nama as status',
+            'warna',
+            'icon',
+            'evaluasi.gambar_delinasi as gambar',
+            'evaluasi.id as id',
+            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude")
+        );
 
         // if($request->district_code) {
         //     $query = $query->leftJoin('indonesia_districts', 'indonesia_districts.code', '=', 'indonesia_villages.district_code')
@@ -89,7 +98,8 @@ class LeafletController extends Controller
         return response()->json($query);
     }
 
-    public function detail(Request $request,$id){
+    public function detail(Request $request, $id)
+    {
 
         $bulan = $this->bulan();
 
@@ -100,25 +110,25 @@ class LeafletController extends Controller
         $cek = $date;
         $date = $request->get('bulan', $date);
 
-        $kriteria = EvaluasiDetail::where('evaluasi_id',$id)
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $date)
-                    ->groupBy('kriteria_id')
-                    ->get();
+        $kriteria = EvaluasiDetail::where('evaluasi_id', $id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $date)
+            ->groupBy('kriteria_id')
+            ->get();
 
-        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id',$id)
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $date)
-                    ->sum('nilai');
+        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $date)
+            ->sum('nilai');
 
 
-        $status = StatusKumuh::where('tahun',date('Y'))->get();
+        $status = StatusKumuh::where('tahun', date('Y'))->get();
 
         $statusEvaluasi = '';
         $statusID = '';
         foreach ($status as $key => $value) {
 
-            if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria){
+            if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria) {
                 $statusEvaluasi = $value->nama;
                 $statusID = $value->id;
             }
@@ -127,7 +137,7 @@ class LeafletController extends Controller
         $evaluasi->status_id = $statusID;
         $evaluasi->save();
 
-        foreach($kriteria as $val) {
+        foreach ($kriteria as $val) {
 
             $val->sub = EvaluasiDetail::where('evaluasi_id', $id)
                 ->whereYear('created_at', date('Y'))
@@ -135,10 +145,12 @@ class LeafletController extends Controller
                 ->where('kriteria_id', $val->kriteria_id)
                 ->get()->count();
 
-            $val->evaluasi = EvaluasiDetail::where('evaluasi_id', $id)
-                ->whereYear('created_at', date('Y'))
-                ->whereMonth('created_at', $date)
-                ->where('kriteria_id', $val->kriteria_id)
+            $val->evaluasi = EvaluasiDetail::select('evaluasi_detail.*', 'subkriteria.satuan')
+                ->join('subkriteria', 'evaluasi_detail.subkriteria_id', '=', 'subkriteria.id')
+                ->where('evaluasi_id', $id)
+                ->whereYear('evaluasi_detail.created_at', date('Y'))
+                ->whereMonth('evaluasi_detail.created_at', $date)
+                ->where('evaluasi_detail.kriteria_id', $val->kriteria_id)
                 ->get();
 
             $val->skor = EvaluasiDetail::where('evaluasi_id', $id)
@@ -158,7 +170,9 @@ class LeafletController extends Controller
             ->where('code', $evaluasi->village_code)
             ->first();
 
-        return view('app.detail', compact('status','evaluasiKriteria','statusEvaluasi','evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
+        // dd($kriteria[0]);
+
+        return view('app.detail', compact('status', 'evaluasiKriteria', 'statusEvaluasi', 'evaluasi', 'kriteria', 'status', 'village', 'bulan', 'date', 'cek'));
     }
 
     private function bulan()
