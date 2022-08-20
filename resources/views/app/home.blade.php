@@ -376,6 +376,7 @@
                     const color = val.warna;
                     const gambar = val.gambar;
                     const status = val.status;
+                    const lingkungan = val.lingkungan;
                     const icon = val.icon;
                     const id = val.id;
                     style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
@@ -397,6 +398,7 @@
                                     <h4 class="font-weight-bold">${status}</h4>
                                 </div>
                                 <div style="margin-bottom: -30px !important;">
+                                    <h6>Lingkungan ${lingkungan}</h6>
                                     <h5>DESA ${title}</h5>
                                     <h6>Kec. ${kec}</h6>
                                 </div>

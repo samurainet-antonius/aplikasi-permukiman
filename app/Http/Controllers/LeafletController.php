@@ -67,6 +67,7 @@ class LeafletController extends Controller
             'icon',
             'evaluasi.gambar_delinasi as gambar',
             'evaluasi.id as id',
+            'evaluasi.lingkungan',
             DB::raw("JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(indonesia_villages.meta, '$[0].long')) as longitude")
         );
 

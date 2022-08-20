@@ -126,16 +126,16 @@
                                             @if ($key == 0)
                                                 <tr>
                                                     <th rowspan="{{$item->sub}}">{{ $item->nama_kriteria }}</th>
-                                                    <td>{{$value->nama_subkriteria}}</td>
-                                                    <td>{{$value->jawaban}}</td>
-                                                    <td>{{$value->satuan}}</td>
-                                                    <td rowspan="{{$item->sub}}"><img src="{{ asset('public/'.$item->foto[0]->foto) }}" class="img-thumbnail ml-4" style="max-height: 100px;"/></td>
+                                                    <td>{{ $key+1 }}. {{$value->nama_subkriteria}}</td>
+                                                    <td class="text-center">{{$value->jawaban}}</td>
+                                                    <td class="text-center">{{$value->satuan}}</td>
+                                                    <td rowspan="{{$item->sub}}"><img src="{{ asset('public/'.$item->foto[0]->foto) }}" class="img-thumbnail ml-4" style="max-height: 200px;"/></td>
                                                 </tr>
                                             @else
                                                 <tr>
-                                                    <td>{{$value->nama_subkriteria}}</td>
-                                                    <td>{{$value->jawaban}}</td>
-                                                    <td>{{$value->satuan}}</td>
+                                                    <td>{{ $key+1 }}. {{$value->nama_subkriteria}}</td>
+                                                    <td class="text-center">{{$value->jawaban}}</td>
+                                                    <td class="text-center">{{$value->satuan}}</td>
                                                 </tr>
                                             @endif
 
