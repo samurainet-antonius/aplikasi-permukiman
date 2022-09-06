@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UserAuthController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:5',
@@ -25,14 +27,15 @@ class UserAuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (! $token = JWTAuth::attempt($validator->validated())) {
+        if (!$token = JWTAuth::attempt($validator->validated())) {
             return response()->json(['status' => 'failed', 'message' => 'Invalid email and password.', 'error' => 'Unauthorized'], 401);
         }
 
         return $this->createNewToken($token);
     }
 
-    protected function createNewToken($token){
+    protected function createNewToken($token)
+    {
         return response()->json([
             'status' => 200,
             'access_token' => $token,
@@ -53,9 +56,10 @@ class UserAuthController extends Controller
      * Get the Auth user using token.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user() {
+    public function user()
+    {
 
-        if(auth()->user()) {
+        if (auth()->user()) {
             return response()->json([
                 'status' => 200,
                 'data' => auth()->user(),
@@ -65,7 +69,8 @@ class UserAuthController extends Controller
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         auth()->logout();
         return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
     }
@@ -73,10 +78,19 @@ class UserAuthController extends Controller
     public function cekUpload(Request $request)
     {
         try {
-            $foto = $request->image;
-            $fileName = time() . '.' . $foto->getClientOriginalExtension();
-            $folder = 'file/pembaruan';
-            $foto->move(public_path($folder), $fileName);
+            if ($request->image1) {
+                $foto1 = $request->image1;
+                $fileName1 = time() . '-1' . '.' . $foto1->getClientOriginalExtension();
+                $folder = 'file/pembaruan';
+                $foto1->move(public_path($folder), $fileName1);
+            }
+
+            if ($request->image2) {
+                $foto2 = $request->image2;
+                $fileName2 = time() . '-2' . '.' . $foto2->getClientOriginalExtension();
+                $folder = 'file/pembaruan';
+                $foto2->move(public_path($folder), $fileName2);
+            }
         } catch (\Exception $e) {
             echo $e;
         }
