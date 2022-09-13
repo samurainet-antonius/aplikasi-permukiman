@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EvaluasiApiUpdateRequest;
 use App\Http\Requests\EvaluasiStoreRequest;
 use App\Models\Evaluasi;
 use App\Models\EvaluasiDetail;
@@ -16,6 +17,8 @@ use App\Models\User;
 use App\Models\Village;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
@@ -45,13 +48,13 @@ class EvaluasiController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
-                $evaluasi = $evaluasi->where('city_code', '1207')->get();
+                $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->get();
                 break;
             case "admin-kecamatan":
-                $evaluasi = $evaluasi->where('district_code', $petugas->district_code)->get();
+                $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->get();
                 break;
             case "admin-kelurahan":
-                $evaluasi = $evaluasi->where('village_code', $petugas->village_code)->get();
+                $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->get();
                 break;
             default:
                 $evaluasi = $evaluasi->where('province_code', 12)->get();
@@ -135,6 +138,54 @@ class EvaluasiController extends Controller
                 'data' => [
                     'evaluasi_id' => $evaluasi->id,
                     'page' => 0
+                ]
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
+        }
+    }
+
+    public function edit(Request $request)
+    {
+        $evaluasi = Evaluasi::find($request->evaluasi_id);
+
+        $evaluasi->gambar_delinasi = URL::to('/') . '/' . $evaluasi->gambar_delinasi;
+        // $evaluasi->gambar_delinasi = URL::to('/') . '/public/' . $evaluasi->gambar_delinasi;
+
+        return response()->json([
+            'status' => 200,
+            'data' => $evaluasi
+        ]);
+    }
+
+    public function update(EvaluasiApiUpdateRequest $request)
+    {
+        $validated = $request->validated();
+
+        DB::beginTransaction();
+        try {
+
+            $evaluasi = Evaluasi::find($validated['evaluasi_id']);
+
+            if ($validated['gambar_delinasi'] != 'null') {
+                $foto = $validated['gambar_delinasi'];
+                $fileName = time() . '.' . $foto->getClientOriginalExtension();
+                $folder = 'file/evaluasi';
+                $foto->move(public_path($folder), $fileName);
+
+                $validated['gambar_delinasi'] = $folder . '/' . $fileName;
+            } else {
+                $validated['gambar_delinasi'] = $evaluasi->gambar_delinasi;
+            }
+
+            Evaluasi::find($validated['evaluasi_id'])->update($validated);
+
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'message' => 'Berhasil update data'
                 ]
             ]);
         } catch (\Exception $e) {
@@ -395,5 +446,28 @@ class EvaluasiController extends Controller
             DB::rollback();
             return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
         }
+    }
+
+    public function delete(Request $request)
+    {
+        $evaluasi = Evaluasi::find($request->evaluasi_id);
+        $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $request->evaluasi_id)->get();
+
+        if ($evaluasiFoto) {
+            foreach ($evaluasiFoto as $val) {
+                File::delete(public_path($val->foto));
+                EvaluasiFoto::find($val->id);
+            }
+        }
+
+        File::delete(public_path($evaluasi->gambar_delinasi));
+        $evaluasi->delete();
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Success hapus data'
+            ]
+        ]);
     }
 }

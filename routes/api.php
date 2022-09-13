@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
         Route::get('', [EvaluasiController::class, 'index']);
         Route::post('', [EvaluasiController::class, 'store']);
         Route::get('create', [EvaluasiController::class, 'create']);
+        Route::post('edit', [EvaluasiController::class, 'edit']);
+        Route::post('update', [EvaluasiController::class, 'update']);
+        Route::post('delete', [EvaluasiController::class, 'delete']);
         Route::post('search-village', [EvaluasiController::class, 'filterVillage']);
         Route::post('create/kriteria', [EvaluasiController::class, 'createKriteria']);
         Route::post('update/kriteria', [EvaluasiController::class, 'updateKriteria']);

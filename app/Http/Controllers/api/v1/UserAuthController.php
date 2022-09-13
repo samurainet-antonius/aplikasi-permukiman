@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Petugas;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Village;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
+use Laravolt\Indonesia\Models\District;
 
 class UserAuthController extends Controller
 {
@@ -58,11 +61,28 @@ class UserAuthController extends Controller
      */
     public function user()
     {
-
         if (auth()->user()) {
+            $id = auth()->user()->id;
+            $user = User::find($id);
+            $role = $user->roles[0]->name;
+            $petugas = Petugas::where('users_id', $id)->first();
+
+            switch ($role) {
+                case "admin-kecamatan":
+                    $dataPetugas = District::where('code', $petugas->district_code)->first();
+                    $text = ucwords(strtolower($dataPetugas->name));
+                    $user->petugas = 'Petugas Kecamatan ' . $text;
+                    break;
+                case "admin-kelurahan":
+                    $dataPetugas = Village::where('code', $petugas->village_code)->first();
+                    $text = ucwords(strtolower($dataPetugas->name));
+                    $user->petugas = 'Petugas Desa ' . $text;
+                    break;
+            }
+
             return response()->json([
                 'status' => 200,
-                'data' => auth()->user(),
+                'data' => $user,
             ]);
         } else {
             return response()->json(['status' => 'failed', 'message' => 'Invalid token.', 'error' => 'Unauthorized'], 401);
