@@ -37,7 +37,7 @@ class EvaluasiUpdateRequest extends FormRequest
             'jumlah_penduduk' => ['required'],
             'jumlah_kepala_keluarga' => ['required'],
             'latitude' => ['required'],
-            'longitude' => ['required','size:20000'],
+            'longitude' => ['required'],
         ];
     }
 }
