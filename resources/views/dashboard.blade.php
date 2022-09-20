@@ -19,6 +19,7 @@
                                 <div class="form-group">
                                     <label>Kecamatan</label>
                                     <select class="select2-single form-control" name="district_code" onchange="submit()">
+                                        <option value="null">Pilih Kecamatan</option>
                                         @foreach ($district as $val)
                                             <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                         @endforeach
@@ -30,9 +31,15 @@
                                 <div class="form-group">
                                     <label>Desa</label>
                                     <select class="select2-single form-control" name="village_code" onchange="submit()">
+
+                                        @if ($village)
+                                            <option value="null">Pilih Desa</option>
                                             @foreach ($village as $val)
                                                 <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                             @endforeach
+                                        @else
+                                            <option value="null">Pilih kecamatan dahulu</option>
+                                        @endif
 
                                     </select>
                                 </div>
@@ -133,7 +140,6 @@
                             link = link.replace(':tahun', years);
                             link = link.replace(':month', this.series[0].searchPoint(e, true).category);
                             location.href = link
-                            // console.log(this.series[0].searchPoint(e, true).category);
                         }
                     }
                 },
@@ -145,17 +151,9 @@
                 },
                 legend: {
                     enabled: false
-                    // layout: 'horizontal',
-                    // align: 'center',
-                    // verticalAlign: 'bottom'
                 },
                 xAxis: {
                     categories: bulan,
-                    // [
-                    //     'Jan',
-                    //     'Feb',
-                    //     'Mar',
-                    // ],
                     crosshair: true
                 },
                 yAxis: {
@@ -179,32 +177,6 @@
                     }
                 },
                 series: data
-                // [{
-                //     name: 'Tokyo',
-                //     data: [{
-                //         y: 49.9,
-                //         color: '#fff'
-                //     }, {
-                //         y: 71.5,
-                //         color: '#fdfdfd'
-                //     }, {
-                //         y: 106.4,
-                //         color: '#f3f3f3'
-                //     }]
-
-                // }, {
-                //     name: 'New York',
-                //     data: [83.6, 78.8, 98.5]
-
-                // }, {
-                //     name: 'London',
-                //     data: [48.9, 38.8, 39.3]
-
-                // }, {
-                //     name: 'Berlin',
-                //     data: [42.4, 33.2, 34.5]
-
-                // }]
             });
         </script>
     @endpush
