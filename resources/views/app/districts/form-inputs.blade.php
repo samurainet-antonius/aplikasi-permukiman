@@ -17,7 +17,6 @@
     <div class="form-group">
         <label>@lang('crud.districts.inputs.province')</label>
         <select class="select2-single form-control" name="province_code" id="province">
-            <option>Pilih Provinsi</option>
             <option value="12">SUMATERA UTARA</option>
         </select>
     </div>
@@ -25,7 +24,7 @@
     <div class="form-group">
         <label>@lang('crud.districts.inputs.city')</label>
         <select class="select2-single form-control" name="city_code" id="city">
-            <option>Pilih Kabupaten</option>
+            <option value="1207">KABUPATEN DELI SERDANG</option>
         </select>
     </div>
 
@@ -47,7 +46,7 @@
         type="text"
         class="form-control"
         name="latitude"
-        value="{{ old('latitude', ($editing ? $meta->lat : '')) }}"
+        value="{{ old('latitude', ($editing ? $province->meta->lat : '')) }}"
         maxlength="255"
         placeholder="input latitude"
         />
@@ -59,7 +58,7 @@
         type="text"
         class="form-control"
         name="longitude"
-        value="{{ old('longitude', ($editing ? $meta->long : '')) }}"
+        value="{{ old('longitude', ($editing ? $province->meta->long : '')) }}"
         maxlength="255"
         placeholder="input longitude"
         />
