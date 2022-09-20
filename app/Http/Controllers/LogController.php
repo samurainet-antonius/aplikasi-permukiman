@@ -80,8 +80,8 @@ class LogController extends Controller
 
                 if ($request->district_code == 'semua') {
                     $village = '';
-                } elseif ($request->district_code) {
-                    $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
+                } elseif ($request->district) {
+                    $village = Village::select('code', 'name')->where('district_code', $request->district)->get();
                 }
 
                 $req['district'] = 'semua';
