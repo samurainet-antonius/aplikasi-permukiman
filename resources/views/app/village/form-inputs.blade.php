@@ -17,7 +17,6 @@
     <div class="form-group">
         <label>@lang('crud.village.inputs.province')</label>
         <select class="select2-single form-control" name="province_code" id="province">
-            <option>Pilih Provinsi</option>
             <option value="12" {{ $editing ? 'selected' : '' }}>SUMATERA UTARA</option>
         </select>
     </div>
@@ -25,7 +24,7 @@
     <div class="form-group">
         <label>@lang('crud.village.inputs.city')</label>
         <select class="select2-single form-control" name="city_code" id="city">
-            <option>Pilih Kabupaten</option>
+            <option value="1207">KABUPATEN DELI SERDANG</option>
         </select>
     </div>
 
