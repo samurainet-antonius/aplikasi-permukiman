@@ -79,16 +79,6 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var province = 12;
-        var selectCity = 1207;
-        $.ajax({
-            url:'<?= '/l-app/city/province'; ?>?province='+province+'&select='+selectCity,
-            method:'GET',
-            success:function(data){
-                $("#city").html(data)
-            }
-        })
-
         var city = 1207;
         var selectDistrict = '{{ $districts->code }}';
         $.ajax({
