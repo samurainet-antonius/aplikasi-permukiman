@@ -30,14 +30,9 @@
                                 <div class="form-group">
                                     <label>Desa</label>
                                     <select class="select2-single form-control" name="village_code" onchange="submit()">
-
-                                        @if ($village)
                                             @foreach ($village as $val)
                                                 <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                             @endforeach
-                                        @else
-                                            <option value="null">Pilih kecamatan dahulu</option>
-                                        @endif
 
                                     </select>
                                 </div>
