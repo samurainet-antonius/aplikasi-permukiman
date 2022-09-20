@@ -102,6 +102,21 @@
 </script>
 
 @endpush
-
+@else
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+        var city = 1207;
+        $.ajax({
+            url:'<?= '/l-app/district/city'; ?>?city='+city,
+            method:'GET',
+            success:function(data){
+                $("#district").html(data)
+            }
+        })
+    });
+</script>
+@endpush
 @endif
+
 
