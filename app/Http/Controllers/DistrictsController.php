@@ -79,7 +79,7 @@ class DistrictsController extends Controller
         $code = $districts->code;
         $meta = json_decode($districts->meta);
 
-        return view('app.districts.edit', compact('code', 'meta'))->with('districts', $districts);
+        return view('app.districts.edit', compact('code', 'meta','districts'));
     }
 
     public function update(DistrictsUpdateRequest $request, $id)

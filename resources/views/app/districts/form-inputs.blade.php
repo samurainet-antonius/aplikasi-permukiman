@@ -37,7 +37,7 @@
         type="text"
         class="form-control"
         name="name"
-        value="{{ old('name', ($editing ? $province->name : '')) }}"
+        value="{{ old('name', ($editing ? $districts->name : '')) }}"
         maxlength="255"
         placeholder="input name"
         />
@@ -49,7 +49,7 @@
         type="text"
         class="form-control"
         name="latitude"
-        value="{{ old('latitude', ($editing ? $province->meta->lat : '')) }}"
+        value="{{ old('latitude', ($editing ? $meta->lat : '')) }}"
         maxlength="255"
         placeholder="input latitude"
         />
@@ -61,7 +61,7 @@
         type="text"
         class="form-control"
         name="longitude"
-        value="{{ old('longitude', ($editing ? $province->meta->long : '')) }}"
+        value="{{ old('longitude', ($editing ? $meta->long : '')) }}"
         maxlength="255"
         placeholder="input longitude"
         />
