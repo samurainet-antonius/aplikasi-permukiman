@@ -80,7 +80,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var province = 12;
-        var selectCity = '{{ $city->code }}';
+        var selectCity = 1207;
         $.ajax({
             url:'<?= '/l-app/city/province'; ?>?province='+province+'&select='+selectCity,
             method:'GET',
