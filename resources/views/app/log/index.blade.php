@@ -177,7 +177,7 @@
                                             <option value="semua">Semua Kecamatan</option>
                                         @endif
                                         @foreach ($district as $val)
-                                            <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                            <option value="{{$val->code}}" {{ (Request::get('district') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

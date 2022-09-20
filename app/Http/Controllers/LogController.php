@@ -40,8 +40,8 @@ class LogController extends Controller
             case "admin-kabupaten":
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
 
-                $selectDistrict = '1';
-                $selectVillage = '1';
+                $selectDistrict = ($request->has('district') && $request->district !== 'semua') ? $request->district : '1';
+                $selectVillage = ($request->has('village') && $request->village !== 'semua') ? $request->village : '1';
 
                 if ($request->district_code == 'semua') {
                     $village = '';
@@ -75,8 +75,8 @@ class LogController extends Controller
             default:
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
 
-                $selectDistrict = '1';
-                $selectVillage = '1';
+                $selectDistrict = ($request->has('district') && $request->district !== 'semua') ? $request->district : '1';
+                $selectVillage = ($request->has('village') && $request->village !== 'semua') ? $request->village : '1';
 
                 if ($request->district_code == 'semua') {
                     $village = '';
@@ -98,11 +98,11 @@ class LogController extends Controller
 
         $log = Log::select(DB::raw('year(created_at) as year'));
 
-        if ($request->district) {
+        if ($request->district !== "semua") {
             $log = $log->where('district_code', $request->district);
         }
 
-        if ($request->village) {
+        if ($request->village !== "semua") {
             $log = $log->where('village_code', $request->village);
         }
 
@@ -115,15 +115,14 @@ class LogController extends Controller
         }
 
         $log = $log->groupBy(DB::raw('year(created_at)'))->get();
-
         foreach($log as $value) {
             $logs = Log::whereYear('created_at', $value->year);
 
-            if($request->district) {
+            if($request->district !== "semua") {
                 $logs = $logs->where('district_code', $request->district);
             }
 
-            if ($request->village) {
+            if ($request->village !== "semua") {
                 $logs = $logs->where('village_code', $request->village);
             }
 
@@ -136,7 +135,6 @@ class LogController extends Controller
             }
 
             $value->data = $logs->orderBy('created_at', 'DESC')->get();
-
             foreach($value->data as $item) {
                 $query = Petugas::where('users_id', $item->users_id)->first();
                 $item->name = $query->user->name;
@@ -151,7 +149,6 @@ class LogController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ];
-
         return view('app.log.index', compact('log','select', 'req','district', 'village',));
     }
 
