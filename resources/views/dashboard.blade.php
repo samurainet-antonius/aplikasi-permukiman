@@ -19,7 +19,6 @@
                                 <div class="form-group">
                                     <label>Kecamatan</label>
                                     <select class="select2-single form-control" name="district_code" onchange="submit()">
-                                        <option value="null">Pilih Kecamatan</option>
                                         @foreach ($district as $val)
                                             <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                         @endforeach
@@ -33,7 +32,6 @@
                                     <select class="select2-single form-control" name="village_code" onchange="submit()">
 
                                         @if ($village)
-                                            <option value="null">Pilih Desa</option>
                                             @foreach ($village as $val)
                                                 <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                             @endforeach
