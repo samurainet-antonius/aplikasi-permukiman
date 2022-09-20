@@ -24,7 +24,7 @@
     <div class="form-group">
         <label>@lang('crud.village.inputs.city')</label>
         <select class="select2-single form-control" name="city_code" id="city">
-            <option value="1207">KABUPATEN DELI SERDANG</option>
+            <option value="1207" selected>KABUPATEN DELI SERDANG</option>
         </select>
     </div>
 
