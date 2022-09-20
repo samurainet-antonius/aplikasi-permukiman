@@ -1,5 +1,8 @@
-@php $editing = isset($province) @endphp
+@php $editing = isset($districts) @endphp
 @csrf
+<pre>
+    <?php print_r($meta); ?>
+</pre>
 <div class="flex flex-wrap mb-5">
 
     <div class="form-group">
