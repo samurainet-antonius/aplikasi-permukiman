@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EvaluasiApiUpdateRequest;
 use App\Http\Requests\EvaluasiStoreRequest;
 use App\Models\Evaluasi;
 use App\Models\EvaluasiDetail;
 use App\Models\EvaluasiFoto;
 use App\Models\Kriteria;
 use App\Models\Petugas;
+use App\Models\StatusKumuh;
 use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Village;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
@@ -44,13 +48,13 @@ class EvaluasiController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
-                $evaluasi = $evaluasi->where('city_code', '1207')->get();
+                $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->get();
                 break;
             case "admin-kecamatan":
-                $evaluasi = $evaluasi->where('district_code', $petugas->district_code)->get();
+                $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->get();
                 break;
             case "admin-kelurahan":
-                $evaluasi = $evaluasi->where('village_code', $petugas->village_code)->get();
+                $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->get();
                 break;
             default:
                 $evaluasi = $evaluasi->where('province_code', 12)->get();
@@ -126,14 +130,62 @@ class EvaluasiController extends Controller
 
             $evaluasi = Evaluasi::create($validated);
 
-            $this->storeKriteria($evaluasi);
+            $this->storeKriteria($evaluasi->id);
 
             DB::commit();
             return response()->json([
                 'status' => 200,
                 'data' => [
-                    'evaluasi_id' => $evaluasi,
+                    'evaluasi_id' => $evaluasi->id,
                     'page' => 0
+                ]
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
+        }
+    }
+
+    public function edit(Request $request)
+    {
+        $evaluasi = Evaluasi::find($request->evaluasi_id);
+
+        $evaluasi->gambar_delinasi = URL::to('/') . '/' . $evaluasi->gambar_delinasi;
+        // $evaluasi->gambar_delinasi = URL::to('/') . '/public/' . $evaluasi->gambar_delinasi;
+
+        return response()->json([
+            'status' => 200,
+            'data' => $evaluasi
+        ]);
+    }
+
+    public function update(EvaluasiApiUpdateRequest $request)
+    {
+        $validated = $request->validated();
+
+        DB::beginTransaction();
+        try {
+
+            $evaluasi = Evaluasi::find($validated['evaluasi_id']);
+
+            if ($validated['gambar_delinasi'] != 'null') {
+                $foto = $validated['gambar_delinasi'];
+                $fileName = time() . '.' . $foto->getClientOriginalExtension();
+                $folder = 'file/evaluasi';
+                $foto->move(public_path($folder), $fileName);
+
+                $validated['gambar_delinasi'] = $folder . '/' . $fileName;
+            } else {
+                $validated['gambar_delinasi'] = $evaluasi->gambar_delinasi;
+            }
+
+            Evaluasi::find($validated['evaluasi_id'])->update($validated);
+
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'message' => 'Berhasil update data'
                 ]
             ]);
         } catch (\Exception $e) {
@@ -238,5 +290,184 @@ class EvaluasiController extends Controller
 
     public function updateKriteria(Request $request)
     {
+        $req = [
+            'jawaban' => $request->jawaban,
+            'persen' => $request->persen,
+            'evaluasi_id' => $request->evaluasi_id,
+            'page' => $request->page
+        ];
+
+        $kriteria = Kriteria::select('id', 'nama')->latest()->get();
+        $kriteria = $kriteria->toArray();
+
+        $first = array_key_first($kriteria);
+        $last = array_key_last($kriteria);
+
+        $kriteria = $kriteria[$req['page']];
+
+        $subkriteria = SubKriteria::select('id', 'kriteria_id', 'nama', 'satuan')->where('kriteria_id', $kriteria['id'])->orderBy('id', 'ASC')->get();
+        $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $req['evaluasi_id'])->where('kriteria_id', $kriteria['id'])->get();
+
+        if ($req['page'] == 0) {
+            $prev = 0;
+        } else {
+            $prev = $req['page'] - 1;
+        }
+
+        if ($req['page'] == $last) {
+            $next = $last;
+        } else {
+            $next = $req['page'] + 1;
+        }
+
+        // DB::beginTransaction();
+        // try {
+
+        if ($request->image1) {
+            $foto1 = $request->image1;
+            $fileName1 = time() . '-1' . '.' . $foto1->getClientOriginalExtension();
+            $folder = 'file/evaluasi';
+            $foto1->move(public_path($folder), $fileName1);
+
+            EvaluasiFoto::insert([
+                'evaluasi_id' => $req['evaluasi_id'],
+                'kriteria_id' => $kriteria['id'],
+                'nama_kriteria' => $kriteria['nama'],
+                'foto' => $folder . '/' . $fileName1,
+                'created_at' => date("Y-m-d H:i:s")
+            ]);
+        }
+
+        if ($request->image2) {
+            $foto2 = $request->image2;
+            $fileName2 = time() . '-2' . '.' . $foto2->getClientOriginalExtension();
+            $folder = 'file/evaluasi';
+            $foto2->move(public_path($folder), $fileName2);
+
+            EvaluasiFoto::insert([
+                'evaluasi_id' => $req['evaluasi_id'],
+                'kriteria_id' => $kriteria['id'],
+                'nama_kriteria' => $kriteria['nama'],
+                'foto' => $folder . '/' . $fileName2,
+                'created_at' => date("Y-m-d H:i:s")
+            ]);
+        }
+
+        foreach ($subkriteria as $key => $value) {
+            $nilai = $this->formula(str_replace("%", "", $req['persen'][$key]));
+            $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $req['evaluasi_id'])
+                ->where('kriteria_id', $kriteria['id'])
+                ->where('subkriteria_id', $value->id)
+                ->orderBy('id', 'ASC')
+                ->update([
+                    'jawaban' => $req['jawaban'][$key],
+                    'skor' => $req['jawaban'][$key],
+                    'persen' => $req['persen'][$key],
+                    'nilai' => $nilai,
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'prev' => "$prev",
+                'page' => $req['page'],
+                'next' => "$next",
+                'first' => "$first",
+                'last' => "$last",
+                'evaluasi_id' => $req['evaluasi_id']
+            ]
+        ]);
+
+        //     DB::commit();
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
+        // }
+    }
+
+    private function formula($persen)
+    {
+
+        if ($persen >= 76 && $persen <= 100) {
+            return 5;
+        } elseif ($persen >= 51 && $persen <= 75) {
+            return 3;
+        } elseif ($persen >= 25 && $persen <= 50) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $req = [
+            'evaluasi_id' => $request->evaluasi_id,
+        ];
+
+        $status = StatusKumuh::where('tahun', date('Y'))->get();
+
+        $date = EvaluasiDetail::where('evaluasi_id', $req['evaluasi_id'])->orderBy('created_at', 'DESC')->first();
+        $date = date('m', strtotime($date->created_at));
+        $date = $request->get('bulan', $date);
+
+        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $req['evaluasi_id'])
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $date)
+            ->sum('nilai');
+
+        DB::beginTransaction();
+        try {
+
+            $statusID = null;
+
+            foreach ($status as $key => $value) {
+
+                if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria) {
+                    $statusID = $value->id;
+                }
+            }
+
+            Evaluasi::find($req['evaluasi_id'])->update([
+                'status_id' => $statusID
+            ]);
+
+
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'message' => 'success'
+                ]
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'failed', 'message' => $e, 'data' => []], 401);
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        $evaluasi = Evaluasi::find($request->evaluasi_id);
+        $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $request->evaluasi_id)->get();
+
+        if ($evaluasiFoto) {
+            foreach ($evaluasiFoto as $val) {
+                File::delete(public_path($val->foto));
+                EvaluasiFoto::find($val->id);
+            }
+        }
+
+        File::delete(public_path($evaluasi->gambar_delinasi));
+        $evaluasi->delete();
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'message' => 'Success hapus data'
+            ]
+        ]);
     }
 }
