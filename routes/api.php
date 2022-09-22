@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\ArsipController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\UserAuthController;
@@ -31,9 +32,24 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
         Route::post('edit', [EvaluasiController::class, 'edit']);
         Route::post('update', [EvaluasiController::class, 'update']);
         Route::post('delete', [EvaluasiController::class, 'delete']);
+        Route::post('show', [EvaluasiController::class, 'show']);
+        Route::post('show/kriteria', [EvaluasiController::class, 'showKriteria']);
+        Route::post('show/edit', [EvaluasiController::class, 'editDetailKriteria']);
+        Route::post('show/update', [EvaluasiController::class, 'updateDetailKriteria']);
+        Route::post('pembaruan/store', [EvaluasiController::class, 'storePembaruan']);
+        Route::post('pembaruan/update', [EvaluasiController::class, 'updatePembaruan']);
+        Route::post('pembaruan/create', [EvaluasiController::class, 'createPembaruan']);
         Route::post('search-village', [EvaluasiController::class, 'filterVillage']);
         Route::post('create/kriteria', [EvaluasiController::class, 'createKriteria']);
         Route::post('update/kriteria', [EvaluasiController::class, 'updateKriteria']);
         Route::post('update/status', [EvaluasiController::class, 'updateStatus']);
     });
+
+    Route::group(['prefix' => 'arsip/'], function () {
+        Route::get('', [ArsipController::class, 'index']);
+        Route::post('show', [ArsipController::class, 'show']);
+        Route::post('show/kriteria', [ArsipController::class, 'showKriteria']);
+    });
 });
+
+// Route::post('evaluasi/show', [EvaluasiController::class, 'show']);
