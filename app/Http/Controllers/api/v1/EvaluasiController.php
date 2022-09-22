@@ -473,14 +473,14 @@ class EvaluasiController extends Controller
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', $date)
             ->sum('skor');
-
+        $tot = number_format($evaluasiKriteria, 2);
         $evaluasi = Evaluasi::find($request->evaluasi_id);
         $evaluasi->province_code = $evaluasi->province->name;
         $evaluasi->city_code = $evaluasi->city->name;
         $evaluasi->district_code = $evaluasi->district->name;
         $evaluasi->village_code = $evaluasi->village->name;
         $evaluasi->status_evaluasi = $evaluasi->status->nama;
-        $evaluasi->total = "$evaluasiKriteria";
+        $evaluasi->total = $tot;
         unset($evaluasi->province);
         unset($evaluasi->city);
         unset($evaluasi->district);
