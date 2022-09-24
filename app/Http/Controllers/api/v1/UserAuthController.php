@@ -71,12 +71,14 @@ class UserAuthController extends Controller
                 case "admin-kecamatan":
                     $dataPetugas = District::where('code', $petugas->district_code)->first();
                     $text = ucwords(strtolower($dataPetugas->name));
-                    $user->petugas = 'Petugas Kecamatan ' . $text;
+                    $user->petugas = 'Petugas Kecamatan';
+                    $user->desa = $text;
                     break;
                 case "admin-kelurahan":
                     $dataPetugas = Village::where('code', $petugas->village_code)->first();
                     $text = ucwords(strtolower($dataPetugas->name));
-                    $user->petugas = 'Petugas Desa ' . $text;
+                    $user->petugas = 'Petugas Desa';
+                    $user->desa = $text;
                     break;
             }
 
