@@ -451,8 +451,8 @@ class EvaluasiController extends Controller
             ];
         }
 
-        $date = EvaluasiDetail::where('evaluasi_id', $request->evaluasi_id)->orderBy('created_at', 'DESC')->first();
-        $date = date('m', strtotime($date->created_at));
+        $dateEval = EvaluasiDetail::where('evaluasi_id', $request->evaluasi_id)->orderBy('created_at', 'DESC')->first();
+        $date = date('m', strtotime($dateEval->created_at));
         // $date = $request->get('bulan', $date);
         $statusPembaruanKriteria = $date == date('m') ? false : true;
 
@@ -481,6 +481,7 @@ class EvaluasiController extends Controller
         $evaluasi->village_code = $evaluasi->village->name;
         $evaluasi->status_evaluasi = $evaluasi->status->nama;
         $evaluasi->total = $tot;
+        $evaluasi->lastUpdate = $dateEval->created_at->isoFormat('D MMMM Y');
         unset($evaluasi->province);
         unset($evaluasi->city);
         unset($evaluasi->district);
