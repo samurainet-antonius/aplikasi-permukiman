@@ -186,7 +186,7 @@ class EvaluasiController extends Controller
     {
         $evaluasi = Evaluasi::find($request->evaluasi_id);
 
-        $evaluasi->gambar_delinasi = URL::to('/') . '/' . $evaluasi->gambar_delinasi;
+        $evaluasi->gambar_delinasi = URL::to('/') . '/public/' . $evaluasi->gambar_delinasi;
         // $evaluasi->gambar_delinasi = URL::to('/') . '/public/' . $evaluasi->gambar_delinasi;
 
         return response()->json([
@@ -570,7 +570,7 @@ class EvaluasiController extends Controller
             ->get();
 
         foreach ($foto as $val) {
-            $val->foto = URL::to('/') . '/' . $val->foto;
+            $val->foto = URL::to('/') . '/public/' . $val->foto;
         }
 
         return response()->json([
@@ -595,7 +595,7 @@ class EvaluasiController extends Controller
             ->get();
 
         foreach ($foto as $value) {
-            $value->foto = URL::to('/') . '/' . $value->foto;
+            $value->foto = URL::to('/') . '/public/' . $value->foto;
         }
 
         foreach ($subkriteria as $value) {
@@ -754,7 +754,7 @@ class EvaluasiController extends Controller
             ->get();
 
         foreach ($evaluasiFoto as $value) {
-            $value->foto = URL::to('/') . '/' . $value->foto;
+            $value->foto = URL::to('/') . '/public/' . $value->foto;
         }
 
         if ($req['page'] == 0) {
