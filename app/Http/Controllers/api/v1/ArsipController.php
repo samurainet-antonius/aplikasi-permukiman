@@ -228,7 +228,7 @@ class ArsipController extends Controller
                 'status_edit' => $statusEditKriteria,
                 'status_pembaruan' => $statusPembaruanKriteria,
                 'bulan' => $bulan,
-                'select_bulan' => $date,
+                'select_bulan' => $dateMonth,
                 'evaluasi' => $evaluasi,
                 'kriteria' => $kriteria,
                 'status' => $status
