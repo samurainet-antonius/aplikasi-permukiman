@@ -51,6 +51,7 @@ class DashboardController extends Controller
             case "admin-kecamatan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
+                $villages = Village::select('code', 'name')->where('district_code', $district[0]->code)->first();
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
                 $textVillage = 'Desa ' . $village[0]->name;
@@ -58,6 +59,7 @@ class DashboardController extends Controller
             case "admin-kelurahan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
+                $villages = Village::select('code', 'name')->where('code', $petugas->village_code)->first();
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
                 $textVillage = 'Desa ' . $village[0]->name;
