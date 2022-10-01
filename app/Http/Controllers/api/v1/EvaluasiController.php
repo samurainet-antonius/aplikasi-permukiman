@@ -545,6 +545,7 @@ class EvaluasiController extends Controller
                 'status_edit' => $statusEditKriteria,
                 'status_pembaruan' => $statusPembaruanKriteria,
                 'bulan' => $bulan,
+                'select_bulan' => $date,
                 'evaluasi' => $evaluasi,
                 'kriteria' => $kriteria,
                 'status' => $status
