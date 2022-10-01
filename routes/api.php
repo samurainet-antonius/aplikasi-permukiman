@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
     Route::post('upload', [UserAuthController::class, 'cekUpload']);
 
     Route::group(['prefix' => 'evaluasi/'], function () {
-        Route::post('', [EvaluasiController::class, 'index']);
+        Route::post('list', [EvaluasiController::class, 'index']);
         Route::post('', [EvaluasiController::class, 'store']);
         Route::get('create', [EvaluasiController::class, 'create']);
         Route::post('edit', [EvaluasiController::class, 'edit']);
