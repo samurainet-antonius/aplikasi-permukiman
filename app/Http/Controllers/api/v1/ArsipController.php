@@ -45,7 +45,7 @@ class ArsipController extends Controller
             ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
             ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
             // ->where('status_kumuh.tahun', '!=', date('Y'))
-            ->whereYear('evaluasi.created_at', '!=', date('Y'));;
+            ->where('evaluasi.tahun', '!=', date('Y'));
 
         switch ($role) {
             case "admin-provinsi":
