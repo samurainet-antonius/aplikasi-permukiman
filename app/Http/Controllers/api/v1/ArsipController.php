@@ -55,6 +55,10 @@ class ArsipController extends Controller
             // ->where('status_kumuh.tahun', '!=', date('Y'))
             ->where('evaluasi.tahun', '!=', date('Y'));
 
+        if ($request->years) {
+            $evaluasi = $evaluasi->where('evaluasi.tahun', $request->years);
+        }
+
         if ($request->district) {
             $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
         }
