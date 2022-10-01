@@ -80,6 +80,9 @@ class EvaluasiController extends Controller
             }
         }
 
+        $village = $village->toArray();
+        array_unshift($village, ['code' => "0", 'name' => 'Semua']);
+
         return response()->json([
             'status' => 200,
             'data' => [
