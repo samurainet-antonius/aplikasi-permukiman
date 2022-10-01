@@ -48,7 +48,7 @@ class EvaluasiController extends Controller
             ->whereYear('evaluasi.created_at', date('Y'));
 
         if ($request->district) {
-            $evaluasi = $evaluasi->where('evaluasi.village_code', $request->district);
+            $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
         }
 
         if ($request->village && $request->village != 0) {
