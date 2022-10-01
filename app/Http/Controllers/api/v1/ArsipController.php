@@ -40,6 +40,14 @@ class ArsipController extends Controller
         $role = $users->roles[0]->name;
         $petugas = Petugas::where('users_id', $user)->first();
 
+        $years = Evaluasi::select('tahun')->where('tahun', '!=', date('Y'))->groupBy('tahun')->get()->toArray();
+        if ($years) {
+            $years = array_column($years, 'tahun');
+        } else {
+            $years = date('Y') - 1;
+            $years = ["$years"];
+        }
+
         $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.tahun', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'status_kumuh.nama as status', 'status_kumuh.warna', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
             ->join('status_kumuh', 'evaluasi.status_id', '=', 'status_kumuh.id')
             ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
@@ -97,6 +105,7 @@ class ArsipController extends Controller
             'status' => 200,
             'data' => [
                 'evaluasi' => $evaluasi,
+                'tahun' => $years,
                 'kecamatan' => $district,
                 'desa' => $village,
             ]
@@ -253,7 +262,7 @@ class ArsipController extends Controller
             ->get();
 
         foreach ($foto as $val) {
-            $val->foto = URL::to('/') . '/' . $val->foto;
+            $val->foto = URL::to('/') . '/public/' . $val->foto;
         }
 
         return response()->json([
