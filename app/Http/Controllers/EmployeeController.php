@@ -47,7 +47,7 @@ class EmployeeController extends Controller
             ->get();
 
         $roles = Role::get();
-        
+
 
         $village = Village::select('code', 'district_code', 'name')
             ->where('district_code', $district[0]->code)
@@ -56,7 +56,7 @@ class EmployeeController extends Controller
             ->latest()
             ->get();
 
-        return view('app.staff.create',compact('roles','district','village'));
+        return view('app.staff.create', compact('roles', 'district', 'village'));
     }
 
     /**
@@ -70,23 +70,23 @@ class EmployeeController extends Controller
         $validated = $request->validated();
 
         DB::beginTransaction();
-        try{
+        try {
 
             $role = Role::find($request['roles']);
 
-            if($role['name'] == 'admin-provinsi' || $role['name'] == "super-admin"){
+            if ($role['name'] == 'admin-provinsi' || $role['name'] == "super-admin") {
                 $region_code = 0;
             }
-            
-            if($role['name'] == 'admin-kabupaten'){
+
+            if ($role['name'] == 'admin-kabupaten') {
                 $region_code = 1;
             }
-    
-            if($role['name'] == 'admin-kecamatan'){
+
+            if ($role['name'] == 'admin-kecamatan') {
                 $region_code = 2;
             }
-    
-            if($role['name'] == 'admin-kelurahan'){
+
+            if ($role['name'] == 'admin-kelurahan') {
                 $region_code = 3;
             }
 
@@ -113,16 +113,15 @@ class EmployeeController extends Controller
             DB::commit();
 
             return redirect()
-            ->route('staff.index')
-            ->withSuccess(__('crud.common.created'));
-
-        }catch(Exception $e){
+                ->route('staff.index')
+                ->withSuccess(__('crud.common.created'));
+        } catch (Exception $e) {
             dd($e->getMessage());
             DB::rollback();
 
             return redirect()
-            ->route('staff.create')
-            ->withErrors(__('crud.common.errors'));
+                ->route('staff.create')
+                ->withErrors(__('crud.common.errors'));
         }
     }
 
@@ -161,7 +160,7 @@ class EmployeeController extends Controller
             ->latest()
             ->get();
 
-        return view('app.staff.edit',compact('roles','staff','district','village'));
+        return view('app.staff.edit', compact('roles', 'staff', 'district', 'village'));
     }
 
     /**
@@ -179,22 +178,22 @@ class EmployeeController extends Controller
         $user = User::find($staff->users_id);
 
         DB::beginTransaction();
-        try{
+        try {
 
             $user->update(['name' => $validated['name']]);
             unset($validated['name']);
             $staff->update($validated);
             DB::commit();
-            
+
             return redirect()
-            ->route('staff.index')
-            ->withSuccess(__('crud.common.saved'));
-        }catch(Exception $e){
+                ->route('staff.index')
+                ->withSuccess(__('crud.common.saved'));
+        } catch (Exception $e) {
 
             DB::rollback();
             return redirect()
-            ->route('staff.index')
-            ->withErrors(__('crud.common.errors'));
+                ->route('staff.index')
+                ->withErrors(__('crud.common.errors'));
         }
     }
 
@@ -208,7 +207,7 @@ class EmployeeController extends Controller
         $this->authorize('delete', Petugas::class);
 
         DB::beginTransaction();
-        try{
+        try {
             $staff = Petugas::find($id);
             $user = User::find($staff->users_id);
             $user->delete();
@@ -216,15 +215,14 @@ class EmployeeController extends Controller
             DB::commit();
 
             return redirect()
-            ->route('staff.index')
-            ->withSuccess(__('crud.common.removed'));
-
-        }catch(Exception $e){
+                ->route('staff.index')
+                ->withSuccess(__('crud.common.removed'));
+        } catch (Exception $e) {
             DB::rollback();
 
             return redirect()
-            ->route('staff.index')
-            ->withErrors(__('crud.common.errors'));
+                ->route('staff.index')
+                ->withErrors(__('crud.common.errors'));
         }
     }
 }

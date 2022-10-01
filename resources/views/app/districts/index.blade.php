@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.districts.index_title')</h1>
-            <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Pengaturan</li>
             <li class="breadcrumb-item active" aria-current="page">@lang('crud.districts.name')</li>
@@ -18,8 +18,26 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>@lang('crud.districts.inputs.province')</label>
-                                        <select class="select2-single form-control" name="province" id="province" id="select2Single" onchange="submit()">
+                                        <select class="select2-single form-control" name="province" id="province"
+                                            id="select2Single" onchange="submit()">
                                             <option value="12">SUMATERA UTARA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>@lang('crud.village.inputs.city')</label>
+                                        <select class="select2-single form-control" name="city" id="city"
+                                            onchange="submit()">
+                                            <option value="1207">KABUPATEN DELI SERDANG</option>
+                                            {{-- @if ($city)
+                                            @foreach ($city as $val)
+                                            <option value="{{$val->code}}" {{ ('1207'==$val->code) ? 'selected' :
+                                                ''}}>{{$val->name}}</option>
+                                            @endforeach
+                                            @else
+                                            <option>-------</option>
+                                            @endif --}}
                                         </select>
                                     </div>
                                 </div>
@@ -29,7 +47,9 @@
                     </div>
                     <form class="float-right">
                         <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
+                            <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control"
+                                placeholder="{{ __('crud.common.search') }}" aria-label=""
+                                aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
                                 <button class="btn btn-primary">
                                     <i class="fa fa-solid fa-search"></i>
@@ -87,7 +107,8 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         @can('update', $value)
-                                        <a href="{{ route('district.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
+                                        <a href="{{ route('district.edit', $value) }}"
+                                            class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
                                         @endcan @can('delete', $value)

@@ -38,46 +38,44 @@ class EvaluasiController extends Controller
         $auth = Auth::user();
         $user_id = $auth->id;
 
-        $petugas = Petugas::where('users_id',$user_id)->first();
+        $petugas = Petugas::where('users_id', $user_id)->first();
 
-        if($auth->region_code == 1){
+        if ($auth->region_code == 1) {
             $evaluasi = Evaluasi::where([
-                ['tahun',$tahun],
+                ['tahun', $tahun],
                 ['city_code', $petugas->city_code]
             ])
-            ->search($search)
-            ->latest()
-            ->paginate(5)
-            ->withQueryString();
-        }
-        elseif($auth->region_code == 2){
+                ->search($search)
+                ->latest()
+                ->paginate(5)
+                ->withQueryString();
+        } elseif ($auth->region_code == 2) {
             $evaluasi = Evaluasi::where([
-                ['tahun',$tahun],
+                ['tahun', $tahun],
                 ['city_code', $petugas->city_code],
                 ['district_code', $petugas->district_code]
             ])
-            ->search($search)
-            ->latest()
-            ->paginate(5)
-            ->withQueryString();
-        }
-        elseif($auth->region_code == 3){
+                ->search($search)
+                ->latest()
+                ->paginate(5)
+                ->withQueryString();
+        } elseif ($auth->region_code == 3) {
             $evaluasi = Evaluasi::where([
-                ['tahun',$tahun],
+                ['tahun', $tahun],
                 ['city_code', $petugas->city_code],
                 ['district_code', $petugas->district_code],
                 ['village_code', $petugas->village_code],
             ])
-            ->search($search)
-            ->latest()
-            ->paginate(5)
-            ->withQueryString();
-        }else{
-            $evaluasi = Evaluasi::where('tahun',$tahun)
-            ->search($search)
-            ->latest()
-            ->paginate(5)
-            ->withQueryString();
+                ->search($search)
+                ->latest()
+                ->paginate(5)
+                ->withQueryString();
+        } else {
+            $evaluasi = Evaluasi::where('tahun', $tahun)
+                ->search($search)
+                ->latest()
+                ->paginate(5)
+                ->withQueryString();
         }
 
         return view('app.evaluasi.index', compact('evaluasi', 'search'));
@@ -95,17 +93,15 @@ class EvaluasiController extends Controller
         $auth = Auth::user();
         $user_id = $auth->id;
 
-        $petugas = Petugas::where('users_id',$user_id)->first();
+        $petugas = Petugas::where('users_id', $user_id)->first();
         $city_code =  '1207';
         $district_code = '12071';
-        if($auth->region_code == 1){
+        if ($auth->region_code == 1) {
             $city_code = $petugas->city_code;
-        }
-        elseif($auth->region_code == 2){
+        } elseif ($auth->region_code == 2) {
             $city_code = $petugas->city_code;
             $district_code = $petugas->district_code;
-        }
-        elseif($auth->region_code == 3){
+        } elseif ($auth->region_code == 3) {
             $city_code = $petugas->city_code;
             $district_code = $petugas->district_code;
             $village_code = $petugas->village_code;
@@ -113,17 +109,17 @@ class EvaluasiController extends Controller
 
         $city = City::where([
             ['province_code', 12],
-            ['code',1207]
+            ['code', 1207]
         ])->orderBy('name', 'ASC')->get();
 
         $citySelected = $city->toArray();
         $citySelected = $request->has('city') ? $request->city : $city_code;
         $district = Districts::where('city_code', $citySelected)->orderBy('name', 'ASC')->get();
 
-        if($auth->region_code == 2 || $auth->region_code == 3){
+        if ($auth->region_code == 2 || $auth->region_code == 3) {
             $district = Districts::where([
                 ['city_code', $citySelected],
-                ['code',$district_code]
+                ['code', $district_code]
             ])->orderBy('name', 'ASC')->get();
         }
 
@@ -131,30 +127,30 @@ class EvaluasiController extends Controller
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $district_code;
 
-        if($auth->region_code == 3){
+        if ($auth->region_code == 3) {
             $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
-            ->where(function ($query) use ($request) {
-                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
-            })
-            ->where('code',$village_code)
-            ->orderBy('district_code', 'ASC')
-            ->orderBy('code', 'ASC')
-            ->latest()
-            ->get();
-        }else{
+                ->where(function ($query) use ($request) {
+                    return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+                })
+                ->where('code', $village_code)
+                ->orderBy('district_code', 'ASC')
+                ->orderBy('code', 'ASC')
+                ->latest()
+                ->get();
+        } else {
             $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
-            ->where(function ($query) use ($request) {
-                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
-            })
-            ->orderBy('district_code', 'ASC')
-            ->orderBy('code', 'ASC')
-            ->latest()
-            ->get();
+                ->where(function ($query) use ($request) {
+                    return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+                })
+                ->orderBy('district_code', 'ASC')
+                ->orderBy('code', 'ASC')
+                ->latest()
+                ->get();
         }
 
         $kriteria = Kriteria::latest()->get();
 
-        return view('app.evaluasi.create',compact('village', 'city', 'district','kriteria'));
+        return view('app.evaluasi.create', compact('village', 'city', 'district', 'kriteria'));
     }
 
     public function kriteriaCreate($evaluasi_id, $page)
@@ -168,7 +164,7 @@ class EvaluasiController extends Controller
         return view('app.evaluasi.form-kriteria', compact('data', 'subkriteria', 'kriteria'));
     }
 
-    public function kriteriaStore(EvaluasiKriteriaStoreRequest $request,$evaluasi_id, $page)
+    public function kriteriaStore(EvaluasiKriteriaStoreRequest $request, $evaluasi_id, $page)
     {
         $validated = $request->validated();
 
@@ -176,13 +172,13 @@ class EvaluasiController extends Controller
 
         $homePage = $page - 1;
 
-        $result = $this->kriteriaPost($validated,$evaluasi_id, $request->file);
+        $result = $this->kriteriaPost($validated, $evaluasi_id, $request->file);
 
         if ($count == $page) {
             // $this->countSkor($evaluasi_id);
             $this->dataLog($evaluasi_id, 'Menambahkan');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
-        } elseif($result['status'] == false) {
+        } elseif ($result['status'] == false) {
             return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
         } else {
             return redirect()->route('evaluasi.create.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -238,25 +234,25 @@ class EvaluasiController extends Controller
         $cek = $date;
         $date = $request->get('bulan', $date);
 
-        $kriteria = EvaluasiDetail::where('evaluasi_id',$evaluasi->id)
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $date)
-                    ->groupBy('kriteria_id')
-                    ->get();
+        $kriteria = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $date)
+            ->groupBy('kriteria_id')
+            ->get();
 
-        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id',$evaluasi->id)
-                    ->whereYear('created_at', date('Y'))
-                    ->whereMonth('created_at', $date)
-                    ->sum('nilai');
+        $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', $date)
+            ->sum('nilai');
 
-        
-        $status = StatusKumuh::where('tahun',date('Y'))->get();
-        
+
+        $status = StatusKumuh::where('tahun', date('Y'))->get();
+
         $statusEvaluasi = '';
         $statusID = '';
         foreach ($status as $key => $value) {
-            
-            if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria){
+
+            if ($value->nilai_min <= $evaluasiKriteria && $value->nilai_max >= $evaluasiKriteria) {
                 $statusEvaluasi = $value->nama;
                 $statusID = $value->id;
             }
@@ -265,7 +261,7 @@ class EvaluasiController extends Controller
         $evaluasi->status_id = $statusID;
         $evaluasi->save();
 
-        foreach($kriteria as $val) {
+        foreach ($kriteria as $val) {
 
             $val->sub = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
                 ->whereYear('created_at', date('Y'))
@@ -296,10 +292,10 @@ class EvaluasiController extends Controller
             ->where('code', $evaluasi->village_code)
             ->first();
 
-        return view('app.evaluasi.show', compact('status','evaluasiKriteria','statusEvaluasi','evaluasi','kriteria','status', 'village', 'bulan', 'date', 'cek'));
+        return view('app.evaluasi.show', compact('status', 'evaluasiKriteria', 'statusEvaluasi', 'evaluasi', 'kriteria', 'status', 'village', 'bulan', 'date', 'cek'));
     }
 
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
         ini_set('memory_limit', '2048M');
         $this->authorize('update', Evaluasi::class);
@@ -309,17 +305,15 @@ class EvaluasiController extends Controller
         $auth = Auth::user();
         $user_id = $auth->id;
 
-        $petugas = Petugas::where('users_id',$user_id)->first();
+        $petugas = Petugas::where('users_id', $user_id)->first();
         $city_code =  '1207';
         $district_code = '12071';
-        if($auth->region_code == 1){
+        if ($auth->region_code == 1) {
             $city_code = $petugas->city_code;
-        }
-        elseif($auth->region_code == 2){
+        } elseif ($auth->region_code == 2) {
             $city_code = $petugas->city_code;
             $district_code = $petugas->district_code;
-        }
-        elseif($auth->region_code == 3){
+        } elseif ($auth->region_code == 3) {
             $city_code = $petugas->city_code;
             $district_code = $petugas->district_code;
             $village_code = $petugas->village_code;
@@ -327,17 +321,17 @@ class EvaluasiController extends Controller
 
         $city = City::where([
             ['province_code', 12],
-            ['code',1207]
+            ['code', 1207]
         ])->orderBy('name', 'ASC')->get();
 
         $citySelected = $city->toArray();
         $citySelected = $request->has('city') ? $request->city : $city_code;
         $district = Districts::where('city_code', $citySelected)->orderBy('name', 'ASC')->get();
 
-        if($auth->region_code == 2 || $auth->region_code == 3){
+        if ($auth->region_code == 2 || $auth->region_code == 3) {
             $district = Districts::where([
                 ['city_code', $citySelected],
-                ['code',$district_code]
+                ['code', $district_code]
             ])->orderBy('name', 'ASC')->get();
         }
 
@@ -345,30 +339,30 @@ class EvaluasiController extends Controller
         $districtSelected = $district->toArray();
         $districtSelected = $request->has('district') ? $request->district : $district_code;
 
-        if($auth->region_code == 3){
+        if ($auth->region_code == 3) {
             $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
-            ->where(function ($query) use ($request) {
-                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
-            })
-            ->where('code',$village_code)
-            ->orderBy('district_code', 'ASC')
-            ->orderBy('code', 'ASC')
-            ->latest()
-            ->get();
-        }else{
+                ->where(function ($query) use ($request) {
+                    return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+                })
+                ->where('code', $village_code)
+                ->orderBy('district_code', 'ASC')
+                ->orderBy('code', 'ASC')
+                ->latest()
+                ->get();
+        } else {
             $village = Village::select('code', 'district_code', 'name', DB::raw("JSON_EXTRACT(meta, '$[0].lat') as latitude, JSON_EXTRACT(meta, '$[0].long') as longitude"))
-            ->where(function ($query) use ($request) {
-                return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
-            })
-            ->orderBy('district_code', 'ASC')
-            ->orderBy('code', 'ASC')
-            ->latest()
-            ->get();
+                ->where(function ($query) use ($request) {
+                    return $request->district ? $query->from('indonesia_villages')->where('district_code', $districtSelected) : '';
+                })
+                ->orderBy('district_code', 'ASC')
+                ->orderBy('code', 'ASC')
+                ->latest()
+                ->get();
         }
 
         $kriteria = Kriteria::latest()->get();
 
-        return view('app.evaluasi.edit',compact('village', 'city', 'district','kriteria','evaluasi'));
+        return view('app.evaluasi.edit', compact('village', 'city', 'district', 'kriteria', 'evaluasi'));
     }
 
     public function destroyGambar($id)
@@ -420,7 +414,7 @@ class EvaluasiController extends Controller
             // $this->countSkor($evaluasi_id);
             $this->dataLog($evaluasi_id, 'Melakukan pembaruan data');
             return redirect()->route('evaluasi.index')->withSuccess(__('crud.common.created'));
-        } elseif($result['status'] == false) {
+        } elseif ($result['status'] == false) {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $homePage])->withErrors($result['error']);
         } else {
             return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
@@ -432,7 +426,7 @@ class EvaluasiController extends Controller
         $validated = $request->validated();
 
         $result = $this->kriteriaPostReform($validated, $evaluasi_id, $request->file);
-        
+
 
         if ($result['status'] == false) {
             return redirect()->route('evaluasi.show', $evaluasi_id)->withErrors($result['error']);
@@ -450,7 +444,8 @@ class EvaluasiController extends Controller
         return redirect()->route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi_id, 'page' => $page]);
     }
 
-    public function update(EvaluasiUpdateRequest $request,$id){
+    public function update(EvaluasiUpdateRequest $request, $id)
+    {
 
         $this->authorize('create', Evaluasi::class);
 
@@ -458,15 +453,15 @@ class EvaluasiController extends Controller
 
         $validated = $request->validated();
 
-        if($evaluasi->gambar_delinasi == null && $request->gambar_delinasi == null) {
+        if ($evaluasi->gambar_delinasi == null && $request->gambar_delinasi == null) {
             return redirect()->route('evaluasi.edit', $id)->withErrors('Wajib unggah file');
-        } elseif($evaluasi->gambar_delinasi != null && $request->gambar_delinasi) {
+        } elseif ($evaluasi->gambar_delinasi != null && $request->gambar_delinasi) {
             return redirect()->route('evaluasi.edit', $id)->withErrors('Unggah file hanya bisa 1 file');
         }
 
         DB::beginTransaction();
-        try{
-            if($request->gambar_delinasi) {
+        try {
+            if ($request->gambar_delinasi) {
                 $foto = $request->gambar_delinasi;
                 $fileName = time() . '.' . $foto->getClientOriginalExtension();
                 $folder = 'file/evaluasi';
@@ -482,11 +477,11 @@ class EvaluasiController extends Controller
             return redirect()
                 ->route('evaluasi.index')
                 ->withSuccess(__('crud.common.saved'));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             dd($e->getMessage());
             DB::rollback();
             return redirect()
-                ->route('evaluasi.edit',['id' => $id])
+                ->route('evaluasi.edit', ['id' => $id])
                 ->withErrors(__('crud.common.errors'));
         }
     }
@@ -504,25 +499,26 @@ class EvaluasiController extends Controller
             ->withSuccess(__('crud.common.removed'));
     }
 
-    public function changeSatatus(Request $request,$evaluasi_id){
+    public function changeSatatus(Request $request, $evaluasi_id)
+    {
 
         $status = StatusKumuh::find($request->status);
         $evaluasi = Evaluasi::find($evaluasi_id);
 
         DB::beginTransaction();
-        try{
+        try {
             $data['status_id']  = $status->id;
-            Evaluasi::where('id',$evaluasi_id)->update($data);
+            Evaluasi::where('id', $evaluasi_id)->update($data);
             DB::commit();
 
             return redirect()
-            ->route('evaluasi.index')
-            ->withSuccess(__('crud.common.created'));
-        }catch(Exception $e){
+                ->route('evaluasi.index')
+                ->withSuccess(__('crud.common.created'));
+        } catch (Exception $e) {
             DB::rollback();
             return redirect()
-            ->route('evaluasi',['id' => $evaluasi_id])
-            ->withErrors(__('crud.common.errors'));
+                ->route('evaluasi', ['id' => $evaluasi_id])
+                ->withErrors(__('crud.common.errors'));
         }
     }
 
@@ -548,7 +544,7 @@ class EvaluasiController extends Controller
             ->orderByRaw('month(created_at) DESC, year(created_at) DESC')
             ->get();
 
-        if($evaluasiFoto->toArray() != null) {
+        if ($evaluasiFoto->toArray() != null) {
             $date['month'] = $evaluasiFoto[0]->month;
             $date['year'] = $evaluasiFoto[0]->year;
             $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $evaluasi_id)
@@ -646,7 +642,7 @@ class EvaluasiController extends Controller
                 }
 
                 foreach ($details as $subkriteriaID => $value) {
-                    
+
                     $subkriteria = SubKriteria::find($subkriteriaID);
                     // $jawaban = PilihanJawaban::where('subkriteria_id', $subkriteriaID)->where('jawaban', $value)->first();
                     $evaluasiDetail = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)
@@ -657,10 +653,10 @@ class EvaluasiController extends Controller
 
                     $persen = $validated['persen'][$kriteriaID][$subkriteriaID];
 
-                    $nilai = $this->formula(str_replace("%","",$persen));
+                    $nilai = $this->formula(str_replace("%", "", $persen));
 
                     if ($evaluasiDetail) {
-                        EvaluasiDetail::where('id',$evaluasiDetail->id)->update(array(
+                        EvaluasiDetail::where('id', $evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
                             'persen' => $persen,
@@ -692,20 +688,18 @@ class EvaluasiController extends Controller
         return $result;
     }
 
-    private function formula($persen){
+    private function formula($persen)
+    {
 
-        if($persen >= 76 && $persen <= 100){
+        if ($persen >= 76 && $persen <= 100) {
             return 5;
-        }
-        elseif($persen >= 51 && $persen <= 75){
+        } elseif ($persen >= 51 && $persen <= 75) {
             return 3;
-        }
-        elseif($persen >= 25 && $persen <= 50){
+        } elseif ($persen >= 25 && $persen <= 50) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
-
     }
 
     private function kriteriaPostReform($validated, $evaluasi_id, $foto)
@@ -769,14 +763,14 @@ class EvaluasiController extends Controller
                 } elseif ($evaluasiFoto->isEmpty()) {
                     $result['status'] = false;
                     $result['error'] = 'Wajib unggah file minimal 1';
-                } elseif(($eva[0]->year.'-'.$eva[0]->month) != date('Y-n')) {
+                } elseif (($eva[0]->year . '-' . $eva[0]->month) != date('Y-n')) {
 
                     foreach ($evaluasiFoto as $keys => $val) {
 
                         $folder = 'file/pembaruan';
                         $fileName = explode('/', $val->foto);
 
-                        File::copy(public_path($val->foto), public_path($folder.'/'.$fileName[2]));
+                        File::copy(public_path($val->foto), public_path($folder . '/' . $fileName[2]));
 
                         EvaluasiFoto::insert([
                             'evaluasi_id' => $val->evaluasi_id,
@@ -799,13 +793,13 @@ class EvaluasiController extends Controller
                         ->whereMonth('created_at', date('m'))
                         ->orderBy('created_at', 'DESC')
                         ->first();
-                        
-                    $persen = $validated['persen'][$kriteriaID][$subkriteriaID];    
 
-                    $nilai = $this->formula(str_replace("%","",$persen));
+                    $persen = $validated['persen'][$kriteriaID][$subkriteriaID];
+
+                    $nilai = $this->formula(str_replace("%", "", $persen));
 
                     if ($evaluasiDetail) {
-                        EvaluasiDetail::where('id',$evaluasiDetail->id)->update(array(
+                        EvaluasiDetail::where('id', $evaluasiDetail->id)->update(array(
                             'jawaban' => $value,
                             'skor' => $value,
                             'persen' => $persen,
@@ -834,7 +828,7 @@ class EvaluasiController extends Controller
             dd($e->getMessage());
             return $e;
         }
-        
+
         return $result;
     }
 
@@ -861,7 +855,7 @@ class EvaluasiController extends Controller
         $evaluasi = EvaluasiDetail::select('kriteria_id')->where('evaluasi_id', $evaluasi_id)->groupBy('kriteria_id')->get();
 
         $skorEvaluasi = 0;
-        foreach($evaluasi as $value) {
+        foreach ($evaluasi as $value) {
 
             $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $evaluasi_id)->where('kriteria_id', $value->kriteria_id);
             $sum = $evaluasiKriteria->sum('skor');
@@ -876,18 +870,17 @@ class EvaluasiController extends Controller
         $max = StatusKumuh::max('nilai_max');
 
         $status = '';
-        foreach($statusAll as $key => $val) {
+        foreach ($statusAll as $key => $val) {
 
-            if($max == $val->nilai_max) {
+            if ($max == $val->nilai_max) {
                 if ($val->nilai_min <= $skorEvaluasi) {
                     $status = $val->id;
                 }
             } else {
-                if($val->nilai_min <= $skorEvaluasi && $val->nilai_max >= $skorEvaluasi) {
+                if ($val->nilai_min <= $skorEvaluasi && $val->nilai_max >= $skorEvaluasi) {
                     $status = $val->id;
                 }
             }
-
         }
 
         $data['status_id']  = $status;
@@ -904,7 +897,7 @@ class EvaluasiController extends Controller
         $data = [
             'users_id' => $user_id,
             'otoritas' => $auth->roles[0]->id,
-            'keterangan' => $type." hasil evaluasi Kecamatan ". $evaluasi->district->name ." Desa " . $evaluasi->village->name . " Lingkungan 1",
+            'keterangan' => $type . " hasil evaluasi Kecamatan " . $evaluasi->district->name . " Desa " . $evaluasi->village->name . " Lingkungan 1",
             'province_code' => $evaluasi->province_code,
             'city_code' => $evaluasi->city_code,
             'district_code' => $evaluasi->district_code,

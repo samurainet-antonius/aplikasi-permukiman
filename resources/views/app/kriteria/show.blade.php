@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.kriteria.index_title')</h1>
-            <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item active" aria-current="page">Kriteria</li>
@@ -16,7 +16,9 @@
                     <hr>
                     <form class="float-right">
                         <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
+                            <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control"
+                                placeholder="{{ __('crud.common.search') }}" aria-label=""
+                                aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
                                 <button class="btn btn-primary">
                                     <i class="fa fa-solid fa-search"></i>
@@ -61,8 +63,11 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="d-flex justify-content-end">
-                        {{-- {!! $kriteria->links() !!} --}}
+                    <div class="mt-10">
+                        <a href="{{ route('kriteria.index') }}" class="button">
+                            <i class="mr-1 fa fa-solid fa-arrow-left text-primary"></i>
+                            @lang('crud.common.back')
+                        </a>
                     </div>
                 </div>
             </div>

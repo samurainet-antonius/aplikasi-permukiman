@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.kriteria.index_title')</h1>
-            <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item active" aria-current="page">@lang('crud.kriteria.name')</li>
@@ -14,7 +14,9 @@
                 <div class="card-header py-3">
                     <form class="float-right">
                         <div class="input-group mb-3">
-                        <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control" placeholder="{{ __('crud.common.search') }}" aria-label="" aria-describedby="basic-addon1">
+                            <input type="text" value="{{ $search ?? '' }}" name="search" class="form-control"
+                                placeholder="{{ __('crud.common.search') }}" aria-label=""
+                                aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
                                 <button class="btn btn-primary">
                                     <i class="fa fa-solid fa-search"></i>
@@ -52,11 +54,13 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         @can('update', $value)
-                                        <a href="{{ route('kriteria.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
+                                        <a href="{{ route('kriteria.edit', $value) }}"
+                                            class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
                                         </a>
                                         @endcan @can('view', $value)
-                                        <a href="{{ route('kriteria.show', $value) }}" class="mr-1 btn btn-secondary btn-sm">
+                                        <a href="{{ route('kriteria.show', $value) }}"
+                                            class="mr-1 btn btn-secondary btn-sm">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                         @endcan @can('delete', $value)

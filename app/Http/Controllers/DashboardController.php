@@ -37,6 +37,7 @@ class DashboardController extends Controller
             case "admin-provinsi":
             case "admin-kabupaten":
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $villages = Village::select('code', 'name')->where('district_code', $district[0]->code)->first();
 
                 $textDistrict = 'Semua Kecamatan ';
                 $textVillage = 'Semua Desa ';
@@ -52,35 +53,35 @@ class DashboardController extends Controller
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
-                $textVillage = 'Desa '. $village[0]->name;
+                $textVillage = 'Desa ' . $village[0]->name;
                 break;
             case "admin-kelurahan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
 
                 $textDistrict = 'Kecamatan ' . $district[0]->name . ' ';
-                $textVillage = 'Desa '. $village[0]->name;
+                $textVillage = 'Desa ' . $village[0]->name;
                 break;
             default:
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $villages = Village::select('code', 'name')->where('district_code', $district[0]->code)->first();
 
-                $textDistrict = 'Kecamatan '.$district[0]->name;
-                $textVillage = 'Desa '.$villages->name;
+                $textDistrict = 'Kecamatan ' . $district[0]->name;
+                $textVillage = 'Desa ' . $villages->name;
 
-                if($request->district_code == 'semua') {
+                if ($request->district_code == 'semua') {
                     $village = '';
-                } elseif($request->district_code) {
+                } elseif ($request->district_code) {
                     $village = Village::select('code', 'name')->where('district_code', $request->district_code)->get();
                 }
         }
 
-        if($request->district_code) {
+        if ($request->district_code) {
             $dis = District::where('code', $request->district_code)->first();
             $textDistrict = 'Kecamatan ' . $dis->name . ' ';
         }
 
-        if($request->village_code == 'null') {
+        if ($request->village_code == 'null') {
             $dis = Village::select('code', 'name')->where('district_code', $request->district_code)->first();
             $textVillage = 'Desa ' . $dis->name . ' ';
         } elseif ($request->village_code) {
@@ -88,10 +89,10 @@ class DashboardController extends Controller
             $textVillage = 'Desa ' . $dis->name . ' ';
         }
 
-        if($request->years) {
-            $textYears = 'Tahun '. $request->years;
+        if ($request->years) {
+            $textYears = 'Tahun ' . $request->years;
         } else {
-            $textYears = 'Tahun '.date('Y');
+            $textYears = 'Tahun ' . date('Y');
         }
 
         $text = [
@@ -107,7 +108,7 @@ class DashboardController extends Controller
 
         $evaluasi = Evaluasi::select('id')->where('tahun', $tahun);
 
-        if($request->district_code) {
+        if ($request->district_code) {
             if ($request->district_code != 'semua') {
                 $evaluasi = $evaluasi->where('district_code', $request->district_code);
             }
@@ -115,12 +116,12 @@ class DashboardController extends Controller
             $evaluasi = $evaluasi->where('district_code', $district[0]->code);
         }
 
-        if($request->village_code || $request->village_code == 'null') {
+        if ($request->village_code || $request->village_code == 'null') {
 
-            if($request->village_code == 'null') {
+            if ($request->village_code == 'null') {
                 $dis = Village::select('code', 'name')->where('district_code', $request->district_code)->first();
                 $evaluasi = $evaluasi->where('village_code', $dis->village_code);
-            }elseif ($request->village_code != 'semua') {
+            } elseif ($request->village_code != 'semua') {
                 $evaluasi = $evaluasi->where('village_code', $request->village_code);
             }
         } else {
@@ -134,14 +135,14 @@ class DashboardController extends Controller
 
         $data = [];
         $bulan = [];
-        foreach($query as $val) {
+        foreach ($query as $val) {
 
             $series = [];
             $bulan = [];
-            foreach($month as $mon) {
+            foreach ($month as $mon) {
 
                 $skor = 0;
-                foreach($evaluasi as $eval) {
+                foreach ($evaluasi as $eval) {
                     $evalCount = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
                         ->where('evaluasi_id', $eval->id)
                         ->whereMonth('created_at', $mon['number'])
@@ -169,13 +170,13 @@ class DashboardController extends Controller
 
                     $skor = floor($skor / $evaluasiCount);
 
-                    $skor = ($skor == 0) ? 0.01 : $skor;
+                    // $skor = ($skor == 0) ? 0.01 : $skor;
 
                     if ($skor == 0) {
                         $color = '#00ff00';
                     } elseif ($skor == 1) {
                         $color = '#ff8000';
-                    } elseif($skor == 3 || $skor == 2) {
+                    } elseif ($skor == 3 || $skor == 2) {
                         $color = '#ffff00';
                     } else {
                         $color = '#ff0000';
@@ -188,17 +189,15 @@ class DashboardController extends Controller
 
                     $bulan[] = $mon['text'];
                 }
-
             }
 
             $data[] = [
                 'name' => $val->nama_kriteria,
                 'data' => $series
             ];
-
         }
 
-        if($request->all()) {
+        if ($request->all()) {
             $req['district'] = $request->district_code;
             $req['village'] = $request->village_code;
             $req['years'] = $request->years;
@@ -208,7 +207,7 @@ class DashboardController extends Controller
             $req['years'] = null;
         }
 
-        if(!$data) {
+        if (!$data) {
             $data[] = [
                 'name' => 'Kosong',
                 'data' => [0]

@@ -27,8 +27,8 @@ class PetugasUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'district' => ['nullable'],
-            'village' => ['nullable'],
+            'district_code' => ['nullable'],
+            'village_code' => ['nullable'],
             'jabatan' => ['required'],
             'nomer_hp' => ['required'],
         ];

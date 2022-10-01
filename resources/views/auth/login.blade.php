@@ -1,8 +1,10 @@
 <x-guest-layout>
     <div class="row bg-white container-fluid" style="height: 100vh !important;">
-        <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
+        <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4"
+            style="height: 100vh !important; padding: 0 !important;">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('assets/img/login.png') }}" class="img-fluid ml-n3" style="height: 100% !important; " alt="">
+                <img src="{{ asset('assets/img/login.png') }}" class="img-fluid ml-n3" style="height: 100% !important; "
+                    alt="">
             </a>
         </div>
         <div class="col-12 col-md-7 col-lg-7 col-xl-8">
@@ -12,7 +14,7 @@
                         @csrf
                         <div>
                             @php
-                                $says = says();
+                            $says = says();
                             @endphp
                             <h5>Halo !</h5>
                             <h5 class="text-green font-weight-bold">{{ $says }}</h5>
@@ -24,11 +26,13 @@
 
                         <div class="form-group">
                             <label for="email">Username/Email</label>
-                            <input class="form-control input-lg" type="email" name="email" id="email" placeholder="email" />
+                            <input class="form-control input-lg" type="email" name="email" id="email"
+                                placeholder="email" />
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input class="form-control input-lg" type="password" name="password" placeholder="password" />
+                            <input class="form-control input-lg" type="password" name="password"
+                                placeholder="password" />
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -40,7 +44,8 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="float-right">
-                                        <a class="font-weight-bold text-dark" href="{{ route('password.request') }}">Lupa password ?</a>
+                                        <a class="font-weight-bold text-dark"
+                                            href="{{ route('password.request') }}">Lupa password ?</a>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +54,8 @@
                             <input type="submit" name="submit" class="btn bg-green text-white col-12" value="Masuk" />
                         </div>
                         <div class="text-center">
-                            <a class="small text-dark" href="{{ route('register') }}">Anda belum punya akun? klik untuk mendaftar</a>
+                            <a class="small text-dark" href="{{ route('register') }}">Anda belum punya akun? klik untuk
+                                mendaftar</a>
                         </div>
                     </form>
                 </div>

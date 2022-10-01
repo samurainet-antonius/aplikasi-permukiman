@@ -9,7 +9,9 @@
     <title>{{ siteSetting('site_name') }}</title>
 
     <link href="{{ asset('/assets/img/logo/logo1.png') }}" rel="icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha512-rqQltXRuHxtPWhktpAZxLHUVJ3Eombn3hvk9PHjV/N5DMUYnzKPC1i3ub0mEXgFzsaZNeJcoE0YHq0j/GFsdGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+        integrity="sha512-rqQltXRuHxtPWhktpAZxLHUVJ3Eombn3hvk9PHjV/N5DMUYnzKPC1i3ub0mEXgFzsaZNeJcoE0YHq0j/GFsdGg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
@@ -23,7 +25,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
@@ -33,32 +35,60 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 
     <style>
-        body{
-            background-color:white;
+        body {
+            background-color: white;
         }
-        *{
+
+        * {
             font-family: 'Poppins';
         }
+
         #map {
             position: absolute;
             width: 100%;
             right: 0;
-            height:100%;
+            height: 100%;
         }
-        .fs-14{
+
+        .fs-14 {
             font-size: 14px !important;
         }
+
         .bg-green {
             background-color: #03A64A !important;
         }
-        #map { height: 91vh; width: 100%;}
 
-        .blue   { -webkit-filter: hue-rotate( 30deg); filter: hue-rotate( 30deg); }
-        .pink   { -webkit-filter: hue-rotate( 90deg); filter: hue-rotate( 90deg); }
+        #map {
+            height: 91vh;
+            width: 100%;
+        }
+
+        .blue {
+            -webkit-filter: hue-rotate(30deg);
+            filter: hue-rotate(30deg);
+        }
+
+        .pink {
+            -webkit-filter: hue-rotate(90deg);
+            filter: hue-rotate(90deg);
+        }
+
         /* .red    { -webkit-filter: hue-rotate(150deg); filter: hue-rotate(150deg); } */
-        .yellow { -webkit-filter: hue-rotate(210deg); filter: hue-rotate(210deg); }
-        .green  { -webkit-filter: hue-rotate(270deg); filter: hue-rotate(270deg); }
-        .alua   { -webkit-filter: hue-rotate(330deg); filter: hue-rotate(330deg); }
+        .yellow {
+            -webkit-filter: hue-rotate(210deg);
+            filter: hue-rotate(210deg);
+        }
+
+        .green {
+            -webkit-filter: hue-rotate(270deg);
+            filter: hue-rotate(270deg);
+        }
+
+        .alua {
+            -webkit-filter: hue-rotate(330deg);
+            filter: hue-rotate(330deg);
+        }
+
         .cek {
             height: 100px;
             width: 100px;
@@ -67,15 +97,17 @@
             display: inline-block;
         }
 
-        .modal{
-            display: block !important; /* I added this to see the modal, you don't need this */
+        .modal {
+            display: block !important;
+            /* I added this to see the modal, you don't need this */
         }
 
         /* Important part */
-        .scroll{
+        .scroll {
             overflow-y: initial !important
         }
-        .scroll{
+
+        .scroll {
             /* height: 150vh; */
             overflow-y: auto;
         }
@@ -92,16 +124,18 @@
             <div class="collapse navbar-collapse">
 
                 <ul class="navbar-nav mr-auto">
-                        <li class="nav-item row">
-                            <a href="{{ route('home') }}">
-                                <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
+                    <li class="nav-item row">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30"
+                                class="d-inline-block align-top" alt="">
+                        </a>
+                        <div class="fs-14 ml-3 text-white">
+                            <a href="{{ route('home') }}" class="text-white">
+                                Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan <br>Kabupaten Deli Serdang
+                                Sumatera Utara
                             </a>
-                            <div class="fs-14 mt-2 ml-3 text-white">
-                                <a href="{{ route('home') }}" class="text-white">
-                                    Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan Kabupaten Deli Serdang Sumatera Utara
-                                </a>
-                            </div>
-                        </li>
+                        </div>
+                    </li>
                 </ul>
 
                 <div class="form-inline my-2 my-lg-0">
@@ -110,7 +144,8 @@
                             <a href="{{ route('contact') }}" class="nav-link text-white">Kontak</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link btn btn-outline-light text-white px-4">Masuk</a>
+                            <a href="{{ route('login') }}"
+                                class="nav-link btn btn-outline-light text-white px-4">Masuk</a>
                         </li>
                     </ul>
                 </div>
@@ -125,14 +160,17 @@
             <div class="col-3 h-100 d-inline-block bg-white">
                 <div class="container my-4">
                     <h5 class="font-weight-bold">Peta Online Kawasan Kumuh</h5>
-                    <p class="my-4 fs-14">Selamat datang di layanan peta online kawasan kumuh Kabupaten Deli Serdang Sumatera Utara</p>
+                    <p class="my-4 fs-14">Selamat datang di layanan peta online kawasan kumuh Kabupaten Deli Serdang
+                        Sumatera Utara</p>
                     <p class="fs-14">Silakan masukan informasi daerah yang ingin anda ketahui</p>
                     <form>
                         <div class="form-group">
                             <label class="font-weight-bold fs-14">Kecamatan</label>
-                            {{-- <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> --}}
+                            {{-- <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter email"> --}}
                             <input type="hidden" id="district_code">
                             <select class="select2-single form-control" id="district">
+                                <option>-- Pilih Kecamatan --</option>
                                 @foreach ($district as $val)
                                 <option value="{{ $val->code }}">{{ $val->name }}</option>
                                 @endforeach
@@ -215,18 +253,18 @@
                 longitude = x.longitude;
             }
 
-            $.ajax({
-                type: 'POST',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: '{{ route("village.select") }}',
-                success: function(data) {
-                    $('#village').empty();
-                    $.each(data.data,function(index,val){
-                        $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
-                    })
-                    district_code(data.district)
-                }
-            });
+            // $.ajax({
+            //     type: 'POST',
+            //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            //     url: '{{ route("village.select") }}',
+            //     success: function(data) {
+            //         $('#village').empty();
+            //         $.each(data.data,function(index,val){
+            //             $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+            //         })
+            //         district_code(data.district)
+            //     }
+            // });
 
             $.ajax({
                 type: 'GET',
