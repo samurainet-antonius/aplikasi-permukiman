@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
     });
 
     Route::group(['prefix' => 'arsip/'], function () {
-        Route::get('', [ArsipController::class, 'index']);
+        Route::post('', [ArsipController::class, 'index']);
         Route::post('show', [ArsipController::class, 'show']);
         Route::post('show/kriteria', [ArsipController::class, 'showKriteria']);
     });

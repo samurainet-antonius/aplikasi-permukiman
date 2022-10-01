@@ -32,7 +32,7 @@ class ArsipController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::id();
         $users = User::find($user);
@@ -47,19 +47,39 @@ class ArsipController extends Controller
             // ->where('status_kumuh.tahun', '!=', date('Y'))
             ->where('evaluasi.tahun', '!=', date('Y'));
 
+        if ($request->district) {
+            $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
+        }
+
+        if ($request->village && $request->village != 0) {
+            $evaluasi = $evaluasi->where('evaluasi.village_code', $request->village);
+        }
+
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
                 $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kecamatan":
                 $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kelurahan":
                 $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
                 break;
             default:
                 $evaluasi = $evaluasi->where('province_code', 12)->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
         }
 
         if ($evaluasi) {
@@ -68,10 +88,17 @@ class ArsipController extends Controller
             }
         }
 
+        if ($role != 'admin-kelurahan') {
+            $village = $village->toArray();
+            array_unshift($village, ['code' => "0", 'name' => 'Semua']);
+        }
+
         return response()->json([
             'status' => 200,
             'data' => [
                 'evaluasi' => $evaluasi,
+                'kecamatan' => $district,
+                'desa' => $village,
             ]
         ]);
     }
@@ -158,13 +185,14 @@ class ArsipController extends Controller
             ->whereMonth('created_at', $dateMonth)
             ->sum('skor');
 
+        $tot = number_format($evaluasiKriteria, 2);
         $evaluasi = Evaluasi::find($request->evaluasi_id);
         $evaluasi->province_code = $evaluasi->province->name;
         $evaluasi->city_code = $evaluasi->city->name;
         $evaluasi->district_code = $evaluasi->district->name;
         $evaluasi->village_code = $evaluasi->village->name;
         $evaluasi->status_evaluasi = $evaluasi->status->nama;
-        $evaluasi->total = "$evaluasiKriteria";
+        $evaluasi->total = $tot;
         unset($evaluasi->province);
         unset($evaluasi->city);
         unset($evaluasi->district);
@@ -200,6 +228,7 @@ class ArsipController extends Controller
                 'status_edit' => $statusEditKriteria,
                 'status_pembaruan' => $statusPembaruanKriteria,
                 'bulan' => $bulan,
+                'select_bulan' => $date,
                 'evaluasi' => $evaluasi,
                 'kriteria' => $kriteria,
                 'status' => $status
