@@ -51,15 +51,27 @@ class EvaluasiController extends Controller
             case "admin-provinsi":
             case "admin-kabupaten":
                 $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kecamatan":
                 $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kelurahan":
                 $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
                 break;
             default:
                 $evaluasi = $evaluasi->where('province_code', 12)->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
         }
 
         if ($evaluasi) {
@@ -72,6 +84,8 @@ class EvaluasiController extends Controller
             'status' => 200,
             'data' => [
                 'evaluasi' => $evaluasi,
+                'kecamatan' => $district,
+                'desa' => $village,
             ]
         ]);
     }
@@ -89,7 +103,8 @@ class EvaluasiController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
-                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->orderBy('name', 'ASC')->get();
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
 
                 break;
             case "admin-kecamatan":
