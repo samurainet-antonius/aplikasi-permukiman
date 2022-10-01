@@ -32,7 +32,7 @@ class EvaluasiController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::id();
         $users = User::find($user);
@@ -46,6 +46,14 @@ class EvaluasiController extends Controller
             ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
             ->where('status_kumuh.tahun', date('Y'))
             ->whereYear('evaluasi.created_at', date('Y'));
+
+        if ($request->district) {
+            $evaluasi = $evaluasi->where('evaluasi.village_code', $request->district);
+        }
+
+        if ($request->village && $request->village != 0) {
+            $evaluasi = $evaluasi->where('evaluasi.village_code', $request->village);
+        }
 
         switch ($role) {
             case "admin-provinsi":
@@ -80,8 +88,10 @@ class EvaluasiController extends Controller
             }
         }
 
-        $village = $village->toArray();
-        array_unshift($village, ['code' => "0", 'name' => 'Semua']);
+        if ($role != 'admin-kelurahan') {
+            $village = $village->toArray();
+            array_unshift($village, ['code' => "0", 'name' => 'Semua']);
+        }
 
         return response()->json([
             'status' => 200,
