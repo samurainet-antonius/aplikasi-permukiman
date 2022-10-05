@@ -58,25 +58,25 @@ class EvaluasiController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
-                $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->orderBy('created_at', 'DESC')->get();
+                $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->orderBy('evaluasi.created_at', 'DESC')->get();
 
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kecamatan":
-                $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->orderBy('created_at', 'DESC')->get();
+                $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->orderBy('evaluasi.created_at', 'DESC')->get();
 
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kelurahan":
-                $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->orderBy('created_at', 'DESC')->get();
+                $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->orderBy('evaluasi.created_at', 'DESC')->get();
 
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
                 break;
             default:
-                $evaluasi = $evaluasi->where('province_code', 12)->orderBy('created_at', 'DESC')->get();
+                $evaluasi = $evaluasi->where('province_code', 12)->orderBy('evaluasi.created_at', 'DESC')->get();
 
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
