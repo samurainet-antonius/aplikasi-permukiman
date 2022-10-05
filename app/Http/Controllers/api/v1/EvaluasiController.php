@@ -501,6 +501,7 @@ class EvaluasiController extends Controller
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', $date)
             ->sum('nilai');
+
         $tot = number_format($evaluasiKriteria, 2);
         $evaluasi = Evaluasi::find($request->evaluasi_id);
         $evaluasi->province_code = $evaluasi->province->name;
