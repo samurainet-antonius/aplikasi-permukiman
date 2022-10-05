@@ -206,6 +206,7 @@ class ArsipController extends Controller
         $evaluasi->village_code = $evaluasi->village->name;
         $evaluasi->status_evaluasi = $evaluasi->status->nama;
         $evaluasi->total = $tot;
+        $evaluasi->lastUpdate = $date->created_at->isoFormat('D MMMM Y');
         unset($evaluasi->province);
         unset($evaluasi->city);
         unset($evaluasi->district);
