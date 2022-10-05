@@ -500,7 +500,7 @@ class EvaluasiController extends Controller
         $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $request->evaluasi_id)
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', $date)
-            ->sum('skor');
+            ->sum('nilai');
         $tot = number_format($evaluasiKriteria, 2);
         $evaluasi = Evaluasi::find($request->evaluasi_id);
         $evaluasi->province_code = $evaluasi->province->name;
