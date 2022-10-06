@@ -9,6 +9,7 @@ use App\Models\Evaluasi;
 use App\Models\EvaluasiDetail;
 use App\Models\EvaluasiFoto;
 use App\Models\Kriteria;
+use App\Models\Log;
 use App\Models\Petugas;
 use App\Models\StatusKumuh;
 use App\Models\SubKriteria;
@@ -216,6 +217,7 @@ class EvaluasiController extends Controller
             }
 
             Evaluasi::find($validated['evaluasi_id'])->update($validated);
+            $this->dataLog($validated['evaluasi_id'], 'Melakukan perubahan evaluasi data');
 
             DB::commit();
             return response()->json([
@@ -426,6 +428,7 @@ class EvaluasiController extends Controller
                 }
             }
 
+            $this->dataLog($req['evaluasi_id'], 'Menambahkan');
             Evaluasi::find($req['evaluasi_id'])->update([
                 'status_id' => $statusID
             ]);
@@ -448,6 +451,7 @@ class EvaluasiController extends Controller
     {
         $evaluasi = Evaluasi::find($request->evaluasi_id);
         $evaluasiFoto = EvaluasiFoto::where('evaluasi_id', $request->evaluasi_id)->get();
+        $this->dataLog($request->evaluasi_id, 'Melakukan penghapusan data');
 
         if ($evaluasiFoto) {
             foreach ($evaluasiFoto as $val) {
@@ -458,6 +462,8 @@ class EvaluasiController extends Controller
 
         File::delete(public_path($evaluasi->gambar_delinasi));
         $evaluasi->delete();
+
+
 
         return response()->json([
             'status' => 200,
@@ -698,6 +704,8 @@ class EvaluasiController extends Controller
                 ]);
         }
 
+        $this->dataLog($req['evaluasi_id'], 'Melakukan perubahan kriteria data');
+
         return response()->json([
             'status' => 200,
             'data' => [
@@ -910,6 +918,10 @@ class EvaluasiController extends Controller
                 ]);
         }
 
+        if ($req['page'] == $last) {
+            $this->dataLog($req['evaluasi_id'], 'Melakukan pembaruan data');
+        }
+
         return response()->json([
             'status' => 200,
             'data' => [
@@ -1010,5 +1022,36 @@ class EvaluasiController extends Controller
         }
 
         return $return;
+    }
+
+    private function dataLog($evaluasi_id, $type)
+    {
+        $evaluasi = Evaluasi::find($evaluasi_id);
+
+        $id = auth()->user()->id;
+        $user = User::find($id);
+        $auth = auth()->user();
+        $user_id = $auth->id;
+
+        $data = [
+            'users_id' => $user_id,
+            'otoritas' => $auth->roles[0]->id,
+            'keterangan' => $type . " hasil evaluasi Kecamatan " . $evaluasi->district->name . " Desa " . $evaluasi->village->name . " Lingkungan " . $evaluasi->lingkungan,
+            'province_code' => $evaluasi->province_code,
+            'city_code' => $evaluasi->city_code,
+            'district_code' => $evaluasi->district_code,
+            'village_code' => $evaluasi->village_code
+        ];
+
+        DB::beginTransaction();
+        try {
+
+            Log::create($data);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $e;
+        }
     }
 }

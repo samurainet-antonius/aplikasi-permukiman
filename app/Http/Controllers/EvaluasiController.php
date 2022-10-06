@@ -897,7 +897,7 @@ class EvaluasiController extends Controller
         $data = [
             'users_id' => $user_id,
             'otoritas' => $auth->roles[0]->id,
-            'keterangan' => $type . " hasil evaluasi Kecamatan " . $evaluasi->district->name . " Desa " . $evaluasi->village->name . " Lingkungan 1",
+            'keterangan' => $type . " hasil evaluasi Kecamatan " . $evaluasi->district->name . " Desa " . $evaluasi->village->name . " Lingkungan " . $evaluasi->lingkungan,
             'province_code' => $evaluasi->province_code,
             'city_code' => $evaluasi->city_code,
             'district_code' => $evaluasi->district_code,
