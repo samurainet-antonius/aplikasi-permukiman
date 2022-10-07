@@ -67,7 +67,8 @@ class LogController extends Controller
         foreach ($log as $value) {
             $query = Petugas::where('users_id', $value->users_id)->first();
             $value->name = $query->user->name;
-            $value->petugas = 'Petugas ' . $query->jabatan . ' ' . ucwords(strtolower($query->village->name));
+            $value->petugas = 'Petugas ' . $query->jabatan;
+            $value->lokasi = ucwords(strtolower($query->village->name));
             $value->tanggal = Carbon::parse($value->created_at)->format('d/m/Y');
             $value->jam = Carbon::parse($value->created_at)->format('H:i');
         }
