@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\UserAuthController;
 use App\Http\Controllers\api\v1\EvaluasiController;
+use App\Http\Controllers\api\v1\LogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,10 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
         Route::post('', [ArsipController::class, 'index']);
         Route::post('show', [ArsipController::class, 'show']);
         Route::post('show/kriteria', [ArsipController::class, 'showKriteria']);
+    });
+
+    Route::group(['prefix' => 'log/'], function () {
+        Route::post('', [LogController::class, 'index']);
     });
 });
 
