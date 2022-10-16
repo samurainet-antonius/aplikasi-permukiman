@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\v1\ArsipController;
+use App\Http\Controllers\api\v1\DasborController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\UserAuthController;
@@ -54,6 +55,10 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
 
     Route::group(['prefix' => 'log/'], function () {
         Route::post('', [LogController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'dasbor/'], function () {
+        Route::post('', [DasborController::class, 'index']);
     });
 });
 

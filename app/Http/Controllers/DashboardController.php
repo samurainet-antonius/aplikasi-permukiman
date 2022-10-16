@@ -133,7 +133,10 @@ class DashboardController extends Controller
         $evaluasi = $evaluasi->get();
 
         $evaluasiId = array_column($evaluasi->toArray(), 'id');
-        $query = EvaluasiDetail::select('kriteria_id', 'nama_kriteria')->whereIn('evaluasi_id', $evaluasiId)->groupBy('kriteria_id')->get();
+        $query = EvaluasiDetail::select('kriteria_id', 'nama_kriteria')
+            ->whereIn('evaluasi_id', $evaluasiId)
+            ->groupBy('kriteria_id')
+            ->get();
 
         $data = [];
         $bulan = [];
@@ -147,12 +150,14 @@ class DashboardController extends Controller
                 foreach ($evaluasi as $eval) {
                     $evalCount = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
                         ->where('evaluasi_id', $eval->id)
+                        ->where('jawaban', '!=', '')
                         ->whereMonth('created_at', $mon['number'])
                         ->get()->count();
 
                     if ($evalCount != 0) {
                         $evalNilai = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
                             ->whereIn('evaluasi_id', $evaluasi)
+                            ->where('jawaban', '!=', '')
                             ->whereMonth('created_at', $mon['number'])
                             ->sum('nilai');
 
@@ -164,10 +169,11 @@ class DashboardController extends Controller
 
                 $evaluasiCheck = EvaluasiDetail::where('kriteria_id', $val->kriteria_id)
                     ->whereIn('evaluasi_id', $evaluasiId)
+                    ->where('jawaban', '!=', '')
                     ->whereMonth('created_at', $mon['number'])
                     ->get()->count();
 
-                if ($evalCount != 0) {
+                if ($evaluasiCheck != 0) {
                     $evaluasiCount = $evaluasi->count();
 
                     $skor = floor($skor / $evaluasiCount);

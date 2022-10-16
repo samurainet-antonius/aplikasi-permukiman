@@ -43,7 +43,7 @@ class UserAuthController extends Controller
             'status' => 200,
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => auth('api')->factory()->getTTL(),
             'data' => auth()->user(),
             'roles' => auth()->user()->roles[0]->name
         ]);

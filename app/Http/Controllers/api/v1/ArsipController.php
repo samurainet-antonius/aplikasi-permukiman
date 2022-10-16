@@ -196,7 +196,7 @@ class ArsipController extends Controller
         $evaluasiKriteria = EvaluasiDetail::where('evaluasi_id', $request->evaluasi_id)
             ->whereYear('created_at', $dateYears)
             ->whereMonth('created_at', $dateMonth)
-            ->sum('skor');
+            ->sum('nilai');
 
         $tot = number_format($evaluasiKriteria, 2);
         $evaluasi = Evaluasi::find($request->evaluasi_id);

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            {{-- <ol class="breadcrumb">
+        {{-- <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Evaluasi</li> --}}
         </ol>
@@ -18,10 +18,12 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>Kecamatan</label>
-                                    <select class="select2-single form-control" name="district_code" onchange="submit()">
+                                    <select class="select2-single form-control" name="district_code"
+                                        onchange="submit()">
                                         <option value="null">Pilih Kecamatan</option>
                                         @foreach ($district as $val)
-                                            <option value="{{$val->code}}" {{ (Request::get('district_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                        <option value="{{$val->code}}" {{ (Request::get('district_code')==$val->code) ?
+                                            'selected' : ''}}>{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -33,12 +35,13 @@
                                     <select class="select2-single form-control" name="village_code" onchange="submit()">
 
                                         @if ($village)
-                                            <option value="null">Pilih Desa</option>
-                                            @foreach ($village as $val)
-                                                <option value="{{$val->code}}"  {{ (Request::get('village_code') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
-                                            @endforeach
+                                        <option value="null">Pilih Desa</option>
+                                        @foreach ($village as $val)
+                                        <option value="{{$val->code}}" {{ (Request::get('village_code')==$val->code) ?
+                                            'selected' : ''}}>{{$val->name}}</option>
+                                        @endforeach
                                         @else
-                                            <option value="null">Pilih kecamatan dahulu</option>
+                                        <option value="null">Pilih kecamatan dahulu</option>
                                         @endif
 
                                     </select>
@@ -48,9 +51,10 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>Tahun</label>
-                                    <select class="select2-single form-control" name="years" id="tahun" onchange="submit()">
+                                    <select class="select2-single form-control" name="years" id="tahun"
+                                        onchange="submit()">
                                         @for($i=date("Y");$i>="2015";$i--)
-                                            <option value="{{ $i; }}">{{ $i }}</option>
+                                        <option value="{{ $i; }}">{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -60,10 +64,14 @@
                                 <div class="form-group">
                                     <label>Rentang</label>
                                     <select class="select2-single form-control" name="range" onchange="submit()">
-                                        <option value="12" {{ (Request::get('range') == 12) ? 'selected' : ''}}>1 Tahun</option>
-                                        <option value="9" {{ (Request::get('range') == 9) ? 'selected' : ''}}>9 Bulan</option>
-                                        <option value="6" {{ (Request::get('range') == 6) ? 'selected' : ''}}>6 Bulan</option>
-                                        <option value="3" {{ (Request::get('range') == 3) ? 'selected' : ''}}>3 Bulan</option>
+                                        <option value="12" {{ (Request::get('range')==12) ? 'selected' : '' }}>1 Tahun
+                                        </option>
+                                        <option value="9" {{ (Request::get('range')==9) ? 'selected' : '' }}>9 Bulan
+                                        </option>
+                                        <option value="6" {{ (Request::get('range')==6) ? 'selected' : '' }}>6 Bulan
+                                        </option>
+                                        <option value="3" {{ (Request::get('range')==3) ? 'selected' : '' }}>3 Bulan
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -76,12 +84,14 @@
                             <h6 class="font-weight-bold">Status Kumuh</h6>
                             <h6 class="font-weight-bold">{{$text['district']}} {{$text['village']}}</h6>
                             <h6>{{$text['years']}}</h6>
-                            <h6>Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan Kabupaten Deli Serdang Sumatera Utara</h6>
+                            <h6>Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan Kabupaten Deli Serdang Sumatera
+                                Utara</h6>
                         </div>
                         <div id="container"></div>
                         <div class="text-center row mx-5">
                             @foreach ($status as $item)
-                                <div class="col"><i class="fas fa-circle" style="color: {{$item->warna}};"></i> {{$item->nama}}</div>
+                            <div class="col"><i class="fas fa-circle" style="color: {{$item->warna}};"></i>
+                                {{$item->nama}}</div>
                             @endforeach
                         </div>
                     </div>
@@ -94,34 +104,33 @@
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="text-center" style="margin-bottom: -20px;">
-                    <p>Presentase Status Kumuh<br/>
-                    {{$text['district']}}<br/>
-                    {{$text['village']}}<br/>
-                    Kabupaten Deli Serdang</p>
-                    {{-- <p>Tahun </p> --}}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div id="pieChart"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+                <div class="modal-body">
+                    <div class="text-center" style="margin-bottom: -20px;">
+                        <p>Presentase Status Kumuh<br />
+                            {{$text['district']}}<br />
+                            {{$text['village']}}<br />
+                            Kabupaten Deli Serdang</p>
+                        {{-- <p>Tahun </p> --}}
+                    </div>
+                    <div id="pieChart"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
 
     @push('scripts')
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script type="text/javascript">
-
-            var data = <?php echo json_encode($data); ?>;
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript">
+        var data = <?php echo json_encode($data); ?>;
             var bulan = <?php echo json_encode($bulan); ?>;
             var labelData = ['cek', 'nama'];
 
@@ -178,6 +187,6 @@
                 },
                 series: data
             });
-        </script>
+    </script>
     @endpush
 </x-app-layout>
