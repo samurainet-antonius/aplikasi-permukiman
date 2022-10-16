@@ -42,7 +42,7 @@ class DasborController extends Controller
         $role = $users->roles[0]->name;
         $petugas = Petugas::where('users_id', $user)->first();
 
-        $years = Evaluasi::select('tahun')->groupBy('tahun')->get()->toArray();
+        $years = Evaluasi::select('tahun')->groupBy('tahun')->orderBy('tahun', 'DESC')->get()->toArray();
         if ($years) {
             $years = array_column($years, 'tahun');
         } else {
