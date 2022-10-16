@@ -90,6 +90,7 @@ class DasborController extends Controller
             $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
             $text['kecamatan'] = 'Kecamatan ' . ucwords(strtolower(District::where('code', $request->district)->first()->name));
         } else {
+            $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code);
             $text['kecamatan'] = 'Kecamatan ' . ucwords(strtolower(District::where('code', $petugas->district_code)->first()->name));
         }
 
