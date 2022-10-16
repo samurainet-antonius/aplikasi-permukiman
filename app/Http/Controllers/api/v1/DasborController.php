@@ -88,12 +88,12 @@ class DasborController extends Controller
         $text = [];
         if ($request->district) {
             $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
-            $text['kecamatan'] = ucwords(strtolower(District::where('code', $request->district)->first()->name));
+            $text['kecamatan'] = 'Kecamatan ' . ucwords(strtolower(District::where('code', $request->district)->first()->name));
         }
 
         if ($request->village && $request->village != 0) {
             $evaluasi = $evaluasi->where('evaluasi.village_code', $request->village);
-            $text['desa'] = ucwords(strtolower(Village::where('code', $request->village)->first()->name));
+            $text['desa'] = 'Desa ' . ucwords(strtolower(Village::where('code', $request->village)->first()->name));
         } else {
             $text['desa'] = 'Semua Desa';
         }
