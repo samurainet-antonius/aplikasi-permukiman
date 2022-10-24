@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth.api'], function ($router) {
 
     Route::group(['prefix' => 'dasbor/'], function () {
         Route::post('', [DasborController::class, 'index']);
+        Route::post('detail', [DasborController::class, 'detail']);
     });
 });
 

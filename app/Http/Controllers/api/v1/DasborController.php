@@ -201,6 +201,69 @@ class DasborController extends Controller
         ]);
     }
 
+    public function detail(Request $request)
+    {
+        $user = Auth::id();
+        $users = User::find($user);
+
+        $role = $users->roles[0]->name;
+        $petugas = Petugas::where('users_id', $user)->first();
+
+        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
+            ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
+            ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
+            ->where('evaluasi.tahun', $request->years);
+
+        if ($request->district) {
+            $evaluasi = $evaluasi->where('evaluasi.district_code', $request->district);
+        }
+
+        if ($request->village && $request->village != 0) {
+            $evaluasi = $evaluasi->where('evaluasi.village_code', $request->village);
+        }
+
+        switch ($role) {
+            case "admin-provinsi":
+            case "admin-kabupaten":
+                $evaluasi = $evaluasi->where('evaluasi.city_code', '1207')->orderBy('evaluasi.created_at', 'DESC')->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
+                break;
+            case "admin-kecamatan":
+                $evaluasi = $evaluasi->where('evaluasi.district_code', $petugas->district_code)->orderBy('evaluasi.created_at', 'DESC')->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
+                break;
+            case "admin-kelurahan":
+                $evaluasi = $evaluasi->where('evaluasi.village_code', $petugas->village_code)->orderBy('evaluasi.created_at', 'DESC')->get();
+
+                $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
+                $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
+                break;
+            default:
+                $evaluasi = $evaluasi->where('province_code', 12)->orderBy('evaluasi.created_at', 'DESC')->get();
+
+                $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
+                $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
+        }
+
+        if ($role != 'admin-kelurahan') {
+            $village = $village->toArray();
+            array_unshift($village, ['code' => "0", 'name' => 'Semua']);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'evaluasi' => $evaluasi,
+                'kecamatan' => $district,
+                'desa' => $village,
+            ]
+        ]);
+    }
+
     private function monthChart($count)
     {
         $now = Carbon::now();
