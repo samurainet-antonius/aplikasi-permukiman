@@ -210,6 +210,7 @@ class DasborController extends Controller
         $petugas = Petugas::where('users_id', $user)->first();
 
         $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
+            ->join('status_kumuh', 'evaluasi.status_id', '=', 'status_kumuh.id')
             ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
             ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
             ->where('evaluasi.tahun', $request->years);
