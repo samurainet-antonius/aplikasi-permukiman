@@ -86,7 +86,7 @@ class EvaluasiController extends Controller
         if ($evaluasi) {
             foreach ($evaluasi as $value) {
                 $value->warna = $this->adjustBrightness($value->warna, -80);
-                $value->foto = $value->gambar_delinasi ? URL::to('/') . '/public/' . $value->foto : '';
+                $value->foto = $value->foto ? URL::to('/') . '/public/' . $value->foto : '';
             }
         }
 
