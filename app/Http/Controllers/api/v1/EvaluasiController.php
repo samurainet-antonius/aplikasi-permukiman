@@ -516,6 +516,7 @@ class EvaluasiController extends Controller
         $evaluasi->district_code = $evaluasi->district->name;
         $evaluasi->village_code = $evaluasi->village->name;
         $evaluasi->status_evaluasi = $evaluasi->status->nama;
+        $evaluasi->gambar_delinasi = URL::to('/') . '/public/' . $evaluasi->gambar_delinasi;
         $evaluasi->total = $tot;
         $evaluasi->lastUpdate = $dateEval->created_at->isoFormat('D MMMM Y');
         unset($evaluasi->province);
