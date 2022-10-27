@@ -48,7 +48,7 @@ class ArsipController extends Controller
             $years = ["$years"];
         }
 
-        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.tahun', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'status_kumuh.nama as status', 'status_kumuh.warna', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
+        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.tahun', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'status_kumuh.nama as status', 'status_kumuh.warna', 'indonesia_districts.name as district', 'indonesia_villages.name as village', 'gambar_delinasi as foto')
             ->join('status_kumuh', 'evaluasi.status_id', '=', 'status_kumuh.id')
             ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
             ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
@@ -97,6 +97,7 @@ class ArsipController extends Controller
         if ($evaluasi) {
             foreach ($evaluasi as $value) {
                 $value->warna = $this->adjustBrightness($value->warna, -80);
+                $value->foto = $value->gambar_delinasi ? URL::to('/') . '/public/' . $value->foto : '';
             }
         }
 

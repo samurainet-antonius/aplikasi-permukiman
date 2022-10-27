@@ -209,7 +209,7 @@ class DasborController extends Controller
         $role = $users->roles[0]->name;
         $petugas = Petugas::where('users_id', $user)->first();
 
-        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'indonesia_districts.name as district', 'indonesia_villages.name as village')
+        $evaluasi = Evaluasi::select('evaluasi.id', 'evaluasi.village_code', 'evaluasi.district_code', 'lingkungan', 'indonesia_districts.name as district', 'indonesia_villages.name as village', 'gambar_delinasi as foto')
             ->join('status_kumuh', 'evaluasi.status_id', '=', 'status_kumuh.id')
             ->join('indonesia_villages', 'evaluasi.village_code', '=', 'indonesia_villages.code')
             ->join('indonesia_districts', 'evaluasi.district_code', '=', 'indonesia_districts.code')
@@ -248,6 +248,12 @@ class DasborController extends Controller
 
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
+        }
+
+        if ($evaluasi) {
+            foreach ($evaluasi as $value) {
+                $value->foto = $value->gambar_delinasi ? URL::to('/') . '/public/' . $value->foto : '';
+            }
         }
 
         if ($role != 'admin-kelurahan') {
