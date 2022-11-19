@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.staff.edit_title')</h1>
-            <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item">
@@ -20,7 +20,7 @@
                         @include('app.staff.form-inputs')
 
                         <div class="mt-10">
-                            <a href="{{ route('kriteria.index') }}" class="button">
+                            <a href="{{ route('staff.index') }}" class="button">
                                 <i class="
                                                 mr-1
                                                 fa fa-solid fa-arrow-left
