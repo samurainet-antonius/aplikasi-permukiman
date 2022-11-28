@@ -78,15 +78,15 @@ class EmployeeController extends Controller
                 $region_code = 0;
             }
 
-            if ($role['name'] == 'admin-kabupaten') {
+            if ($role['name'] == 'admin-kabupaten' || $role['name'] == 'bupati' || $role['name'] == 'kepala-dinas' || $role['name'] == 'kepala-bidang' || $role['name'] == 'seksi' || $role['name'] == 'petugas-kabupaten') {
                 $region_code = 1;
             }
 
-            if ($role['name'] == 'admin-kecamatan') {
+            if ($role['name'] == 'admin-kecamatan' || $role['name'] == 'camat' || $role['name'] == 'petugas-kecamatan') {
                 $region_code = 2;
             }
 
-            if ($role['name'] == 'admin-kelurahan') {
+            if ($role['name'] == 'admin-kelurahan' || $role['name'] == 'lurah' || $role['name'] == 'petugas-kelurahan') {
                 $region_code = 3;
             }
 

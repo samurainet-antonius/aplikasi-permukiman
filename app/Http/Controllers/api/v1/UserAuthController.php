@@ -34,6 +34,10 @@ class UserAuthController extends Controller
             return response()->json(['status' => 'failed', 'message' => 'Invalid email and password.', 'error' => 'Unauthorized'], 401);
         }
 
+        if (auth()->user()->roles[0]->name != 'admin-kecamatan' || auth()->user()->roles[0]->name != 'admin-kelurahan') {
+            return response()->json(['status' => 'failed', 'message' => 'Hanya Admin Kecamatan dan Kelurahan yang bisa masuk!'], 401);
+        }
+
         return $this->createNewToken($token);
     }
 

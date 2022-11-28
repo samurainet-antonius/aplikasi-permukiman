@@ -63,9 +63,9 @@ class UserController extends Controller
 
             if (strpos($roles->name, 'provinsi') !== false) {
                 $region = Province::select("code", "name")->where('code', '12')->get();
-            } elseif(strpos($roles->name, 'kabupaten') !== false) {
+            } elseif (strpos($roles->name, 'kabupaten') !== false) {
                 $region = City::select("code", "name")->where('name', 'LIKE', "%$search%")->get();
-            } elseif(strpos($roles->name, 'kecamatan') !== false) {
+            } elseif (strpos($roles->name, 'kecamatan') !== false) {
                 $region = District::select("code", DB::raw('CONCAT("KECAMATAN", " - ", name) as name'))->where('name', 'LIKE', "%$search%")->get();
             } elseif (strpos($roles->name, 'kelurahan') !== false) {
                 $region = Village::select("code", DB::raw('CONCAT("KELURAHAN", " - ", name) as name'))->where('name', 'LIKE', "%$search%")->get();
@@ -154,19 +154,19 @@ class UserController extends Controller
 
         $role = Role::find($validated['roles']);
 
-        if($role['name'] == 'admin-provinsi' || $role['name'] == "super-admin"){
+        if ($role['name'] == 'admin-provinsi' || $role['name'] == "super-admin") {
             $validated['region_code'] = 0;
         }
-            
-        if($role['name'] == 'admin-kabupaten'){
+
+        if ($role['name'] == 'admin-kabupaten' || $role['name'] == 'bupati' || $role['name'] == 'kepala-dinas' || $role['name'] == 'kepala-bidang' || $role['name'] == 'seksi' || $role['name'] == 'petugas-kabupaten') {
             $validated['region_code'] = 1;
         }
-    
-        if($role['name'] == 'admin-kecamatan'){
+
+        if ($role['name'] == 'admin-kecamatan' || $role['name'] == 'camat' || $role['name'] == 'petugas-kecamatan') {
             $validated['region_code'] = 2;
         }
-    
-        if($role['name'] == 'admin-kelurahan'){
+
+        if ($role['name'] == 'admin-kelurahan' || $role['name'] == 'lurah' || $role['name'] == 'petugas-kelurahan') {
             $validated['region_code'] = 3;
         }
 
@@ -192,7 +192,7 @@ class UserController extends Controller
             Storage::delete($user->avatar);
         }
 
-        Petugas::where('users_id',$user->id)->delete();
+        Petugas::where('users_id', $user->id)->delete();
         $user->delete();
 
         return redirect()
@@ -200,26 +200,29 @@ class UserController extends Controller
             ->withSuccess(__('crud.common.removed'));
     }
 
-    public function profil(){
+    public function profil()
+    {
         $auth = Auth::user();
         $user_id = $auth->id;
 
-        $petugas = Petugas::where('users_id',$user_id)->first();
+        $petugas = Petugas::where('users_id', $user_id)->first();
 
-        return view('app.profile.profile',compact('petugas'));
+        return view('app.profile.profile', compact('petugas'));
     }
 
-    public function profilChange(){
+    public function profilChange()
+    {
 
         $auth = Auth::user();
         $user_id = $auth->id;
 
-        $petugas = Petugas::where('users_id',$user_id)->first();
+        $petugas = Petugas::where('users_id', $user_id)->first();
 
-        return view('app.profile.setting',compact('petugas'));
+        return view('app.profile.setting', compact('petugas'));
     }
 
-    public function updateProfile(PetugasUpdateRequest $request){
+    public function updateProfile(PetugasUpdateRequest $request)
+    {
 
         $validated = $request->validated();
 
@@ -229,38 +232,40 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         DB::beginTransaction();
-        try{
+        try {
 
             $user->update(['name' => $validated['name']]);
 
-            Petugas::where('users_id',$user_id)->update([
+            Petugas::where('users_id', $user_id)->update([
                 'jabatan' => $validated['jabatan'],
                 'nomer_hp' => $validated['nomer_hp'],
             ]);
 
             DB::commit();
             return redirect()
-            ->route('profil')
-            ->withSuccess(__('crud.common.saved'));
-        }catch(Exception $e){
+                ->route('profil')
+                ->withSuccess(__('crud.common.saved'));
+        } catch (Exception $e) {
             DB::rollback();
             return redirect()
-            ->route('setting-profil')
-            ->withErrors(__('crud.common.errors'));
+                ->route('setting-profil')
+                ->withErrors(__('crud.common.errors'));
         }
     }
 
-    public function setting(){
+    public function setting()
+    {
 
         $auth = Auth::user();
         $user_id = $auth->id;
 
         $user = User::find($user_id);
 
-        return view('app.profile.password',compact('user'));
+        return view('app.profile.password', compact('user'));
     }
 
-    public function settingPassword(Request $request){
+    public function settingPassword(Request $request)
+    {
 
         $auth = Auth::user();
         $user_id = $auth->id;
@@ -268,9 +273,9 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         DB::beginTransaction();
-        try{
+        try {
 
-            if(!empty($request->password)){
+            if (!empty($request->password)) {
                 $data['password'] = Hash::make($request->password);
                 $data['email'] = $request->email;
             }
@@ -279,13 +284,13 @@ class UserController extends Controller
 
             DB::commit();
             return redirect()
-            ->route('setting')
-            ->withSuccess(__('crud.common.saved'));
-        }catch(Exception $e){
+                ->route('setting')
+                ->withSuccess(__('crud.common.saved'));
+        } catch (Exception $e) {
             DB::rollback();
             return redirect()
-            ->route('setting')
-            ->withErrors(__('crud.common.errors'));
+                ->route('setting')
+                ->withErrors(__('crud.common.errors'));
         }
     }
 }

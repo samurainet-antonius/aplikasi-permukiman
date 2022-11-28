@@ -38,6 +38,11 @@ class LogController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
+            case "bupati":
+            case "seksi":
+            case "petugas-kabupaten":
+            case "kepala-bidang":
+            case "kepala-dinas":
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
 
                 $selectDistrict = ($request->has('district') && $request->district !== 'semua') ? $request->district : '1';
@@ -53,6 +58,8 @@ class LogController extends Controller
                 $req['village'] = 'semua';
                 break;
             case "admin-kecamatan":
+            case "camat":
+            case "petugas-kecamatan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->get();
 
@@ -63,6 +70,8 @@ class LogController extends Controller
                 $req['village'] = 'semua';
                 break;
             case "admin-kelurahan":
+            case "lurah":
+            case "petugas-kelurahan":
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
 
@@ -115,10 +124,10 @@ class LogController extends Controller
         }
 
         $log = $log->groupBy(DB::raw('year(created_at)'))->get();
-        foreach($log as $value) {
+        foreach ($log as $value) {
             $logs = Log::whereYear('created_at', $value->year);
 
-            if($request->district !== "semua") {
+            if ($request->district !== "semua") {
                 $logs = $logs->where('district_code', $request->district);
             }
 
@@ -135,10 +144,10 @@ class LogController extends Controller
             }
 
             $value->data = $logs->orderBy('created_at', 'DESC')->get();
-            foreach($value->data as $item) {
+            foreach ($value->data as $item) {
                 $query = Petugas::where('users_id', $item->users_id)->first();
                 $item->name = $query->user->name;
-                $item->petugas = $query->jabatan.' '. ucwords(strtolower($query->village->name));
+                $item->petugas = $query->jabatan . ' ' . ucwords(strtolower($query->village->name));
                 $item->tanggal = Carbon::parse($item->created_at)->format('d/m/Y');
             }
         }
@@ -149,7 +158,7 @@ class LogController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ];
-        return view('app.log.index', compact('log','select', 'req','district', 'village',));
+        return view('app.log.index', compact('log', 'select', 'req', 'district', 'village',));
     }
 
     /**
@@ -267,7 +276,7 @@ class LogController extends Controller
                 'satuan' => $satuan[$i]
             ];
 
-            if($subkriteriaId[$i]) {
+            if ($subkriteriaId[$i]) {
                 SubKriteria::find($subkriteriaId[$i])->update($dataSubkriteria);
             } else {
                 SubKriteria::create($dataSubkriteria);

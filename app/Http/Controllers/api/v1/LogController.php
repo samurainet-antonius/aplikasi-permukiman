@@ -76,16 +76,25 @@ class LogController extends Controller
         switch ($role) {
             case "admin-provinsi":
             case "admin-kabupaten":
+            case "bupati":
+            case "seksi":
+            case "petugas-kabupaten":
+            case "kepala-bidang":
+            case "kepala-dinas":
 
                 $district = District::select('code', 'name')->where('city_code', '1207')->orderBy('name', 'ASC')->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kecamatan":
+            case "camat":
+            case "petugas-kecamatan":
 
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('district_code', $district[0]->code)->orderBy('name', 'ASC')->get();
                 break;
             case "admin-kelurahan":
+            case "lurah":
+            case "petugas-kelurahan":
 
                 $district = District::select('code', 'name')->where('code', $petugas->district_code)->get();
                 $village = Village::select('code', 'name')->where('code', $petugas->village_code)->get();
