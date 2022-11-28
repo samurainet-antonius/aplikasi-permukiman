@@ -63,7 +63,7 @@
                 <a class="collapse-item" href="{{ route('staff.index') }}">Petugas</a>
                 @endcan
 
-                @can('view-any', Spatie\Permission\Models\Kriteria::class)
+                @can('view-any', App\Models\Kriteria::class)
                 <a class="collapse-item" href="{{ route('kriteria.index') }}">Kriteria</a>
                 @endcan
 
@@ -86,9 +86,9 @@
 
     @if (Auth::user()->can('view-any', App\Models\User::class) || Auth::user()->can('view-any',
     Spatie\Permission\Models\Role::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Permission::class)
-    || Auth::user()->can('view-any', Spatie\Permission\Models\Province::class) || Auth::user()->can('view-any',
-    Spatie\Permission\Models\City::class) || Auth::user()->can('view-any', Spatie\Permission\Models\District::class) ||
-    Auth::user()->can('view-any', Spatie\Permission\Models\Village::class))
+    || Auth::user()->can('view-any',App\Models\Province::class) || Auth::user()->can('view-any',
+    App\Models\City::class) || Auth::user()->can('view-any',App\Models\District::class) ||
+    Auth::user()->can('view-any',App\Models\Village::class))
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
             aria-controls="collapseTable">
@@ -110,11 +110,11 @@
                 <a class="collapse-item" href="{{ route('permissions.index') }}">Hak Akses</a>
                 @endcan
 
-                @can('view-any', Spatie\Permission\Models\District::class)
+                @can('view-any', App\Models\District::class)
                 <a class="collapse-item" href="{{ route('district.index') }}">Kecamatan</a>
                 @endcan
 
-                @can('view-any', Spatie\Permission\Models\Village::class)
+                @can('view-any', App\Models\Village::class)
                 <a class="collapse-item" href="{{ route('village.index') }}">Desa</a>
                 @endcan
 
