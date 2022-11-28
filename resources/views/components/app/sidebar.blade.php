@@ -87,7 +87,7 @@
     @if (Auth::user()->can('view-any', App\Models\User::class) || Auth::user()->can('view-any',
     Spatie\Permission\Models\Role::class) || Auth::user()->can('view-any', Spatie\Permission\Models\Permission::class)
     || Auth::user()->can('view-any',App\Models\Province::class) || Auth::user()->can('view-any',
-    App\Models\City::class) || Auth::user()->can('view-any',App\Models\District::class) ||
+    App\Models\City::class) || Auth::user()->can('view-any',App\Models\Districts::class) ||
     Auth::user()->can('view-any',App\Models\Village::class))
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
@@ -110,7 +110,7 @@
                 <a class="collapse-item" href="{{ route('permissions.index') }}">Hak Akses</a>
                 @endcan
 
-                @can('view-any', App\Models\District::class)
+                @can('view-any', App\Models\Districts::class)
                 <a class="collapse-item" href="{{ route('district.index') }}">Kecamatan</a>
                 @endcan
 

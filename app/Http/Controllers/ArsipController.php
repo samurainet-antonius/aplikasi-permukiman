@@ -22,12 +22,12 @@ class ArsipController extends Controller
 
         $search = $request->get('search', '');
 
-        $tahun = $request->has('tahun') ? $request->tahun : date("Y")-1;
+        $tahun = $request->has('tahun') ? $request->tahun : date("Y") - 1;
 
-        $evaluasi = Evaluasi::where('tahun',$tahun)
+        $evaluasi = Evaluasi::where('tahun', $tahun)
             ->search($search)
             ->latest()
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString();
 
         return view('app.arsip.index', compact('evaluasi', 'search'));
@@ -37,11 +37,11 @@ class ArsipController extends Controller
     {
         $this->authorize('view', $evaluasi);
 
-        $kriteria = EvaluasiDetail::where('evaluasi_id',$evaluasi->id)
-                    ->groupBy('kriteria_id')
-                    ->get();
+        $kriteria = EvaluasiDetail::where('evaluasi_id', $evaluasi->id)
+            ->groupBy('kriteria_id')
+            ->get();
 
-        return view('app.arsip.show', compact('evaluasi','kriteria'));
+        return view('app.arsip.show', compact('evaluasi', 'kriteria'));
     }
 
     public function destroy($id)

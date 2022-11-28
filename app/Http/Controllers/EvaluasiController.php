@@ -47,7 +47,7 @@ class EvaluasiController extends Controller
             ])
                 ->search($search)
                 ->latest()
-                ->paginate(5)
+                ->paginate(10)
                 ->withQueryString();
         } elseif ($auth->region_code == 2) {
             $evaluasi = Evaluasi::where([
@@ -57,7 +57,7 @@ class EvaluasiController extends Controller
             ])
                 ->search($search)
                 ->latest()
-                ->paginate(5)
+                ->paginate(10)
                 ->withQueryString();
         } elseif ($auth->region_code == 3) {
             $evaluasi = Evaluasi::where([
@@ -68,13 +68,13 @@ class EvaluasiController extends Controller
             ])
                 ->search($search)
                 ->latest()
-                ->paginate(5)
+                ->paginate(10)
                 ->withQueryString();
         } else {
             $evaluasi = Evaluasi::where('tahun', $tahun)
                 ->search($search)
                 ->latest()
-                ->paginate(5)
+                ->paginate(10)
                 ->withQueryString();
         }
 

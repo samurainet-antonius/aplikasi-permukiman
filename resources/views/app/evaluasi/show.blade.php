@@ -135,9 +135,11 @@
                             </select>
                         </div>
                         <div class="col-2">
+                            @can('update', $value)
                             <a href="{{ route('evaluasi.edit.kriteria', ['evaluasi_id' => $evaluasi->id, 'page' => 0]) }}"
                                 class="btn btn-primary float-right {{ $cek == date('m') ? 'disabled' : '' }}">Pembaruan
                                 Data</a>
+                            @endcan
                         </div>
                     </form>
                     <div class="row">
@@ -178,17 +180,22 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <p>{{$item->nama_kriteria}}</p>
+
+                                            @can('update', $value)
                                             <button type="button" data-toggle="modal" data-target="#edit-{{$item->id}}"
                                                 {{ $date==date('m') ? '' : 'disabled' }}
                                                 class="px-3 btn btn-primary btn-sm mt-2" data-toggle="modal"
                                                 data-target="#mods">
                                                 Edit
                                             </button>
+                                            @endcan
+                                            @can('view', $value)
                                             <button type="button" data-toggle="modal" data-target="#modal-{{$item->id}}"
                                                 class="px-3 btn btn-info btn-sm mt-2" data-toggle="modal"
                                                 data-target="#mods">
                                                 View
                                             </button>
+                                            @endcan
                                         </div>
                                     </div>
 

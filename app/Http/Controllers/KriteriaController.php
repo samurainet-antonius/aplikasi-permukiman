@@ -24,7 +24,7 @@ class KriteriaController extends Controller
 
         $kriteria = Kriteria::search($search)
             ->latest()
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString();
 
         return view('app.kriteria.index', compact('kriteria', 'search'));
@@ -145,7 +145,7 @@ class KriteriaController extends Controller
                 'satuan' => $satuan[$i]
             ];
 
-            if($subkriteriaId[$i]) {
+            if ($subkriteriaId[$i]) {
                 SubKriteria::find($subkriteriaId[$i])->update($dataSubkriteria);
             } else {
                 SubKriteria::create($dataSubkriteria);

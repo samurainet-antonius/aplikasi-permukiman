@@ -32,7 +32,7 @@ class DistrictsController extends Controller
             ->orderBy('code', 'ASC')
             ->search($search)
             ->latest()
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString();
 
         return view('app.districts.index', compact('districts', 'search', 'city'));
@@ -79,7 +79,7 @@ class DistrictsController extends Controller
         $code = $districts->code;
         $meta = json_decode($districts->meta);
 
-        return view('app.districts.edit', compact('code', 'meta','districts'));
+        return view('app.districts.edit', compact('code', 'meta', 'districts'));
     }
 
     public function update(DistrictsUpdateRequest $request, $id)
@@ -115,7 +115,8 @@ class DistrictsController extends Controller
             ->withSuccess(__('crud.common.removed'));
     }
 
-    public function district(Request $request){
+    public function district(Request $request)
+    {
 
         $village = Districts::select('code', 'city_code', 'name', DB::raw("JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].lat')) as latitude, JSON_UNQUOTE(JSON_EXTRACT(meta, '$[0].long')) as longitude"))
             ->where(function ($query) use ($request) {
@@ -125,7 +126,7 @@ class DistrictsController extends Controller
             ->orderBy('code', 'ASC')
             ->get();
 
-        if(isset($village)){
+        if (isset($village)) {
 
             foreach ($village as $key => $value) {
                 if ($request->select) {
@@ -138,7 +139,7 @@ class DistrictsController extends Controller
                     echo "<option value='" . $value->code . "'>" . $value->name . "</option>";
                 }
             }
-        }else{
+        } else {
             echo "<option>District not found</option>";
         }
     }
