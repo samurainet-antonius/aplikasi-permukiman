@@ -39,8 +39,7 @@ class UserUpdateRequest extends FormRequest
                 'email',
             ],
             'roles' => ['required'],
-            'password' => ['required'],
-            'region_code' => ['required']
+            'password' => ['nullable'],
         ];
     }
 }

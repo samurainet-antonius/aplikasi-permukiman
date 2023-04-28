@@ -17,6 +17,9 @@ class CreateStatusKumuhTable extends Migration
             $table->id();
             $table->string('nama',200);
             $table->string('warna',200);
+            $table->string('icon', 200);
+            $table->float('nilai_min', 8, 2);
+            $table->float('nilai_max', 8, 2);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -30,7 +30,15 @@ class EvaluasiStoreRequest extends FormRequest
             'district_code' => ['required'],
             'village_code' => ['required'],
             'tahun' => ['required'],
-            'jawaban' => ['required'],
+            'lingkungan' => ['required'],
+            'luas_kawasan' => ['required'],
+            'luas_kumuh' => ['required'],
+            'jumlah_bangunan' => ['required'],
+            'jumlah_penduduk' => ['required'],
+            'jumlah_kepala_keluarga' => ['required'],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+            'gambar_delinasi' => ['required'],
         ];
     }
 }

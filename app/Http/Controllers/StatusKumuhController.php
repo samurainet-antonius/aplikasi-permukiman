@@ -15,12 +15,15 @@ class StatusKumuhController extends Controller
 
         $search = $request->get('search', '');
 
-        $statuskumuh = StatusKumuh::search($search)
+        $tahun = $request->get('tahun', date('Y'));
+
+        $statuskumuh = StatusKumuh::where('tahun', $tahun)
+            ->search($search)
             ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        return view('app.statuskumuh.index', compact('statuskumuh', 'search'));
+        return view('app.statuskumuh.index', compact('statuskumuh', 'search', 'tahun'));
     }
 
     public function create(Request $request)

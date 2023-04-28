@@ -1,59 +1,101 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <div class="row container-fluid bg-white" style="height: 100vh !important;">
+        <div class="d-none d-sm-none d-md-block  col-4 col-md-5 col-lg-5 col-xl-4" style="height: 100vh !important; padding: 0 !important;">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/img/login.jpg') }}" class="img-fluid ml-n3" style="height: 100% !important; " alt="">
             </a>
-        </x-slot>
+        </div>
+        <div class="col-12 col-md-7 col-lg-7 col-xl-8">
+            <div class="row justify-content-center" style="margin-top: 7vh !important;">
+                <div class="container col-10 col-md-10 col-lg-8 col-xl-6">
+                    <form class="myForm user" method="POST" action="{{ route('register') }}">
+                        @csrf
+                        <div>
+                            <h5>Halo !</h5>
+                            @php
+                                $says = says();
+                            @endphp
+                            <h5 class="text-green font-weight-bold">{{ $says }}</h5>
+                        </div>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
-
-            <!-- Name -->
-            <div>
-                <x-label for="name" :value="__('Name')" />
-
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                        <div class="text-center my-4">
+                            <h4 class=""><span class="font-weight-bold text-green">Buat Akun</span> untuk dapat masuk</h4>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nama lengkap</label>
+                            <input class="form-control input-lg" type="text" name="name" id="name" :value="old('name')" placeholder="masukan nama lengkap" />
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="district">Kecamatan</label>
+                                    <select class="select2-single form-control" name="district" id="district">
+                                        <option>pilih kecamatan</option>
+                                        @foreach ($district as $val)
+                                            <option value="{{ $val->code }}">{{ $val->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="desa">Desa</label>
+                                    <select class="select2-single form-control" name="village" id="village">
+                                        <option>pilih desa</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jabatan">Jabatan</label>
+                            <input class="form-control input-lg" type="text" name="jabatan" placeholder="masukan jabatan" />
+                        </div>
+                        <div class="form-group">
+                            <label for="nomer_hp">Nomer Whatsapp</label>
+                            <input class="form-control input-lg" type="number" name="nomer_hp" placeholder="masukan nomer whatsapp" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input class="form-control input-lg" type="email" name="email" id="email" :value="old('email')" placeholder="masukan email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input class="form-control input-lg" type="password" name="password" placeholder="masukan password" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" class="btn bg-green text-white col-12 mt-3" value="Buat Akun" />
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
+    @push('scripts')
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
+    <script type="text/javascript">
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+        $(document).ready(function() {
+            $('#district').change(function() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: '{{ route("village.select") }}',
+                    data: {district_code: $("#district :selected").val()},
+                    success: function(data) {
+                        $('#village').empty();
+                        $('#village').append('<option>pilih desa</option>');
+                        $.each(data.data,function(index,val){
+                            $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+                        })
+                    }
+                });
+            });
+        });
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-            </div>
+    </script>
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+    @endpush
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-            </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
 </x-guest-layout>

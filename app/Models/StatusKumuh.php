@@ -13,11 +13,10 @@ class StatusKumuh extends Model
     use HasRoles;
     use Notifiable;
     use Searchable;
-    use SoftDeletes;
 
     protected $table = 'status_kumuh';
 
-    protected $fillable = ['nama', 'warna'];
+    protected $fillable = ['tahun', 'nama', 'warna', 'icon', 'nilai_min', 'nilai_max'];
 
     protected $searchableFields = ['*'];
 

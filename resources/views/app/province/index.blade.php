@@ -3,8 +3,8 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.province.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Province</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.province.name')</li>
         </ol>
     </div>
 
@@ -23,12 +23,12 @@
                         </div>
                     </form>
 
-                    {{-- @can('create', App\Models\Kriteria::class)
-                    <a href="{{ route('kriteria.create') }}" class="btn btn-primary">
+                    @can('create', App\Models\Province::class)
+                    <a href="{{ route('province.create') }}" class="btn btn-primary">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
                         @lang('crud.common.create')
                     </a>
-                    @endcan --}}
+                    @endcan
                 </div>
 
                 <div class="table-responsive">
@@ -40,6 +40,7 @@
                                 <th>@lang('crud.province.inputs.code')</th>
                                 <th>@lang('crud.province.inputs.latitude')</th>
                                 <th>@lang('crud.province.inputs.longitude')</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +60,23 @@
                                 </td>
                                 <td>
                                     {{ $value->longitude ?? '-' }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @can('update', $value)
+                                        <a href="{{ route('province.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
+                                            <i class="fa fa-solid fa-pen"></i>
+                                        </a>
+                                        @endcan @can('delete', $value)
+                                        <form action="{{ route('province.destroy', $value) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                    </div>
                                 </td>
                             </tr>
                             @empty

@@ -17,7 +17,7 @@ class SubKriteria extends Model
 
     protected $table = 'subkriteria';
 
-    protected $fillable = ['nama', 'kriteria_id', 'flag_pakai'];
+    protected $fillable = ['nama', 'kriteria_id', 'satuan', 'flag_pakai'];
 
     protected $searchableFields = ['*'];
 
@@ -29,5 +29,10 @@ class SubKriteria extends Model
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');
+    }
+
+    public function evaluasiDetail()
+    {
+        return $this->hasMany('App\Models\EvaluasiDetail');
     }
 }

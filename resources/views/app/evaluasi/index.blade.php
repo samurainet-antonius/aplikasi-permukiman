@@ -28,17 +28,6 @@
                         @lang('crud.common.create')
                     </a>
                     @endcan
-                    <hr/>
-                    <form action="{{ route('evaluasi.index') }}">
-                        <div class="form-group">
-                            <label>Tahun</label>
-                            <select class="select2-single form-control" name="tahun" id="tahun" onchange="submit()">
-                                @for($i=date("Y");$i>="2015";$i--)
-                                    <option value="{{ $i; }}" {{ (Request::get('tahun') == $i) ? 'selected' : ''}}>{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                    </form>
                 </div>
 
                 <div class="table-responsive">

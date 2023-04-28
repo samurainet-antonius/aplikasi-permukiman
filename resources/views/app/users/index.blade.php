@@ -3,8 +3,8 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.users.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Users</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.users.name')</li>
         </ol>
     </div>
 
@@ -23,12 +23,6 @@
                         </div>
                     </form>
 
-                    @can('create', App\Models\User::class)
-                    <a href="{{ route('users.create') }}" class="btn btn-primary">
-                        <i class="mr-1 fa fa-solid fa-plus"></i>
-                        @lang('crud.common.create')
-                    </a>
-                    @endcan
                 </div>
 
                 <div class="table-responsive">
@@ -37,8 +31,8 @@
                             <tr>
                                 <th>@lang('crud.users.inputs.no')</th>
                                 <th>@lang('crud.users.inputs.name')</th>
-                                <th>@lang('crud.users.inputs.slug')</th>
                                 <th>@lang('crud.users.inputs.email')</th>
+                                <th>@lang('crud.users.inputs.role')</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -52,20 +46,16 @@
                                     {{ $user->name ?? '-' }}
                                 </td>
                                 <td>
-                                    {{ $user->slug ?? '-' }}
+                                    {{ $user->email ?? '-' }}
                                 </td>
                                 <td>
-                                    {{ $user->email ?? '-' }}
+                                    {{ $user->roles[0]->name ?? '-' }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         @can('update', $user)
                                         <a href="{{ route('users.edit', $user) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
-                                        </a>
-                                        @endcan @can('view', $user)
-                                        <a href="{{ route('users.show', $user) }}" class="mr-1 btn btn-secondary btn-sm">
-                                            <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                         @endcan @can('delete', $user)
                                         <form action="{{ route('users.destroy', $user) }}" method="POST"
