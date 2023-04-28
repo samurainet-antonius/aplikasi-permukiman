@@ -25,6 +25,7 @@ class ArsipController extends Controller
         $tahun = $request->has('tahun') ? $request->tahun : date("Y") - 1;
 
         $evaluasi = Evaluasi::where('tahun', $tahun)
+            ->whereNotNull('status_id')
             ->search($search)
             ->latest()
             ->paginate(10)
