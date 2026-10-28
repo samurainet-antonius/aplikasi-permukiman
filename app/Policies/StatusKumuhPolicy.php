@@ -3,48 +3,49 @@
 namespace App\Policies;
 
 use App\Models\StatusKumuh;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StatusKumuhPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(StatusKumuh $status)
+    public function viewAny(User $user)
     {
-        return $status->hasPermissionTo('list status kumuh');
+        return $user->hasPermissionTo('list status kumuh');
     }
 
-    public function view(StatusKumuh $status)
+    public function view(User $user,StatusKumuh $status)
     {
-        return $status->hasPermissionTo('view status kumuh');
+        return $user->hasPermissionTo('view status kumuh');
     }
 
-    public function create(StatusKumuh $status)
+    public function create(User $user)
     {
-        return $status->hasPermissionTo('create status kumuh');
+        return $user->hasPermissionTo('create status kumuh');
     }
 
-    public function update(StatusKumuh $status)
+    public function update(User $user,StatusKumuh $status)
     {
-        return $status->hasPermissionTo('update status kumuh');
+        return $user->hasPermissionTo('update status kumuh');
     }
 
-    public function delete(StatusKumuh $status)
+    public function delete(User $user,StatusKumuh $status)
     {
-        return $status->hasPermissionTo('delete status kumuh');
+        return $user->hasPermissionTo('delete status kumuh');
     }
 
-    public function deleteAny(StatusKumuh $status)
+    public function deleteAny(User $user)
     {
-        return $status->hasPermissionTo('delete status kumuh');
+        return $user->hasPermissionTo('delete status kumuh');
     }
 
-    public function restore(StatusKumuh $status)
+    public function restore(User $user,StatusKumuh $status)
     {
         return false;
     }
 
-    public function forceDelete(StatusKumuh $status)
+    public function forceDelete(User $user,StatusKumuh $status)
     {
         return false;
     }

@@ -6,58 +6,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>RuangAdmin - Blank Page</title>
+    <title>{{ siteSetting('site_name') }}</title>
 
-    <link href="{{ asset('/img/logo/logo.png') }}" rel="icon">
-    <link href="{{ asset('/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/assets/img/logo/logo1.png') }}" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+        integrity="sha512-rqQltXRuHxtPWhktpAZxLHUVJ3Eombn3hvk9PHjV/N5DMUYnzKPC1i3ub0mEXgFzsaZNeJcoE0YHq0j/GFsdGg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
-    {{-- <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'> --}}
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('/css/ruang-admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/ruang-admin.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
-    <script src="{{ asset('/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-search/3.0.9/leaflet-search.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
 
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
-    <script src="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-search/3.0.9/leaflet-search.min.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 
     <style>
-        *{
+        body {
+            background-color: white;
+        }
+
+        * {
             font-family: 'Poppins';
         }
-        .fs-14{
+
+        #map {
+            position: absolute;
+            width: 100%;
+            right: 0;
+            height: 100%;
+        }
+
+        .fs-14 {
             font-size: 14px !important;
         }
+
         .bg-green {
             background-color: #03A64A !important;
         }
-        #map { height: 91vh; width: 100%;}
 
-        .blue   { -webkit-filter: hue-rotate( 30deg); filter: hue-rotate( 30deg); }
-        .pink   { -webkit-filter: hue-rotate( 90deg); filter: hue-rotate( 90deg); }
+        #map {
+            height: 91vh;
+            width: 100%;
+        }
+
+        .blue {
+            -webkit-filter: hue-rotate(30deg);
+            filter: hue-rotate(30deg);
+        }
+
+        .pink {
+            -webkit-filter: hue-rotate(90deg);
+            filter: hue-rotate(90deg);
+        }
+
         /* .red    { -webkit-filter: hue-rotate(150deg); filter: hue-rotate(150deg); } */
-        .yellow { -webkit-filter: hue-rotate(210deg); filter: hue-rotate(210deg); }
-        .green  { -webkit-filter: hue-rotate(270deg); filter: hue-rotate(270deg); }
-        .alua   { -webkit-filter: hue-rotate(330deg); filter: hue-rotate(330deg); }
+        .yellow {
+            -webkit-filter: hue-rotate(210deg);
+            filter: hue-rotate(210deg);
+        }
+
+        .green {
+            -webkit-filter: hue-rotate(270deg);
+            filter: hue-rotate(270deg);
+        }
+
+        .alua {
+            -webkit-filter: hue-rotate(330deg);
+            filter: hue-rotate(330deg);
+        }
+
         .cek {
             height: 100px;
             width: 100px;
             background-color: red;
             border-radius: 50%;
             display: inline-block;
+        }
+
+        .modal {
+            display: block !important;
+            /* I added this to see the modal, you don't need this */
+        }
+
+        /* Important part */
+        .scroll {
+            overflow-y: initial !important
+        }
+
+        .scroll {
+            /* height: 150vh; */
+            overflow-y: auto;
         }
     </style>
 
@@ -73,9 +125,15 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item row">
-                        <img src="{{ asset('img/logo/logo1.png') }}" width="30" class="d-inline-block align-top" alt="">
-                        <div class="fs-14 mt-2 ml-3 text-white">
-                            Dinas Perkim Deli Serdang Sumatera Utara
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('assets/img/logo/logo1.png') }}" width="30"
+                                class="d-inline-block align-top" alt="">
+                        </a>
+                        <div class="fs-14 ml-3 text-white">
+                            <a href="{{ route('home') }}" class="text-white">
+                                Dinas Perumahan dan Kawasan Permukiman Serta Pertanahan <br>Kabupaten Deli Serdang
+                                Sumatera Utara
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -83,10 +141,11 @@
                 <div class="form-inline my-2 my-lg-0">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mr-4">
-                            <a href="" class="nav-link text-white">Kontak</a>
+                            <a href="{{ route('contact') }}" class="nav-link text-white">Kontak</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link btn btn-outline-light text-white px-4">Masuk</a>
+                            <a href="{{ route('login') }}"
+                                class="nav-link btn btn-outline-light text-white px-4">Masuk</a>
                         </li>
                     </ul>
                 </div>
@@ -96,19 +155,22 @@
 
     </nav>
 
-    <div class="content" >
+    <div class="content container-fluid">
         <div class="row" style="height: 91vh !important;">
-            <div class="col-3 h-100 d-inline-block border bg-white">
+            <div class="col-3 h-100 d-inline-block bg-white">
                 <div class="container my-4">
                     <h5 class="font-weight-bold">Peta Online Kawasan Kumuh</h5>
-                    <p class="my-4 fs-14">Selamat datang di layanan peta online kawasan kumuh Kabupaten Deli Serdang Sumatera Utara</p>
+                    <p class="my-4 fs-14">Selamat datang di layanan peta online kawasan kumuh Kabupaten Deli Serdang
+                        Sumatera Utara</p>
                     <p class="fs-14">Silakan masukan informasi daerah yang ingin anda ketahui</p>
                     <form>
                         <div class="form-group">
                             <label class="font-weight-bold fs-14">Kecamatan</label>
-                            {{-- <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> --}}
+                            {{-- <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter email"> --}}
                             <input type="hidden" id="district_code">
                             <select class="select2-single form-control" id="district">
+                                <option>-- Pilih Kecamatan --</option>
                                 @foreach ($district as $val)
                                 <option value="{{ $val->code }}">{{ $val->name }}</option>
                                 @endforeach
@@ -120,7 +182,7 @@
                                 <option>-- Pilih Desa --</option>
                             </select>
                         </div>
-                        <button class="btn bg-green text-white px-4">Cari</button>
+                        <button type="button" class="btn bg-green text-white px-4" id="cari">Cari</button>
                     </form>
                 </div>
             </div>
@@ -135,10 +197,10 @@
     @stack('scripts')
 
 
-    <script src="{{ asset('/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('/js/ruang-admin.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/ruang-admin.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 
@@ -180,7 +242,7 @@
 
         var mapOptions = {
 			center: [latitude,longitude],
-			zoom: 10
+			zoom: 9
 		}
 
         var map = new L.map('map', mapOptions);
@@ -191,17 +253,18 @@
                 longitude = x.longitude;
             }
 
-            $.ajax({
-                type: 'POST',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: '{{ route("village.select") }}',
-                success: function(data) {
-                    $.each(data.data,function(index,val){
-                        $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
-                    })
-                    district_code(data.district)
-                }
-            });
+            // $.ajax({
+            //     type: 'POST',
+            //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            //     url: '{{ route("village.select") }}',
+            //     success: function(data) {
+            //         $('#village').empty();
+            //         $.each(data.data,function(index,val){
+            //             $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+            //         })
+            //         district_code(data.district)
+            //     }
+            // });
 
             $.ajax({
                 type: 'GET',
@@ -219,6 +282,7 @@
                     url: '{{ route("village.select") }}',
                     data: {district_code: $("#district :selected").val()},
                     success: function(data) {
+                        $('#village').empty();
                         $.each(data.data,function(index,val){
                             $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
                         })
@@ -232,15 +296,56 @@
                     url: '{{ route("village.home") }}',
                     data: {district_code: $("#district :selected").val()},
                     success: function(data) {
-                        detailMap(data)
+                        // detailMap(data)
                     }
                 });
 
-                map.flyTo([latitude,longitude], 10, {
-                    animate: true,
-                    duration: 1 // in seconds
-                });
+                // map.flyTo([latitude,longitude], 10, {
+                //     animate: true,
+                //     duration: 1 // in seconds
+                // });
             });
+
+            $('#cari').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: '{{ route("village.search") }}',
+                    data: {code: $("#village :selected").val()},
+                    success: function(data) {
+                        // $('#village').empty();
+                        // $.each(data.data,function(index,val){
+                        //     $('#village').append('<option value="'+val.code+'">'+val.name+'</option>');
+                        // })
+                        // district_code(data.district)
+                        console.log(data);
+
+                        map.flyTo([data.latitude,data.longitude], 15, {
+                            animate: true,
+                            duration: 1 // in seconds
+                        });
+
+                        // L.circle([data.latitude,data.longitude], 500).addTo(map);
+                    }
+                });
+
+                // $.ajax({
+                //     type: 'GET',
+                //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                //     url: '{{ route("village.home") }}',
+                //     data: {district_code: $("#village :selected").val()},
+                //     success: function(data) {
+                //         detailMap(data)
+                //     }
+                // });
+
+                // map.flyTo([latitude,longitude], 10, {
+                //     animate: true,
+                //     duration: 1 // in seconds
+                // });
+            });
+
+
         });
 
         // const api_url = "{{ route('village.home') }}";
@@ -300,7 +405,7 @@
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: ''
         }).addTo(map);
 
         var markers = L.markerClusterGroup();
@@ -314,12 +419,18 @@
 
         async function detailMap(data) {
             data.forEach(function(val, i) {
+                console.log(val);
                 if(val.latitude != 'NULL' && val.longitude != 'NULL') {
                     const pos = new L.LatLng(val.latitude,val.longitude);
                     const title = val.name;
-                    const color = colorMarker[Math.floor(Math.random() * colorMarker.length)];
-                    // const color = randomColor;
-                    style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color.color+'; border-radius: 50%; display: inline-block; }';
+                    const kec = val.kecamatan;
+                    const color = val.warna;
+                    const gambar = val.gambar;
+                    const status = val.status;
+                    const lingkungan = val.lingkungan;
+                    const icon = val.icon;
+                    const id = val.id;
+                    style.innerHTML += '.color-'+i+' { height: 20px; width: 20px; background-color: '+color+'; border-radius: 50%; display: inline-block; }';
 
                     var myIcon = L.divIcon({
                         className: 'color-'+i+'',
@@ -330,18 +441,20 @@
 
                     marker.bindPopup(title);
                     marker.bindPopup(L.popup({}).setContent(
-                        `<div class="bg-white border" style="margin: -25px !important;">
-                            <img src="{{ asset("img/modal.png") }}" class="img-fluid" alt="">
+                        `<div data-spy="scroll" class="bg-white border scroll" style="margin: -25px !important;">
+                            <img src="/public/${gambar}" class="img-fluid" alt="">
                             <div class="text-center fa-7x mx-3">
-                                <div class="mb-4" style="color: ${color.color};">
-                                    ${color.icon}
-                                    <h4 class="font-weight-bold">${color.status}</h4>
+                                <div class="mb-4" style="color: ${color};">
+                                    ${icon}
+                                    <h4 class="font-weight-bold">${status}</h4>
                                 </div>
                                 <div style="margin-bottom: -30px !important;">
-                                    <h5>Desa Bintang Meriah</h5>
-                                    <h6>Kec. Gunung Meriah</h6>
+                                    <h6>Lingkungan ${lingkungan}</h6>
+                                    <h5>DESA ${title}</h5>
+                                    <h6>Kec. ${kec}</h6>
                                 </div>
-                                <button onclick="removePopups()" type="button" class="btn btn-success px-4">Tutup</button>
+                                <button onclick="removePopups()" type="button" class="btn btn-secondary px-4">Tutup</button>
+                                <a href="/detail/${id}" type="button" class="btn btn-success text-white px-4">Detail</a>
                             </div>
                         </div>`
                     )).openPopup();

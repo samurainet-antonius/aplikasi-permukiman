@@ -3,11 +3,11 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.roles.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Roles</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.roles.name')</li>
         </ol>
     </div>
-    
+
     <div class="row">
         <div class="col-lg-12 mb-4">
             <div class="card">
@@ -54,10 +54,6 @@
                                         @can('update', $role)
                                         <a href="{{ route('roles.edit', $role) }}" class="mr-1 btn btn-warning btn-sm">
                                             <i class="fa fa-solid fa-pen"></i>
-                                        </a>
-                                        @endcan @can('view', $role)
-                                        <a href="{{ route('roles.show', $role) }}" class="mr-1 btn btn-secondary btn-sm">
-                                            <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                         @endcan @can('delete', $role)
                                         <form action="{{ route('roles.destroy', $role) }}" method="POST"

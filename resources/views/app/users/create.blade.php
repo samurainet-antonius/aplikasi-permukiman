@@ -3,14 +3,14 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.users.create_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
+            <li class="breadcrumb-item">Pengaturan</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('users.index') }}">Users</a>
+                <a href="{{ route('users.index') }}">@lang('crud.users.name')</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Create</li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
         </ol>
     </div>
-    
+
     <div class="row">
         <div class="col-lg-12 mb-4">
             <div class="card">

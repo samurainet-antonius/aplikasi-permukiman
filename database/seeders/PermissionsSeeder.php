@@ -50,11 +50,53 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update subkriteria']);
         Permission::create(['name' => 'delete subkriteria']);
 
+        Permission::create(['name' => 'list status kumuh']);
+        Permission::create(['name' => 'view status kumuh']);
+        Permission::create(['name' => 'create status kumuh']);
+        Permission::create(['name' => 'update status kumuh']);
+        Permission::create(['name' => 'delete status kumuh']);
+
         Permission::create(['name' => 'list evaluasi']);
         Permission::create(['name' => 'view evaluasi']);
         Permission::create(['name' => 'create evaluasi']);
         Permission::create(['name' => 'update evaluasi']);
         Permission::create(['name' => 'delete evaluasi']);
+
+        Permission::create(['name' => 'list province']);
+        Permission::create(['name' => 'view province']);
+        Permission::create(['name' => 'create province']);
+        Permission::create(['name' => 'update province']);
+        Permission::create(['name' => 'delete province']);
+
+        Permission::create(['name' => 'list city']);
+        Permission::create(['name' => 'view city']);
+        Permission::create(['name' => 'create city']);
+        Permission::create(['name' => 'update city']);
+        Permission::create(['name' => 'delete city']);
+
+        Permission::create(['name' => 'list district']);
+        Permission::create(['name' => 'view district']);
+        Permission::create(['name' => 'create district']);
+        Permission::create(['name' => 'update district']);
+        Permission::create(['name' => 'delete district']);
+
+        Permission::create(['name' => 'list village']);
+        Permission::create(['name' => 'view village']);
+        Permission::create(['name' => 'create village']);
+        Permission::create(['name' => 'update village']);
+        Permission::create(['name' => 'delete village']);
+
+        Permission::create(['name' => 'list staff']);
+        Permission::create(['name' => 'view staff']);
+        Permission::create(['name' => 'create staff']);
+        Permission::create(['name' => 'update staff']);
+        Permission::create(['name' => 'delete staff']);
+
+        Permission::create(['name' => 'list arsip']);
+        Permission::create(['name' => 'view arsip']);
+        Permission::create(['name' => 'create arsip']);
+        Permission::create(['name' => 'update arsip']);
+        Permission::create(['name' => 'delete arsip']);
 
         // Create admin role and assign all permissions
         $allPermissions = Permission::all();
@@ -62,16 +104,16 @@ class PermissionsSeeder extends Seeder
         $adminRole->givePermissionTo($allPermissions);
 
         $adminProvinsiRole = Role::create(['name' => 'admin-provinsi']);
-        $adminProvinsiRole->givePermissionTo('list kriteria', 'list subkriteria');
+        $adminProvinsiRole->givePermissionTo('list kriteria', 'list subkriteria','list arsip','list evaluasi','create evaluasi','delete evaluasi','update evaluasi','view evaluasi');
 
         $adminKabupatenRole = Role::create(['name' => 'admin-kabupaten']);
-        $adminKabupatenRole->givePermissionTo('list kriteria', 'list subkriteria');
+        $adminKabupatenRole->givePermissionTo('list kriteria', 'list subkriteria','list arsip','list evaluasi','create evaluasi','delete evaluasi','update evaluasi','view evaluasi');
 
         $adminKecamatanRole = Role::create(['name' => 'admin-kecamatan']);
-        $adminKecamatanRole->givePermissionTo('list kriteria', 'list subkriteria');
+        $adminKecamatanRole->givePermissionTo('list kriteria', 'list subkriteria','list arsip','list evaluasi','create evaluasi','delete evaluasi','update evaluasi','view evaluasi');
 
         $adminKelurahanRole = Role::create(['name' => 'admin-kelurahan']);
-        $adminKelurahanRole->givePermissionTo('list kriteria', 'list subkriteria');
+        $adminKelurahanRole->givePermissionTo('list kriteria', 'list subkriteria','list arsip','list evaluasi','create evaluasi','delete evaluasi','update evaluasi','view evaluasi');
 
         $user = \App\Models\User::whereEmail('admin@admin.com')->first();
         $adminProvinsi = \App\Models\User::whereEmail('admin@admin.com')->first();

@@ -3,48 +3,49 @@
 namespace App\Policies;
 
 use App\Models\Kriteria;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class KriteriaPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(Kriteria $kriteria)
+    public function viewAny(User $user)
     {
-        return $kriteria->hasPermissionTo('list kriteria');
+        return $user->hasPermissionTo('list kriteria');
     }
 
-    public function view(Kriteria $kriteria)
+    public function view(User $user,Kriteria $kriteria)
     {
-        return $kriteria->hasPermissionTo('view kriteria');
+        return $user->hasPermissionTo('view kriteria');
     }
 
-    public function create(Kriteria $kriteria)
+    public function create(User $user)
     {
-        return $kriteria->hasPermissionTo('create kriteria');
+        return $user->hasPermissionTo('create kriteria');
     }
 
-    public function update(Kriteria $kriteria)
+    public function update(User $user,Kriteria $kriteria)
     {
-        return $kriteria->hasPermissionTo('update kriteria');
+        return $user->hasPermissionTo('update kriteria');
     }
 
-    public function delete(Kriteria $kriteria)
+    public function delete(User $user,Kriteria $kriteria)
     {
-        return $kriteria->hasPermissionTo('delete kriteria');
+        return $user->hasPermissionTo('delete kriteria');
     }
 
-    public function deleteAny(Kriteria $kriteria)
+    public function deleteAny(User $user)
     {
-        return $kriteria->hasPermissionTo('delete kriteria');
+        return $user->hasPermissionTo('delete kriteria');
     }
 
-    public function restore(Kriteria $kriteria)
+    public function restore(User $user,Kriteria $kriteria)
     {
         return false;
     }
 
-    public function forceDelete(Kriteria $kriteria)
+    public function forceDelete(User $user,Kriteria $kriteria)
     {
         return false;
     }

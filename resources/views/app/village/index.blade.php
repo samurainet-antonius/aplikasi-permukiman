@@ -3,8 +3,8 @@
         <h1 class="h3 mb-0 text-gray-800">@lang('crud.village.index_title')</h1>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item">Setting</li>
-            <li class="breadcrumb-item active" aria-current="page">Village</li>
+            <li class="breadcrumb-item">Pengaturan</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('crud.village.name')</li>
         </ol>
     </div>
 
@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <label>Province</label>
+                                        <label>@lang('crud.village.inputs.province')</label>
                                         <select class="select2-single form-control" name="province" id="province" id="select2Single" onchange="submit()">
                                             <option value="12">SUMATERA UTARA</option>
                                         </select>
@@ -25,11 +25,11 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <label>City</label>
+                                        <label>@lang('crud.village.inputs.city')</label>
                                         <select class="select2-single form-control" name="city" id="city" onchange="submit()">
                                             @if ($city)
                                                 @foreach ($city as $val)
-                                                    <option value="{{$val->code}}" {{ (Request::get('city') == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
+                                                    <option value="{{$val->code}}" {{ ('1207' == $val->code) ? 'selected' : ''}}>{{$val->name}}</option>
                                                 @endforeach
                                             @else
                                                 <option>-------</option>
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <label>District</label>
+                                        <label>@lang('crud.village.inputs.districts')</label>
                                         <select class="select2-single form-control" name="district" id="district" onchange="submit()">
                                             @if ($district)
                                                 @foreach ($district as $val)
@@ -65,12 +65,12 @@
                         </div>
                     </form>
 
-                    {{-- @can('create', App\Models\Kriteria::class)
-                    <a href="{{ route('kriteria.create') }}" class="btn btn-primary">
+                    @can('create', App\Models\Village::class)
+                    <a href="{{ route('village.create') }}" class="btn btn-primary ml-3">
                         <i class="mr-1 fa fa-solid fa-plus"></i>
                         @lang('crud.common.create')
                     </a>
-                    @endcan --}}
+                    @endcan
                 </div>
 
                 <div class="table-responsive">
@@ -85,6 +85,7 @@
                                 <th>@lang('crud.village.inputs.code')</th>
                                 <th>@lang('crud.village.inputs.latitude')</th>
                                 <th>@lang('crud.village.inputs.longitude')</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,6 +114,23 @@
                                 </td>
                                 <td>
                                     {{ $value->longitude ?? '-' }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @can('update', $value)
+                                        <a href="{{ route('village.edit', $value) }}" class="mr-1 btn btn-warning btn-sm">
+                                            <i class="fa fa-solid fa-pen"></i>
+                                        </a>
+                                        @endcan @can('delete', $value)
+                                        <form action="{{ route('village.destroy', $value) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        @endcan
+                                    </div>
                                 </td>
                             </tr>
                             @empty

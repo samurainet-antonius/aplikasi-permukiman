@@ -5,7 +5,7 @@
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item">Master</li>
             <li class="breadcrumb-item">
-                <a href="{{ route('kriteria.index') }}">Kriteria</a>
+                <a href="{{ route('kriteria.index') }}">@lang('crud.kriteria.name')</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Edit</li>
         </ol>

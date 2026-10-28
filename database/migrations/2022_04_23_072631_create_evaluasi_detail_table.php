@@ -24,6 +24,7 @@ class CreateEvaluasiDetailTable extends Migration
             $table->string('nama_subkriteria',200);
             $table->foreign('subkriteria_id')->references('id')->on('subkriteria')->onDelete('cascade');
             $table->longText('jawaban')->nullable();
+            $table->float('skor', 8, 2)->nullable();
             $table->timestamps();
         });
     }

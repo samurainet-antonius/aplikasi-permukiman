@@ -3,48 +3,49 @@
 namespace App\Policies;
 
 use App\Models\SubKriteria;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SubKriteriaPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(SubKriteria $subKriteria)
+    public function viewAny(User $user)
     {
-        return $subKriteria->hasPermissionTo('list subkriteria');
+        return $user->hasPermissionTo('list subkriteria');
     }
 
-    public function view(SubKriteria $subKriteria)
+    public function view(User $user,SubKriteria $subKriteria)
     {
-        return $subKriteria->hasPermissionTo('view subkriteria');
+        return $user->hasPermissionTo('view subkriteria');
     }
 
-    public function create(SubKriteria $subKriteria)
+    public function create(User $user)
     {
-        return $subKriteria->hasPermissionTo('create subkriteria');
+        return $user->hasPermissionTo('create subkriteria');
     }
 
-    public function update(SubKriteria $subKriteria)
+    public function update(User $user,SubKriteria $subKriteria)
     {
-        return $subKriteria->hasPermissionTo('update subkriteria');
+        return $user->hasPermissionTo('update subkriteria');
     }
 
-    public function delete(SubKriteria $subKriteria)
+    public function delete(User $user,SubKriteria $subKriteria)
     {
-        return $subKriteria->hasPermissionTo('delete subkriteria');
+        return $user->hasPermissionTo('delete subkriteria');
     }
 
-    public function deleteAny(SubKriteria $subKriteria)
+    public function deleteAny(User $user)
     {
-        return $subKriteria->hasPermissionTo('delete subkriteria');
+        return $user->hasPermissionTo('delete subkriteria');
     }
 
-    public function restore(SubKriteria $subKriteria)
+    public function restore(User $user,SubKriteria $subKriteria)
     {
         return false;
     }
 
-    public function forceDelete(SubKriteria $subKriteria)
+    public function forceDelete(User $user,SubKriteria $subKriteria)
     {
         return false;
     }
